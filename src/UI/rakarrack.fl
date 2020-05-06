@@ -87,13 +87,14 @@ const std::vector<std::string> main_submenu_paths
     "&File/&Convert Reverb IR File",
     "&File/Import Internal Presets",
     "&File/Exit",
+    "&File/Delay File",
     "&Settings/Preferences",
     "&Settings/MIDI Learn",
     "&Settings/ACI",
     "&Settings/Fullscreen",
     "&Help/Help Contents",
     "&Help/About...",
-};} {private global
+};} {selected private global
 }
 
 decl {class RKR;  // forward declaration} {public global
@@ -315,7 +316,7 @@ class RKRGUI {open
 save_stat(0);
 
 Pexitprogram=1;} open
-      xywh {271 222 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
+      xywh {165 401 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
     } {
       Fl_Box fondo {
         xywh {1 1 800 600} align 112
@@ -440,7 +441,7 @@ DelayFile->show();
 put_icon(DelayFile);
 }
 else
-DelayFile->hide();} selected
+DelayFile->hide();}
             xywh {0 0 36 21}
           }
         }
@@ -1776,10 +1777,10 @@ o->hide();} open
     } {}
     Fl_Window DelayFile {
       label {Delay File} open
-      xywh {1072 713 605 265} type Double
+      xywh {1072 713 605 265} type Double hide
       code0 {\#include "delayfilewindow_gui.h"}
       code1 {o->hide();}
-      class DelayFileWindowGui visible
+      class DelayFileWindowGui
     } {}
     code {char tmp[64];
 sprintf(tmp,"Version %s",VERSION);

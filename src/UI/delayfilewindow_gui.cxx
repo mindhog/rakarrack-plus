@@ -78,6 +78,34 @@ this->when(FL_WHEN_RELEASE);
     dly_LFO_rate->align(Fl_Align(FL_ALIGN_TOP));
     dly_LFO_rate->when(FL_WHEN_CHANGED);
   } // RKR_Value_Input* dly_LFO_rate
+  { RKR_Button* o = new RKR_Button(240, 25, 70, 20, "Load");
+    o->box(FL_UP_BOX);
+    o->color(FL_BACKGROUND_COLOR);
+    o->selection_color(FL_BACKGROUND_COLOR);
+    o->labeltype(FL_NORMAL_LABEL);
+    o->labelfont(0);
+    o->labelsize(14);
+    o->labelcolor(FL_FOREGROUND_COLOR);
+    o->align(Fl_Align(FL_ALIGN_CENTER));
+    o->when(FL_WHEN_RELEASE);
+  } // RKR_Button* o
+  { RKR_Button* o = new RKR_Button(340, 25, 70, 20, "Save");
+    o->box(FL_UP_BOX);
+    o->color(FL_BACKGROUND_COLOR);
+    o->selection_color(FL_BACKGROUND_COLOR);
+    o->labeltype(FL_NORMAL_LABEL);
+    o->labelfont(0);
+    o->labelsize(14);
+    o->labelcolor(FL_FOREGROUND_COLOR);
+    o->align(Fl_Align(FL_ALIGN_CENTER));
+    o->when(FL_WHEN_RELEASE);
+  } // RKR_Button* o
+  { Fl_Round_Button* o = new Fl_Round_Button(454, 22, 72, 25, "Apply");
+    o->tooltip("Apply Changes to Echotron");
+    o->type(0);
+    o->box(FL_ROUND_UP_BOX);
+    o->down_box(FL_ROUND_DOWN_BOX);
+  } // Fl_Round_Button* o
   { dly_group = new RKR_Group(34, 81, 543, 20, "  Pan           Time        Level          LP          BP          HP      Fr\
 eq          Q       Stages  ");
     dly_group->box(FL_NO_BOX);

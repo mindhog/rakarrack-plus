@@ -4,10 +4,12 @@
 #define delayfilewindow_gui_h
 #include <FL/Fl.H>
 #include <unistd.h>
+#include "RKR_Button.h"
 #include "RKR_Group.h"
 #include "RKR_Scroll.h"
 #include "RKR_Value_Input.h"
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Round_Button.H>
 #include <FL/Fl_Scroll.H>
 
 class DelayFileWindowGui : public Fl_Double_Window {

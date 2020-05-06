@@ -17,6 +17,7 @@ const std::vector<std::string> main_submenu_paths
     "&File/&Convert Reverb IR File",
     "&File/Import Internal Presets",
     "&File/Exit",
+    "&File/Delay File",
     "&Settings/Preferences",
     "&Settings/MIDI Learn",
     "&Settings/ACI",
