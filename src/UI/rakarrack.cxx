@@ -168,6 +168,19 @@ void RKRGUI::cb_salir(Fl_Menu_* o, void* v) {
   ((RKRGUI*)(o->parent()->user_data()))->cb_salir_i(o,v);
 }
 
+void RKRGUI::cb_Delay_File_i(Fl_Menu_*, void*) {
+  if(!DelayFile->visible())
+{
+DelayFile->show();
+put_icon(DelayFile);
+}
+else
+DelayFile->hide();
+}
+void RKRGUI::cb_Delay_File(Fl_Menu_* o, void* v) {
+  ((RKRGUI*)(o->parent()->user_data()))->cb_Delay_File_i(o,v);
+}
+
 void RKRGUI::cb_Bank_Menu_i(Fl_Menu_*, void*) {
   B_preset->do_callback();
 }
@@ -267,6 +280,7 @@ Fl_Menu_Item RKRGUI::menu_MenuP[] = {
  {"&Convert Reverb IR File", 0,  (Fl_Callback*)RKRGUI::cb_ConvertReverb, 0, 128, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Import Internal Presets", 0,  (Fl_Callback*)RKRGUI::cb_ImportPresets, 0, 128, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"Exit", 0x78,  (Fl_Callback*)RKRGUI::cb_salir, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 7},
+ {"Delay File", 0,  (Fl_Callback*)RKRGUI::cb_Delay_File, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {0,0,0,0,0,0,0,0,0},
  {"&Bank", 0x62,  (Fl_Callback*)RKRGUI::cb_Bank_Menu, 0, 0, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
  {"&Settings", 0,  0, 0, 64, (uchar)FL_NORMAL_LABEL, 0, 14, 0},
@@ -292,13 +306,14 @@ Fl_Menu_Item* RKRGUI::Save_MTable = RKRGUI::menu_MenuP + 9;
 Fl_Menu_Item* RKRGUI::ConvertReverb = RKRGUI::menu_MenuP + 10;
 Fl_Menu_Item* RKRGUI::ImportPresets = RKRGUI::menu_MenuP + 11;
 Fl_Menu_Item* RKRGUI::salir = RKRGUI::menu_MenuP + 12;
-Fl_Menu_Item* RKRGUI::Bank_Menu = RKRGUI::menu_MenuP + 14;
-Fl_Menu_Item* RKRGUI::Ajustes = RKRGUI::menu_MenuP + 16;
-Fl_Menu_Item* RKRGUI::ML_Menu = RKRGUI::menu_MenuP + 17;
-Fl_Menu_Item* RKRGUI::ACI_Menu = RKRGUI::menu_MenuP + 18;
-Fl_Menu_Item* RKRGUI::Ayuda = RKRGUI::menu_MenuP + 21;
-Fl_Menu_Item* RKRGUI::Contenido = RKRGUI::menu_MenuP + 22;
-Fl_Menu_Item* RKRGUI::Acerca_de = RKRGUI::menu_MenuP + 23;
+Fl_Menu_Item* RKRGUI::Delay_File = RKRGUI::menu_MenuP + 13;
+Fl_Menu_Item* RKRGUI::Bank_Menu = RKRGUI::menu_MenuP + 15;
+Fl_Menu_Item* RKRGUI::Ajustes = RKRGUI::menu_MenuP + 17;
+Fl_Menu_Item* RKRGUI::ML_Menu = RKRGUI::menu_MenuP + 18;
+Fl_Menu_Item* RKRGUI::ACI_Menu = RKRGUI::menu_MenuP + 19;
+Fl_Menu_Item* RKRGUI::Ayuda = RKRGUI::menu_MenuP + 22;
+Fl_Menu_Item* RKRGUI::Contenido = RKRGUI::menu_MenuP + 23;
+Fl_Menu_Item* RKRGUI::Acerca_de = RKRGUI::menu_MenuP + 24;
 
 void RKRGUI::cb_TITTLE_L_i(Fl_Button*, void*) {
   Tuner->hide();
@@ -2761,6 +2776,20 @@ void RKRGUI::make_window() {
     o->hide();
     Trigger->end();
   } // TrigWindowGui* Trigger
+  { DelayFileWindowGui* o = DelayFile = new DelayFileWindowGui(605, 265, "Delay File");
+    DelayFile->box(FL_FLAT_BOX);
+    DelayFile->color(FL_BACKGROUND_COLOR);
+    DelayFile->selection_color(FL_BACKGROUND_COLOR);
+    DelayFile->labeltype(FL_NO_LABEL);
+    DelayFile->labelfont(0);
+    DelayFile->labelsize(14);
+    DelayFile->labelcolor(FL_FOREGROUND_COLOR);
+    DelayFile->user_data((void*)(this));
+    DelayFile->align(Fl_Align(FL_ALIGN_TOP));
+    DelayFile->when(FL_WHEN_RELEASE);
+    o->hide();
+    DelayFile->end();
+  } // DelayFileWindowGui* DelayFile
   char tmp[64];
   sprintf(tmp,"Version %s",VERSION);
   AboutWin->About_Version->copy_label(tmp);

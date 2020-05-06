@@ -100,6 +100,9 @@ RKRGUI::RKRGUI(int argc, char**argv, RKR *rkr_) :
     Trigger->copy_label(tmp);
     
     load_stat();
+    
+    DelayFile->make_delay_window();
+    
     Settings->make_table_window();
     Put_Loaded();
     Principal->show(argc, argv);

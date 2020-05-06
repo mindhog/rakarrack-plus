@@ -84,6 +84,7 @@ set (ProgSources
     UI/midilearnwindow_gui.cxx
     UI/aboutwindow_gui.cxx
     UI/trigwindow_gui.cxx
+    UI/delayfilewindow_gui.cxx
     UI/rkrprocess_gui.cxx
     process.C
     fileio.C

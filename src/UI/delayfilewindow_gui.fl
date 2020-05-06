@@ -1,0 +1,105 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+header_name {.h}
+code_name {.cxx}
+decl {\#include <unistd.h>} {public global
+}
+
+decl {\#include "RKR_Group.h"} {public global
+}
+
+decl {\#include "RKR_Scroll.h"} {public global
+}
+
+decl {\#include "RKR_Value_Input.h"} {public global
+}
+
+widget_class DelayFileWindowGui {
+  label {Echotron Delay File} open
+  xywh {386 111 605 265} type Double
+  class Fl_Double_Window visible
+} {
+  Fl_Group Delay_Group {open
+    xywh {0 0 605 265}
+    class RKR_Group
+  } {
+    Fl_Value_Input dly_filter {
+      label Filter
+      xywh {25 25 40 25} align 1 maximum 100 step 0.1
+      class RKR_Value_Input
+    }
+    Fl_Value_Input dly_delay {
+      label Delay
+      xywh {90 25 40 25} align 1 maximum 100 step 0.1
+      class RKR_Value_Input
+    }
+    Fl_Value_Input dly_LFO_rate {
+      label {LFO Rate}
+      tooltip {LFO Tempo Rate Adjustment} xywh {154 25 40 25} align 1 maximum 100 step 0.1
+      class RKR_Value_Input
+    }
+    Fl_Group dly_group {
+      label {Pan        Time         Level        LP       BP       HP       Freq      Q             Stages} open
+      xywh {34 81 543 0}
+      class RKR_Group
+    } {}
+    Fl_Scroll dly_scroll {open
+      xywh {25 88 560 165}
+      class RKR_Scroll
+    } {}
+  }
+  Function {make_delay_window()} {open
+  } {
+    code {// Fill scroll with max to start...
+      dly_scroll->begin();
+    
+      for (intptr_t y=0; y<128; y++)
+      {
+	  dlyFileGroup *DG = new dlyFileGroup(0,y*30,525,30);      
+      }
+    
+      dly_scroll->end();} {selected
+    }
+  }
+}
+
+widget_class dlyFileGroup {open
+  xywh {444 407 575 30} type Double visible
+} {
+  Fl_Value_Input dly_pan {
+    xywh {6 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_time {
+    xywh {76 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_level {
+    xywh {144 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_LP {
+    xywh {212 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_BP {
+    xywh {268 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_HP {
+    xywh {322 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_freq {
+    xywh {375 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_Q {
+    xywh {425 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+  Fl_Value_Input dly_stages {
+    xywh {491 6 35 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    class RKR_Value_Input
+  }
+}

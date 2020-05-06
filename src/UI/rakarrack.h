@@ -145,6 +145,7 @@ class TrigWindowGui; // forward declaration
 #include "midilearnwindow_gui.h"
 #include "aboutwindow_gui.h"
 #include "trigwindow_gui.h"
+#include "delayfilewindow_gui.h"
 
 class RKRGUI {
   CommonGuiMenu *m_looper_bar; 
@@ -217,6 +218,11 @@ public:
 private:
   inline void cb_salir_i(Fl_Menu_*, void*);
   static void cb_salir(Fl_Menu_*, void*);
+public:
+  static Fl_Menu_Item *Delay_File;
+private:
+  inline void cb_Delay_File_i(Fl_Menu_*, void*);
+  static void cb_Delay_File(Fl_Menu_*, void*);
 public:
   static Fl_Menu_Item *Bank_Menu;
 private:
@@ -553,6 +559,7 @@ private:
   inline void cb_Trigger_i(TrigWindowGui*, void*);
   static void cb_Trigger(TrigWindowGui*, void*);
 public:
+  DelayFileWindowGui *DelayFile;
   RKRGUI(int argc, char**argv,RKR *rkr_);
 private:
   static void TimeoutStatic(void* ptr);

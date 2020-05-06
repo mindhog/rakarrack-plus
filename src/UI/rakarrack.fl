@@ -315,7 +315,7 @@ class RKRGUI {open
 save_stat(0);
 
 Pexitprogram=1;} open
-      xywh {55 97 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
+      xywh {271 222 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
     } {
       Fl_Box fondo {
         xywh {1 1 800 600} align 112
@@ -431,6 +431,17 @@ if(rkr->MergeIntPreset(filename))
             label Exit
             callback {Principal->do_callback();}
             xywh {2 2 36 21} shortcut 0x78 labelcolor 7
+          }
+          MenuItem Delay_File {
+            label {Delay File}
+            callback {if(!DelayFile->visible())
+{
+DelayFile->show();
+put_icon(DelayFile);
+}
+else
+DelayFile->hide();} selected
+            xywh {0 0 36 21}
           }
         }
         MenuItem Bank_Menu {
@@ -1462,7 +1473,7 @@ Order->hide();}
 o->hide();
 Analy->show();
 Analy->set_analyzer_ON(true);
-//}} selected
+//}}
           tooltip {Click here to toggle analyzer ON/OFF} xywh {174 160 340 28} type Toggle box NO_BOX color 2 labeltype EMBOSSED_LABEL labelfont 1 labelsize 21 labelcolor 1 align 80
           code0 {o->set_label_offset(15);}
           class RKR_Button
@@ -1757,11 +1768,18 @@ o->hide();} open
       callback {rkr->ACI_Bypass=0;
 save_stat(6);
 o->hide();} open
-      xywh {711 533 205 165} type Double box NO_BOX color 4 selection_color 7 hide
+      xywh {31 426 205 165} type Double box NO_BOX color 4 selection_color 7 hide
       code0 {\#include "trigwindow_gui.h"}
       code1 {o->initialize(rkr);}
       code2 {o->hide();}
       class TrigWindowGui
+    } {}
+    Fl_Window DelayFile {
+      label {Delay File} open
+      xywh {1072 713 605 265} type Double
+      code0 {\#include "delayfilewindow_gui.h"}
+      code1 {o->hide();}
+      class DelayFileWindowGui visible
     } {}
     code {char tmp[64];
 sprintf(tmp,"Version %s",VERSION);
