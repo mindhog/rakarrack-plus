@@ -8,6 +8,7 @@
 #include "RKR_Scroll.h"
 #include "RKR_Value_Input.h"
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Scroll.H>
 
 class DelayFileWindowGui : public Fl_Double_Window {
   void _DelayFileWindowGui();
@@ -20,7 +21,7 @@ public:
   RKR_Value_Input *dly_delay;
   RKR_Value_Input *dly_LFO_rate;
   RKR_Group *dly_group;
-  RKR_Scroll *dly_scroll;
+  Fl_Scroll *dly_scroll;
   void make_delay_window();
 };
 #include <FL/Fl_Group.H>

@@ -91,21 +91,13 @@ this->when(FL_WHEN_RELEASE);
     dly_group->when(FL_WHEN_RELEASE);
     dly_group->end();
   } // RKR_Group* dly_group
-  { dly_scroll = new RKR_Scroll(25, 88, 560, 165);
-    dly_scroll->box(FL_NO_BOX);
-    dly_scroll->color(FL_BACKGROUND_COLOR);
-    dly_scroll->selection_color(FL_BACKGROUND_COLOR);
-    dly_scroll->labeltype(FL_NORMAL_LABEL);
-    dly_scroll->labelfont(0);
-    dly_scroll->labelsize(14);
-    dly_scroll->labelcolor(FL_FOREGROUND_COLOR);
-    dly_scroll->align(Fl_Align(FL_ALIGN_TOP));
-    dly_scroll->when(FL_WHEN_RELEASE);
+  { dly_scroll = new Fl_Scroll(25, 88, 560, 165);
     dly_scroll->end();
-  } // RKR_Scroll* dly_scroll
+  } // Fl_Scroll* dly_scroll
   Delay_Group->end();
 } // RKR_Group* Delay_Group
 end();
+resizable(this);
 }
 
 void DelayFileWindowGui::make_delay_window() {
@@ -114,13 +106,13 @@ void DelayFileWindowGui::make_delay_window() {
       
         for (intptr_t y=0; y<128; y++)
         {
-  	  dlyFileGroup *DG = new dlyFileGroup(0,y*30,525,30);      
+  	  dlyFileGroup *DG = new dlyFileGroup(30,y*30,525,30);      
         }
       
         dly_scroll->end();
 }
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
-  : Fl_Group(X, Y, W, H, L) {
+  : Fl_Group(0, 0, W, H, L) {
 { dly_pan = new RKR_Value_Input(6, 6, 35, 20);
   dly_pan->box(FL_DOWN_BOX);
   dly_pan->color(FL_BACKGROUND2_COLOR);
@@ -238,5 +230,6 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
+position(X, Y);
 end();
 }
