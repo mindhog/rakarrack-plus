@@ -149,8 +149,8 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_level->labelfont(0);
   dly_level->labelsize(14);
   dly_level->labelcolor(FL_FOREGROUND_COLOR);
-  dly_level->minimum(-2);
-  dly_level->maximum(2);
+  dly_level->minimum(-10);
+  dly_level->maximum(10);
   dly_level->step(0.01);
   dly_level->value(0.7);
   dly_level->align(Fl_Align(FL_ALIGN_TOP));
@@ -210,7 +210,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_freq->labelsize(14);
   dly_freq->labelcolor(FL_FOREGROUND_COLOR);
   dly_freq->minimum(20);
-  dly_freq->maximum(20000);
+  dly_freq->maximum(26000);
   dly_freq->step(1);
   dly_freq->value(800);
   dly_freq->align(Fl_Align(FL_ALIGN_TOP));
@@ -239,7 +239,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->labelsize(14);
   dly_stages->labelcolor(FL_FOREGROUND_COLOR);
   dly_stages->minimum(1);
-  dly_stages->maximum(16);
+  dly_stages->maximum(5);
   dly_stages->step(1);
   dly_stages->value(1);
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
