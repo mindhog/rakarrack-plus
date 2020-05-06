@@ -48,6 +48,7 @@ this->when(FL_WHEN_RELEASE);
     dly_filter->labelcolor(FL_FOREGROUND_COLOR);
     dly_filter->maximum(100);
     dly_filter->step(0.1);
+    dly_filter->value(1);
     dly_filter->align(Fl_Align(FL_ALIGN_TOP));
     dly_filter->when(FL_WHEN_CHANGED);
   } // RKR_Value_Input* dly_filter
@@ -61,11 +62,11 @@ this->when(FL_WHEN_RELEASE);
     dly_delay->labelcolor(FL_FOREGROUND_COLOR);
     dly_delay->maximum(100);
     dly_delay->step(0.1);
+    dly_delay->value(1);
     dly_delay->align(Fl_Align(FL_ALIGN_TOP));
     dly_delay->when(FL_WHEN_CHANGED);
   } // RKR_Value_Input* dly_delay
-  { dly_LFO_rate = new RKR_Value_Input(154, 25, 40, 25, "LFO Rate");
-    dly_LFO_rate->tooltip("LFO Tempo Rate Adjustment");
+  { dly_LFO_rate = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
     dly_LFO_rate->box(FL_DOWN_BOX);
     dly_LFO_rate->color(FL_BACKGROUND2_COLOR);
     dly_LFO_rate->selection_color(FL_SELECTION_COLOR);
@@ -73,13 +74,12 @@ this->when(FL_WHEN_RELEASE);
     dly_LFO_rate->labelfont(0);
     dly_LFO_rate->labelsize(14);
     dly_LFO_rate->labelcolor(FL_FOREGROUND_COLOR);
-    dly_LFO_rate->maximum(100);
-    dly_LFO_rate->step(0.1);
+    dly_LFO_rate->step(1);
     dly_LFO_rate->align(Fl_Align(FL_ALIGN_TOP));
     dly_LFO_rate->when(FL_WHEN_CHANGED);
   } // RKR_Value_Input* dly_LFO_rate
-  { dly_group = new RKR_Group(34, 81, 543, 0, "Pan        Time         Level        LP       BP       HP       Freq      Q  \
-           Stages");
+  { dly_group = new RKR_Group(34, 81, 543, 20, "  Pan           Time        Level          LP          BP          HP      Fr\
+eq          Q       Stages  ");
     dly_group->box(FL_NO_BOX);
     dly_group->color(FL_BACKGROUND_COLOR);
     dly_group->selection_color(FL_BACKGROUND_COLOR);
@@ -134,8 +134,10 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_time->labelfont(0);
   dly_time->labelsize(14);
   dly_time->labelcolor(FL_FOREGROUND_COLOR);
-  dly_time->minimum(-1);
+  dly_time->minimum(-6);
+  dly_time->maximum(6);
   dly_time->step(0.01);
+  dly_time->value(1);
   dly_time->align(Fl_Align(FL_ALIGN_TOP));
   dly_time->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_time
@@ -147,8 +149,10 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_level->labelfont(0);
   dly_level->labelsize(14);
   dly_level->labelcolor(FL_FOREGROUND_COLOR);
-  dly_level->minimum(-1);
+  dly_level->minimum(-2);
+  dly_level->maximum(2);
   dly_level->step(0.01);
+  dly_level->value(0.7);
   dly_level->align(Fl_Align(FL_ALIGN_TOP));
   dly_level->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_level
@@ -160,8 +164,10 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_LP->labelfont(0);
   dly_LP->labelsize(14);
   dly_LP->labelcolor(FL_FOREGROUND_COLOR);
-  dly_LP->minimum(-1);
+  dly_LP->minimum(-2);
+  dly_LP->maximum(2);
   dly_LP->step(0.01);
+  dly_LP->value(1);
   dly_LP->align(Fl_Align(FL_ALIGN_TOP));
   dly_LP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_LP
@@ -173,8 +179,10 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_BP->labelfont(0);
   dly_BP->labelsize(14);
   dly_BP->labelcolor(FL_FOREGROUND_COLOR);
-  dly_BP->minimum(-1);
+  dly_BP->minimum(-2);
+  dly_BP->maximum(2);
   dly_BP->step(0.01);
+  dly_BP->value(-1);
   dly_BP->align(Fl_Align(FL_ALIGN_TOP));
   dly_BP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_BP
@@ -186,12 +194,14 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_HP->labelfont(0);
   dly_HP->labelsize(14);
   dly_HP->labelcolor(FL_FOREGROUND_COLOR);
-  dly_HP->minimum(-1);
+  dly_HP->minimum(-2);
+  dly_HP->maximum(2);
   dly_HP->step(0.01);
+  dly_HP->value(1);
   dly_HP->align(Fl_Align(FL_ALIGN_TOP));
   dly_HP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_HP
-{ dly_freq = new RKR_Value_Input(375, 6, 35, 20);
+{ dly_freq = new RKR_Value_Input(375, 6, 48, 20);
   dly_freq->box(FL_DOWN_BOX);
   dly_freq->color(FL_BACKGROUND2_COLOR);
   dly_freq->selection_color(FL_SELECTION_COLOR);
@@ -199,12 +209,14 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_freq->labelfont(0);
   dly_freq->labelsize(14);
   dly_freq->labelcolor(FL_FOREGROUND_COLOR);
-  dly_freq->minimum(-1);
-  dly_freq->step(0.01);
+  dly_freq->minimum(20);
+  dly_freq->maximum(20000);
+  dly_freq->step(1);
+  dly_freq->value(800);
   dly_freq->align(Fl_Align(FL_ALIGN_TOP));
   dly_freq->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_freq
-{ dly_Q = new RKR_Value_Input(425, 6, 35, 20);
+{ dly_Q = new RKR_Value_Input(441, 6, 35, 20);
   dly_Q->box(FL_DOWN_BOX);
   dly_Q->color(FL_BACKGROUND2_COLOR);
   dly_Q->selection_color(FL_SELECTION_COLOR);
@@ -212,12 +224,13 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_Q->labelfont(0);
   dly_Q->labelsize(14);
   dly_Q->labelcolor(FL_FOREGROUND_COLOR);
-  dly_Q->minimum(-1);
-  dly_Q->step(0.01);
+  dly_Q->maximum(300);
+  dly_Q->step(0.1);
+  dly_Q->value(2);
   dly_Q->align(Fl_Align(FL_ALIGN_TOP));
   dly_Q->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_Q
-{ dly_stages = new RKR_Value_Input(491, 6, 35, 20);
+{ dly_stages = new RKR_Value_Input(500, 6, 28, 20);
   dly_stages->box(FL_DOWN_BOX);
   dly_stages->color(FL_BACKGROUND2_COLOR);
   dly_stages->selection_color(FL_SELECTION_COLOR);
@@ -225,8 +238,10 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->labelfont(0);
   dly_stages->labelsize(14);
   dly_stages->labelcolor(FL_FOREGROUND_COLOR);
-  dly_stages->minimum(-1);
-  dly_stages->step(0.01);
+  dly_stages->minimum(1);
+  dly_stages->maximum(16);
+  dly_stages->step(1);
+  dly_stages->value(1);
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
