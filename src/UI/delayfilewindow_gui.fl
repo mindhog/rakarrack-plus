@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0304
+version 1.0305
 header_name {.h}
 code_name {.cxx}
 decl {\#include <unistd.h>} {public global
@@ -20,8 +20,11 @@ decl {\#include "RKR_Value_Input.h"} {public global
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
   xywh {57 120 605 265} type Double resizable
+  code0 {initialize();}
   class Fl_Double_Window visible
 } {
+  decl {int m_file_size;} {private local
+  }
   Fl_Group Delay_Group {open
     xywh {0 0 605 265}
     class RKR_Group
@@ -51,18 +54,26 @@ widget_class DelayFileWindowGui {
       xywh {290 25 70 20}
       class RKR_Button
     }
-    Fl_Round_Button {} {
-      label Apply
-      tooltip {Apply Changes to Echotron} xywh {375 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
+    Fl_Button {} {
+      label New selected
+      xywh {375 25 70 20}
+      class RKR_Button
     }
     Fl_Button add_button {
       label {+}
-      callback {dlyFileGroup *ADDG = new dlyFileGroup(30,60,540,30);
+      callback {m_file_size++;
 
+dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + 60, 540, 30);
+
+//ADDG->dly_freq->value(m_file_size);
 dly_scroll->add(ADDG);
 dly_scroll->redraw();}
-      tooltip {Add Delay Line} xywh {471 22 25 25} labelsize 21
+      tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       class RKR_Button
+    }
+    Fl_Round_Button {} {
+      label Apply
+      tooltip {Apply Changes to Echotron} xywh {513 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
     }
     Fl_Group dly_group {
       label {  Pan           Time        Level          LP          BP          HP      Freq          Q       Stages  } open
@@ -83,7 +94,13 @@ dly_scroll->redraw();}
 	  dlyFileGroup *DG = new dlyFileGroup(30,0,540,30);      
 //      }
     
-      dly_scroll->end();} {}
+      dly_scroll->end();
+      
+      m_file_size++;} {}
+  }
+  Function {initialize()} {open
+  } {
+    code {m_file_size = 0;} {}
   }
 }
 
@@ -122,7 +139,7 @@ widget_class dlyFileGroup {open
     xywh {366 6 44 20} labeltype NO_LABEL align 1 maximum 300 step 0.1 value 2
     class RKR_Value_Input
   }
-  Fl_Value_Input dly_stages {selected
+  Fl_Value_Input dly_stages {
     xywh {425 6 20 20} labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1
     class RKR_Value_Input
   }
