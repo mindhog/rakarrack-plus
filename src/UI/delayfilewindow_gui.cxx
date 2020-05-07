@@ -2,6 +2,19 @@
 
 #include "delayfilewindow_gui.h"
 
+void DelayFileWindowGui::cb_Load_i(RKR_Button*, void*) {
+  char *filename;
+filename=fl_file_chooser("Load dly File:","(*.dly)",NULL,0);
+if (filename==NULL) return;
+filename=fl_filename_setext(filename,".dly");
+//strcpy(rkr->efx_Echotron->Filename,filename);
+
+m_delay_file = rkr->efx_Echotron->loadfile(filename);
+}
+void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
+  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
+}
+
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   m_file_size++;
 
@@ -106,6 +119,7 @@ this->when(FL_WHEN_RELEASE);
     o->labelfont(0);
     o->labelsize(14);
     o->labelcolor(FL_FOREGROUND_COLOR);
+    o->callback((Fl_Callback*)cb_Load);
     o->align(Fl_Align(FL_ALIGN_CENTER));
     o->when(FL_WHEN_RELEASE);
   } // RKR_Button* o
@@ -168,7 +182,8 @@ eq          Q       Stages  ");
   } // Fl_Scroll* dly_scroll
   Delay_Group->end();
 } // RKR_Group* Delay_Group
-initialize();
+this->m_rkr = NULL;
+this->m_rgui = NULL;
 end();
 resizable(this);
 }
@@ -179,8 +194,10 @@ void DelayFileWindowGui::make_delay_window() {
   add_button->do_callback();
 }
 
-void DelayFileWindowGui::initialize() {
+void DelayFileWindowGui::initialize(RKR *_rkr,RKRGUI *_rgui) {
   m_file_size = 0;
+  m_rkr = _rkr;
+  m_rgui= _rgui;
 }
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {

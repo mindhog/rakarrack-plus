@@ -2789,6 +2789,7 @@ void RKRGUI::make_window() {
     DelayFile->align(Fl_Align(FL_ALIGN_TOP));
     DelayFile->when(FL_WHEN_RELEASE);
     o->hide();
+    o->initialize(rkr, this);
     DelayFile->end();
   } // DelayFileWindowGui* DelayFile
   char tmp[64];

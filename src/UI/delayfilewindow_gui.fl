@@ -2,6 +2,9 @@
 version 1.0304
 header_name {.h}
 code_name {.cxx}
+decl {\#include <FL/Fl_File_Chooser.H>} {public global
+}
+
 decl {\#include <unistd.h>} {public global
 }
 
@@ -17,13 +20,26 @@ decl {\#include "RKR_Scroll.h"} {public global
 decl {\#include "RKR_Value_Input.h"} {public global
 }
 
+decl {\#include "../Echotron.h"} {public global
+}
+
+decl {\#include "rakarrack.h"} {public global
+}
+
 widget_class DelayFileWindowGui {
-  label {Echotron Delay File} open
-  xywh {62 162 605 265} type Double resizable
-  code0 {initialize();}
+  label {Echotron Delay File} open selected
+  xywh {49 332 605 265} type Double resizable
+  code0 {this->m_rkr = NULL;
+this->m_rgui = NULL;}
   class Fl_Double_Window visible
 } {
   decl {int m_file_size;} {private local
+  }
+  decl {RKRGUI* m_rgui;} {private local
+  }
+  decl {RKR* m_rkr;} {private local
+  }
+  decl {DlyFile m_delay_file;} {private local
   }
   Fl_Group Delay_Group {open
     xywh {0 0 605 265}
@@ -46,6 +62,13 @@ widget_class DelayFileWindowGui {
     }
     Fl_Button {} {
       label Load
+      callback {char *filename;
+filename=fl_file_chooser("Load dly File:","(*.dly)",NULL,0);
+if (filename==NULL) return;
+filename=fl_filename_setext(filename,".dly");
+//strcpy(rkr->efx_Echotron->Filename,filename);
+
+m_delay_file = rkr->efx_Echotron->loadfile(filename);}
       xywh {210 25 70 20}
       class RKR_Button
     }
@@ -74,7 +97,7 @@ dly_scroll->redraw();
 
 //dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
 
-//printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());} selected
+//printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());}
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       class RKR_Button
     }
@@ -96,9 +119,11 @@ dly_scroll->redraw();
 
 add_button->do_callback();} {}
   }
-  Function {initialize()} {open
+  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {open
   } {
-    code {m_file_size = 0;} {}
+    code {m_file_size = 0;
+m_rkr = _rkr;
+m_rgui= _rgui;} {}
   }
 }
 

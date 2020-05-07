@@ -94,7 +94,7 @@ const std::vector<std::string> main_submenu_paths
     "&Settings/Fullscreen",
     "&Help/Help Contents",
     "&Help/About...",
-};} {selected private global
+};} {private global
 }
 
 decl {class RKR;  // forward declaration} {public global
@@ -274,6 +274,9 @@ decl {class AboutWindowGui; // forward declaration} {public global
 decl {class TrigWindowGui; // forward declaration} {public global
 }
 
+decl {class DelayFileWindowGui; // forward declaration} {public global
+}
+
 decl {Fl_Tiled_Image *back;} {private global
 }
 
@@ -315,8 +318,8 @@ class RKRGUI {open
       callback {is_modified();
 save_stat(0);
 
-Pexitprogram=1;} open
-      xywh {165 401 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
+Pexitprogram=1;} open selected
+      xywh {112 193 800 600} type Double box DOWN_BOX color 0 resizable size_range {320 240 3200 2400} visible
     } {
       Fl_Box fondo {
         xywh {1 1 800 600} align 112
@@ -1780,6 +1783,7 @@ o->hide();} open
       xywh {1072 713 605 265} type Double hide
       code0 {\#include "delayfilewindow_gui.h"}
       code1 {o->hide();}
+      code2 {o->initialize(rkr, this);}
       class DelayFileWindowGui
     } {}
     code {char tmp[64];

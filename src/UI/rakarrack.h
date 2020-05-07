@@ -85,6 +85,7 @@ class SettingsWindowGui; // forward declaration
 class MidiLearnWindowGui; // forward declaration
 class AboutWindowGui; // forward declaration
 class TrigWindowGui; // forward declaration
+class DelayFileWindowGui; // forward declaration
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Button.H>

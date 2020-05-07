@@ -3,11 +3,14 @@
 #ifndef delayfilewindow_gui_h
 #define delayfilewindow_gui_h
 #include <FL/Fl.H>
+#include <FL/Fl_File_Chooser.H>
 #include <unistd.h>
 #include "RKR_Button.h"
 #include "RKR_Group.h"
 #include "RKR_Scroll.h"
 #include "RKR_Value_Input.h"
+#include "../Echotron.h"
+#include "rakarrack.h"
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Round_Button.H>
 #include <FL/Fl_Scroll.H>
@@ -20,11 +23,18 @@ public:
   DelayFileWindowGui();
 private:
   int m_file_size; 
+  RKRGUI* m_rgui; 
+  RKR* m_rkr; 
+  DlyFile m_delay_file; 
 public:
   RKR_Group *Delay_Group;
   RKR_Value_Input *dly_filter;
   RKR_Value_Input *dly_delay;
   RKR_Value_Input *dly_LFO_rate;
+private:
+  inline void cb_Load_i(RKR_Button*, void*);
+  static void cb_Load(RKR_Button*, void*);
+public:
   RKR_Button *add_button;
 private:
   inline void cb_add_button_i(RKR_Button*, void*);
@@ -33,7 +43,7 @@ public:
   RKR_Group *dly_group;
   Fl_Scroll *dly_scroll;
   void make_delay_window();
-  void initialize();
+  void initialize(RKR *_rkr,RKRGUI *_rgui);
 };
 #include <FL/Fl_Group.H>
 
