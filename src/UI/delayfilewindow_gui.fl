@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include <unistd.h>} {public global
@@ -19,7 +19,7 @@ decl {\#include "RKR_Value_Input.h"} {public global
 
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
-  xywh {57 120 605 265} type Double resizable
+  xywh {62 162 605 265} type Double resizable
   code0 {initialize();}
   class Fl_Double_Window visible
 } {
@@ -55,7 +55,7 @@ widget_class DelayFileWindowGui {
       class RKR_Button
     }
     Fl_Button {} {
-      label New selected
+      label New
       xywh {375 25 70 20}
       class RKR_Button
     }
@@ -63,11 +63,18 @@ widget_class DelayFileWindowGui {
       label {+}
       callback {m_file_size++;
 
-dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + 60, 540, 30);
+dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+
+//printf("Before X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());
 
 //ADDG->dly_freq->value(m_file_size);
+
 dly_scroll->add(ADDG);
-dly_scroll->redraw();}
+dly_scroll->redraw();
+
+//dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
+
+//printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());} selected
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       class RKR_Button
     }
@@ -84,19 +91,10 @@ dly_scroll->redraw();}
       xywh {25 88 560 165}
     } {}
   }
-  Function {make_delay_window()} {open
-  } {
-    code {// Fill scroll with max to start...
-      dly_scroll->begin();
-    
-//      for (intptr_t y=0; y<128; y++)
-//      {
-	  dlyFileGroup *DG = new dlyFileGroup(30,0,540,30);      
-//      }
-    
-      dly_scroll->end();
-      
-      m_file_size++;} {}
+  Function {make_delay_window()} {} {
+    code {// The First Item is always added
+
+add_button->do_callback();} {}
   }
   Function {initialize()} {open
   } {
