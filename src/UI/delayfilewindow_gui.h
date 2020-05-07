@@ -30,7 +30,7 @@ public:
   RKR_Group *Delay_Group;
   RKR_Value_Input *dly_filter;
   RKR_Value_Input *dly_delay;
-  RKR_Value_Input *dly_LFO_rate;
+  RKR_Value_Input *dly_Q_mode;
 private:
   inline void cb_Load_i(RKR_Button*, void*);
   static void cb_Load(RKR_Button*, void*);
@@ -44,6 +44,8 @@ public:
   Fl_Scroll *dly_scroll;
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);
+private:
+  void apply_delay_file();
 };
 #include <FL/Fl_Group.H>
 

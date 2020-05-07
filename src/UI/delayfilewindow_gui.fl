@@ -27,8 +27,8 @@ decl {\#include "rakarrack.h"} {public global
 }
 
 widget_class DelayFileWindowGui {
-  label {Echotron Delay File} open selected
-  xywh {49 332 605 265} type Double resizable
+  label {Echotron Delay File} open
+  xywh {96 313 605 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -55,7 +55,7 @@ this->m_rgui = NULL;}
       xywh {90 25 40 25} align 1 maximum 100 step 0.1 value 1
       class RKR_Value_Input
     }
-    Fl_Value_Input dly_LFO_rate {
+    Fl_Value_Input dly_Q_mode {
       label {Q Mode}
       xywh {164 25 20 25} align 1 step 1
       class RKR_Value_Input
@@ -68,7 +68,9 @@ if (filename==NULL) return;
 filename=fl_filename_setext(filename,".dly");
 //strcpy(rkr->efx_Echotron->Filename,filename);
 
-m_delay_file = rkr->efx_Echotron->loadfile(filename);}
+m_delay_file = rkr->efx_Echotron->loadfile(filename);
+
+apply_delay_file();}
       xywh {210 25 70 20}
       class RKR_Button
     }
@@ -125,6 +127,36 @@ add_button->do_callback();} {}
 m_rkr = _rkr;
 m_rgui= _rgui;} {}
   }
+  Function {apply_delay_file()} {open private
+  } {
+    code {dly_scroll->clear();
+  m_file_size = 0;
+    dly_filter->value(m_delay_file.subdiv_fmod);
+    dly_delay->value(m_delay_file.subdiv_dmod);
+    dly_Q_mode->value(m_delay_file.f_qmode);
+    
+    for(int i = 0; i < m_delay_file.fLength; ++i)
+    {
+        m_file_size++;
+
+        dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+
+        ADDG->dly_pan->value(m_delay_file.fPan[i]);
+        ADDG->dly_time->value(m_delay_file.fTime[i]);
+        ADDG->dly_level->value(m_delay_file.fLevel[i]);
+        ADDG->dly_LP->value(m_delay_file.fLP[i]);
+        ADDG->dly_BP->value(m_delay_file.fBP[i]);
+        ADDG->dly_HP->value(m_delay_file.fHP[i]);
+        ADDG->dly_freq->value(m_delay_file.fFreq[i]);
+        ADDG->dly_Q->value(m_delay_file.fQ[i]);
+        ADDG->dly_stages->value(m_delay_file.iStages[i] + 1);	// offset by 1
+        
+        dly_scroll->add(ADDG);
+    }
+
+this->redraw();} {selected
+    }
+  }
 }
 
 widget_class dlyFileGroup {open
@@ -135,23 +167,23 @@ widget_class dlyFileGroup {open
     class RKR_Value_Input
   }
   Fl_Value_Input dly_time {
-    xywh {49 6 40 20} labeltype NO_LABEL align 1 minimum -6 maximum 6 step 0.01 value 1
+    xywh {49 6 40 20} labeltype NO_LABEL align 1 minimum -6 maximum 6 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_level {
-    xywh {101 6 45 20} labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.01 value 0.7
+    xywh {101 6 45 20} labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.001 value 0.7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_LP {
-    xywh {160 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.01 value 1
+    xywh {160 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_BP {
-    xywh {210 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.01 value -1
+    xywh {210 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value -1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_HP {
-    xywh {260 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.01 value 1
+    xywh {260 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_freq {
@@ -159,7 +191,7 @@ widget_class dlyFileGroup {open
     class RKR_Value_Input
   }
   Fl_Value_Input dly_Q {
-    xywh {366 6 44 20} labeltype NO_LABEL align 1 maximum 300 step 0.1 value 2
+    xywh {366 6 44 20} labeltype NO_LABEL align 1 maximum 300 step 0.01 value 2
     class RKR_Value_Input
   }
   Fl_Value_Input dly_stages {

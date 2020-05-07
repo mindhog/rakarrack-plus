@@ -10,6 +10,8 @@ filename=fl_filename_setext(filename,".dly");
 //strcpy(rkr->efx_Echotron->Filename,filename);
 
 m_delay_file = rkr->efx_Echotron->loadfile(filename);
+
+apply_delay_file();
 }
 void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
@@ -99,18 +101,18 @@ this->when(FL_WHEN_RELEASE);
     dly_delay->align(Fl_Align(FL_ALIGN_TOP));
     dly_delay->when(FL_WHEN_CHANGED);
   } // RKR_Value_Input* dly_delay
-  { dly_LFO_rate = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
-    dly_LFO_rate->box(FL_DOWN_BOX);
-    dly_LFO_rate->color(FL_BACKGROUND2_COLOR);
-    dly_LFO_rate->selection_color(FL_SELECTION_COLOR);
-    dly_LFO_rate->labeltype(FL_NORMAL_LABEL);
-    dly_LFO_rate->labelfont(0);
-    dly_LFO_rate->labelsize(14);
-    dly_LFO_rate->labelcolor(FL_FOREGROUND_COLOR);
-    dly_LFO_rate->step(1);
-    dly_LFO_rate->align(Fl_Align(FL_ALIGN_TOP));
-    dly_LFO_rate->when(FL_WHEN_CHANGED);
-  } // RKR_Value_Input* dly_LFO_rate
+  { dly_Q_mode = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
+    dly_Q_mode->box(FL_DOWN_BOX);
+    dly_Q_mode->color(FL_BACKGROUND2_COLOR);
+    dly_Q_mode->selection_color(FL_SELECTION_COLOR);
+    dly_Q_mode->labeltype(FL_NORMAL_LABEL);
+    dly_Q_mode->labelfont(0);
+    dly_Q_mode->labelsize(14);
+    dly_Q_mode->labelcolor(FL_FOREGROUND_COLOR);
+    dly_Q_mode->step(1);
+    dly_Q_mode->align(Fl_Align(FL_ALIGN_TOP));
+    dly_Q_mode->when(FL_WHEN_CHANGED);
+  } // RKR_Value_Input* dly_Q_mode
   { RKR_Button* o = new RKR_Button(210, 25, 70, 20, "Load");
     o->box(FL_UP_BOX);
     o->color(FL_BACKGROUND_COLOR);
@@ -199,6 +201,35 @@ void DelayFileWindowGui::initialize(RKR *_rkr,RKRGUI *_rgui) {
   m_rkr = _rkr;
   m_rgui= _rgui;
 }
+
+void DelayFileWindowGui::apply_delay_file() {
+  dly_scroll->clear();
+    m_file_size = 0;
+      dly_filter->value(m_delay_file.subdiv_fmod);
+      dly_delay->value(m_delay_file.subdiv_dmod);
+      dly_Q_mode->value(m_delay_file.f_qmode);
+      
+      for(int i = 0; i < m_delay_file.fLength; ++i)
+      {
+          m_file_size++;
+  
+          dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+  
+          ADDG->dly_pan->value(m_delay_file.fPan[i]);
+          ADDG->dly_time->value(m_delay_file.fTime[i]);
+          ADDG->dly_level->value(m_delay_file.fLevel[i]);
+          ADDG->dly_LP->value(m_delay_file.fLP[i]);
+          ADDG->dly_BP->value(m_delay_file.fBP[i]);
+          ADDG->dly_HP->value(m_delay_file.fHP[i]);
+          ADDG->dly_freq->value(m_delay_file.fFreq[i]);
+          ADDG->dly_Q->value(m_delay_file.fQ[i]);
+          ADDG->dly_stages->value(m_delay_file.iStages[i] + 1);	// offset by 1
+          
+          dly_scroll->add(ADDG);
+      }
+  
+  this->redraw();
+}
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {
 { dly_pan = new RKR_Value_Input(6, 6, 40, 20);
@@ -224,7 +255,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_time->labelcolor(FL_FOREGROUND_COLOR);
   dly_time->minimum(-6);
   dly_time->maximum(6);
-  dly_time->step(0.01);
+  dly_time->step(0.001);
   dly_time->value(1);
   dly_time->align(Fl_Align(FL_ALIGN_TOP));
   dly_time->when(FL_WHEN_CHANGED);
@@ -239,7 +270,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_level->labelcolor(FL_FOREGROUND_COLOR);
   dly_level->minimum(-10);
   dly_level->maximum(10);
-  dly_level->step(0.01);
+  dly_level->step(0.001);
   dly_level->value(0.7);
   dly_level->align(Fl_Align(FL_ALIGN_TOP));
   dly_level->when(FL_WHEN_CHANGED);
@@ -254,7 +285,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_LP->labelcolor(FL_FOREGROUND_COLOR);
   dly_LP->minimum(-2);
   dly_LP->maximum(2);
-  dly_LP->step(0.01);
+  dly_LP->step(0.001);
   dly_LP->value(1);
   dly_LP->align(Fl_Align(FL_ALIGN_TOP));
   dly_LP->when(FL_WHEN_CHANGED);
@@ -269,7 +300,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_BP->labelcolor(FL_FOREGROUND_COLOR);
   dly_BP->minimum(-2);
   dly_BP->maximum(2);
-  dly_BP->step(0.01);
+  dly_BP->step(0.001);
   dly_BP->value(-1);
   dly_BP->align(Fl_Align(FL_ALIGN_TOP));
   dly_BP->when(FL_WHEN_CHANGED);
@@ -284,7 +315,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_HP->labelcolor(FL_FOREGROUND_COLOR);
   dly_HP->minimum(-2);
   dly_HP->maximum(2);
-  dly_HP->step(0.01);
+  dly_HP->step(0.001);
   dly_HP->value(1);
   dly_HP->align(Fl_Align(FL_ALIGN_TOP));
   dly_HP->when(FL_WHEN_CHANGED);
@@ -313,7 +344,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_Q->labelsize(14);
   dly_Q->labelcolor(FL_FOREGROUND_COLOR);
   dly_Q->maximum(300);
-  dly_Q->step(0.1);
+  dly_Q->step(0.01);
   dly_Q->value(2);
   dly_Q->align(Fl_Align(FL_ALIGN_TOP));
   dly_Q->when(FL_WHEN_CHANGED);
