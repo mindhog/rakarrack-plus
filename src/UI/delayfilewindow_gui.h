@@ -22,6 +22,11 @@ public:
   RKR_Value_Input *dly_filter;
   RKR_Value_Input *dly_delay;
   RKR_Value_Input *dly_LFO_rate;
+  RKR_Button *add_button;
+private:
+  inline void cb_add_button_i(RKR_Button*, void*);
+  static void cb_add_button(RKR_Button*, void*);
+public:
   RKR_Group *dly_group;
   Fl_Scroll *dly_scroll;
   void make_delay_window();
