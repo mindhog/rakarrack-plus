@@ -9,9 +9,9 @@ if (filename==NULL) return;
 filename=fl_filename_setext(filename,".dly");
 //strcpy(rkr->efx_Echotron->Filename,filename);
 
-m_delay_file = rkr->efx_Echotron->loadfile(filename);
+DlyFile delay_file = rkr->efx_Echotron->loadfile(filename);
 
-apply_delay_file();
+load_delay_file(delay_file);
 }
 void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
@@ -233,29 +233,35 @@ void DelayFileWindowGui::initialize(RKR *_rkr,RKRGUI *_rgui) {
   m_rgui= _rgui;
 }
 
-void DelayFileWindowGui::apply_delay_file() {
+void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
   dly_scroll->clear();
     m_file_size = 0;
-      dly_filter->value(m_delay_file.subdiv_fmod);
-      dly_delay->value(m_delay_file.subdiv_dmod);
-      dly_Q_mode->value(m_delay_file.f_qmode);
+      dly_filter->value(delay_file.subdiv_fmod);
+      dly_delay->value(delay_file.subdiv_dmod);
+      dly_Q_mode->value(delay_file.f_qmode);
       
-      for(int i = 0; i < m_delay_file.fLength; ++i)
+      for(int i = 0; i < delay_file.fLength; ++i)
       {
           m_file_size++;
   
           dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
   
-          ADDG->dly_pan->value(m_delay_file.fPan[i]);
-          ADDG->dly_time->value(m_delay_file.fTime[i]);
-          ADDG->dly_level->value(m_delay_file.fLevel[i]);
-          ADDG->dly_LP->value(m_delay_file.fLP[i]);
-          ADDG->dly_BP->value(m_delay_file.fBP[i]);
-          ADDG->dly_HP->value(m_delay_file.fHP[i]);
-          ADDG->dly_freq->value(m_delay_file.fFreq[i]);
-          ADDG->dly_Q->value(m_delay_file.fQ[i]);
-          ADDG->dly_stages->value(m_delay_file.iStages[i] + 1);	// offset by 1
-          
+          ADDG->dly_pan->value(delay_file.fPan[i]);
+          ADDG->dly_time->value(delay_file.fTime[i]);
+          ADDG->dly_level->value(delay_file.fLevel[i]);
+          ADDG->dly_LP->value(delay_file.fLP[i]);
+          ADDG->dly_BP->value(delay_file.fBP[i]);
+          ADDG->dly_HP->value(delay_file.fHP[i]);
+          ADDG->dly_freq->value(delay_file.fFreq[i]);
+          ADDG->dly_Q->value(delay_file.fQ[i]);
+          ADDG->dly_stages->value(delay_file.iStages[i] + 1);	// offset by 1
+  
+          std::stringstream strs;
+          strs << m_file_size;
+          std::string temp_str = strs.str();
+          char* char_type = (char*) temp_str.c_str();
+          ADDG->dly_occur->copy_label(char_type);
+  
           dly_scroll->add(ADDG);
       }
   

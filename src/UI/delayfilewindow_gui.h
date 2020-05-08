@@ -49,7 +49,7 @@ public:
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);
 private:
-  void apply_delay_file();
+  void load_delay_file(DlyFile delay_file);
 public:
   void save_delay_file(char *filename);
 };
