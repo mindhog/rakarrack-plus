@@ -49,7 +49,11 @@ dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll-
 
 //printf("Before X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
 
-//ADDG->dly_freq->value(m_file_size);
+std::stringstream strs;
+strs << m_file_size;
+std::string temp_str = strs.str();
+char* char_type = (char*) temp_str.c_str();
+ADDG->dly_occur->copy_label(char_type);
 
 dly_scroll->add(ADDG);
 dly_scroll->redraw();
@@ -297,6 +301,31 @@ void DelayFileWindowGui::save_delay_file(char *filename) {
       
       fclose(fn);
 }
+
+void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+
+printf("Delete Pressed = %d\n", intValue);
+}
+void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
+}
+
+void dlyFileGroup::cb_dly_insert_i(RKR_Button*, void*) {
+  printf("Insert Pressed\n");
+}
+void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_insert_i(o,v);
+}
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {
 { dly_pan = new RKR_Value_Input(6, 6, 40, 20);
@@ -431,6 +460,43 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
+{ dly_delete = new RKR_Button(453, 6, 20, 20, "D");
+  dly_delete->tooltip("Delete This Line");
+  dly_delete->box(FL_UP_BOX);
+  dly_delete->color(FL_BACKGROUND_COLOR);
+  dly_delete->selection_color(FL_BACKGROUND_COLOR);
+  dly_delete->labeltype(FL_NORMAL_LABEL);
+  dly_delete->labelfont(0);
+  dly_delete->labelsize(14);
+  dly_delete->labelcolor(FL_FOREGROUND_COLOR);
+  dly_delete->callback((Fl_Callback*)cb_dly_delete);
+  dly_delete->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+  dly_delete->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_delete
+{ dly_occur = new RKR_Box(481, 6, 35, 20, "1");
+  dly_occur->box(FL_NO_BOX);
+  dly_occur->color(FL_BACKGROUND_COLOR);
+  dly_occur->selection_color(FL_BACKGROUND_COLOR);
+  dly_occur->labeltype(FL_NORMAL_LABEL);
+  dly_occur->labelfont(0);
+  dly_occur->labelsize(14);
+  dly_occur->labelcolor(FL_FOREGROUND_COLOR);
+  dly_occur->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
+  dly_occur->when(FL_WHEN_RELEASE);
+} // RKR_Box* dly_occur
+{ dly_insert = new RKR_Button(516, 6, 20, 20, "I");
+  dly_insert->tooltip("Insert New Delay Line Before Current");
+  dly_insert->box(FL_UP_BOX);
+  dly_insert->color(FL_BACKGROUND_COLOR);
+  dly_insert->selection_color(FL_BACKGROUND_COLOR);
+  dly_insert->labeltype(FL_NORMAL_LABEL);
+  dly_insert->labelfont(0);
+  dly_insert->labelsize(14);
+  dly_insert->labelcolor(FL_FOREGROUND_COLOR);
+  dly_insert->callback((Fl_Callback*)cb_dly_insert);
+  dly_insert->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+  dly_insert->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_insert
 position(X, Y);
 end();
 }

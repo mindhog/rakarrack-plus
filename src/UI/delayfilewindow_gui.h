@@ -67,5 +67,15 @@ public:
   RKR_Value_Input *dly_freq;
   RKR_Value_Input *dly_Q;
   RKR_Value_Input *dly_stages;
+  RKR_Button *dly_delete;
+private:
+  inline void cb_dly_delete_i(RKR_Button*, void*);
+  static void cb_dly_delete(RKR_Button*, void*);
+public:
+  RKR_Box *dly_occur;
+  RKR_Button *dly_insert;
+private:
+  inline void cb_dly_insert_i(RKR_Button*, void*);
+  static void cb_dly_insert(RKR_Button*, void*);
 };
 #endif
