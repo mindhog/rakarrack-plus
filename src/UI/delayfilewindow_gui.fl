@@ -28,7 +28,7 @@ decl {\#include "rakarrack.h"} {public global
 
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
-  xywh {96 313 605 265} type Double resizable
+  xywh {28 499 605 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -76,6 +76,13 @@ apply_delay_file();}
     }
     Fl_Button {} {
       label Save
+      callback {char *filename;
+\#define EXT ".dly"
+filename=fl_file_chooser("Save delay file:","(*" EXT")", NULL/*rkr->Preset_Name*/,0);
+if (filename==NULL) return;
+filename=fl_filename_setext(filename,EXT);
+\#undef EXT
+save_delay_file(filename);} selected
       xywh {290 25 70 20}
       class RKR_Button
     }
@@ -121,13 +128,12 @@ dly_scroll->redraw();
 
 add_button->do_callback();} {}
   }
-  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {open
-  } {
+  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {} {
     code {m_file_size = 0;
 m_rkr = _rkr;
 m_rgui= _rgui;} {}
   }
-  Function {apply_delay_file()} {open private
+  Function {apply_delay_file()} {private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
@@ -154,8 +160,47 @@ m_rgui= _rgui;} {}
         dly_scroll->add(ADDG);
     }
 
-this->redraw();} {selected
+this->redraw();} {}
+  }
+  Function {save_delay_file(char *filename)} {open
+  } {
+    code {FILE *fn;
+    char buf[256];
+    fn = fopen(filename, "w");
+
+    if (errno == EACCES)
+    {
+        rkr->Error_Handle(3);
+        fclose(fn);
+        return;
     }
+    
+        //General
+    memset(buf, 0, sizeof (buf));
+    sprintf(buf, "%f\\t%f\\t%d\\n",m_delay_file.subdiv_fmod,m_delay_file.subdiv_dmod,m_delay_file.f_qmode);
+    fputs(buf, fn);
+    
+    for(int i = 0; i < m_file_size; ++i)
+    {
+    
+        memset(buf, 0, sizeof (buf));
+        sprintf
+        (
+        buf, "%f\\t%f\\t%f\\t%f\\t%f\\t%f\\t%f\\t%f\\t%d\\n",
+        m_delay_file.fPan[i],
+        m_delay_file.fTime[i],
+        m_delay_file.fLevel[i],
+        m_delay_file.fLP[i],
+        m_delay_file.fBP[i],
+        m_delay_file.fHP[i],
+        m_delay_file.fFreq[i],
+        m_delay_file.fQ[i],
+        (m_delay_file.iStages[i] + 1)
+        );
+        fputs(buf, fn);
+    }
+    
+    fclose(fn);} {}
   }
 }
 
@@ -187,7 +232,7 @@ widget_class dlyFileGroup {open
     class RKR_Value_Input
   }
   Fl_Value_Input dly_freq {
-    xywh {310 6 46 20} labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 1 value 800
+    xywh {310 6 46 20} labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 0.001 value 800
     class RKR_Value_Input
   }
   Fl_Value_Input dly_Q {

@@ -17,6 +17,19 @@ void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
 }
 
+void DelayFileWindowGui::cb_Save_i(RKR_Button*, void*) {
+  char *filename;
+#define EXT ".dly"
+filename=fl_file_chooser("Save delay file:","(*" EXT")", NULL/*rkr->Preset_Name*/,0);
+if (filename==NULL) return;
+filename=fl_filename_setext(filename,EXT);
+#undef EXT
+save_delay_file(filename);
+}
+void DelayFileWindowGui::cb_Save(RKR_Button* o, void* v) {
+  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Save_i(o,v);
+}
+
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   m_file_size++;
 
@@ -133,6 +146,7 @@ this->when(FL_WHEN_RELEASE);
     o->labelfont(0);
     o->labelsize(14);
     o->labelcolor(FL_FOREGROUND_COLOR);
+    o->callback((Fl_Callback*)cb_Save);
     o->align(Fl_Align(FL_ALIGN_CENTER));
     o->when(FL_WHEN_RELEASE);
   } // RKR_Button* o
@@ -229,6 +243,46 @@ void DelayFileWindowGui::apply_delay_file() {
       }
   
   this->redraw();
+}
+
+void DelayFileWindowGui::save_delay_file(char *filename) {
+  FILE *fn;
+      char buf[256];
+      fn = fopen(filename, "w");
+  
+      if (errno == EACCES)
+      {
+          rkr->Error_Handle(3);
+          fclose(fn);
+          return;
+      }
+      
+          //General
+      memset(buf, 0, sizeof (buf));
+      sprintf(buf, "%f\t%f\t%d\n",m_delay_file.subdiv_fmod,m_delay_file.subdiv_dmod,m_delay_file.f_qmode);
+      fputs(buf, fn);
+      
+      for(int i = 0; i < m_file_size; ++i)
+      {
+      
+          memset(buf, 0, sizeof (buf));
+          sprintf
+          (
+          buf, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%d\n",
+          m_delay_file.fPan[i],
+          m_delay_file.fTime[i],
+          m_delay_file.fLevel[i],
+          m_delay_file.fLP[i],
+          m_delay_file.fBP[i],
+          m_delay_file.fHP[i],
+          m_delay_file.fFreq[i],
+          m_delay_file.fQ[i],
+          (m_delay_file.iStages[i] + 1)
+          );
+          fputs(buf, fn);
+      }
+      
+      fclose(fn);
 }
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {
@@ -330,7 +384,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_freq->labelcolor(FL_FOREGROUND_COLOR);
   dly_freq->minimum(20);
   dly_freq->maximum(26000);
-  dly_freq->step(1);
+  dly_freq->step(0.001);
   dly_freq->value(800);
   dly_freq->align(Fl_Align(FL_ALIGN_TOP));
   dly_freq->when(FL_WHEN_CHANGED);

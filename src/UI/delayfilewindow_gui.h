@@ -34,6 +34,8 @@ public:
 private:
   inline void cb_Load_i(RKR_Button*, void*);
   static void cb_Load(RKR_Button*, void*);
+  inline void cb_Save_i(RKR_Button*, void*);
+  static void cb_Save(RKR_Button*, void*);
 public:
   RKR_Button *add_button;
 private:
@@ -46,6 +48,8 @@ public:
   void initialize(RKR *_rkr,RKRGUI *_rgui);
 private:
   void apply_delay_file();
+public:
+  void save_delay_file(char *filename);
 };
 #include <FL/Fl_Group.H>
 
