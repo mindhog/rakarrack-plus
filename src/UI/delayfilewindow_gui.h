@@ -36,6 +36,8 @@ private:
   static void cb_Load(RKR_Button*, void*);
   inline void cb_Save_i(RKR_Button*, void*);
   static void cb_Save(RKR_Button*, void*);
+  inline void cb_New_i(RKR_Button*, void*);
+  static void cb_New(RKR_Button*, void*);
 public:
   RKR_Button *add_button;
 private:

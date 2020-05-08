@@ -30,6 +30,18 @@ void DelayFileWindowGui::cb_Save(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Save_i(o,v);
 }
 
+void DelayFileWindowGui::cb_New_i(RKR_Button*, void*) {
+  m_file_size = 0;
+dly_filter->value(1);
+dly_delay->value(1);
+dly_Q_mode->value(0);
+dly_scroll->clear();
+add_button->do_callback();
+}
+void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
+  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_New_i(o,v);
+}
+
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   m_file_size++;
 
@@ -158,6 +170,7 @@ this->when(FL_WHEN_RELEASE);
     o->labelfont(0);
     o->labelsize(14);
     o->labelcolor(FL_FOREGROUND_COLOR);
+    o->callback((Fl_Callback*)cb_New);
     o->align(Fl_Align(FL_ALIGN_CENTER));
     o->when(FL_WHEN_RELEASE);
   } // RKR_Button* o

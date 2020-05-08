@@ -28,7 +28,7 @@ decl {\#include "rakarrack.h"} {public global
 
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
-  xywh {28 499 605 265} type Double resizable
+  xywh {94 400 605 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -82,12 +82,18 @@ filename=fl_file_chooser("Save delay file:","(*" EXT")", NULL/*rkr->Preset_Name*
 if (filename==NULL) return;
 filename=fl_filename_setext(filename,EXT);
 \#undef EXT
-save_delay_file(filename);} selected
+save_delay_file(filename);}
       xywh {290 25 70 20}
       class RKR_Button
     }
     Fl_Button {} {
       label New
+      callback {m_file_size = 0;
+dly_filter->value(1);
+dly_delay->value(1);
+dly_Q_mode->value(0);
+dly_scroll->clear();
+add_button->do_callback();} selected
       xywh {375 25 70 20}
       class RKR_Button
     }
@@ -133,7 +139,7 @@ add_button->do_callback();} {}
 m_rkr = _rkr;
 m_rgui= _rgui;} {}
   }
-  Function {apply_delay_file()} {private
+  Function {apply_delay_file()} {open private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
