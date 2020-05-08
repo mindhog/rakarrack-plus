@@ -269,7 +269,9 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
 }
 
 void DelayFileWindowGui::save_delay_file(char *filename) {
-  FILE *fn;
+  DlyFile delay_file = get_current_settings();
+  
+      FILE *fn;
       char buf[256];
       fn = fopen(filename, "w");
   
@@ -282,7 +284,7 @@ void DelayFileWindowGui::save_delay_file(char *filename) {
       
           //General
       memset(buf, 0, sizeof (buf));
-      sprintf(buf, "%f\t%f\t%d\n",m_delay_file.subdiv_fmod,m_delay_file.subdiv_dmod,m_delay_file.f_qmode);
+      sprintf(buf, "%f\t%f\t%d\n",delay_file.subdiv_fmod, delay_file.subdiv_dmod, delay_file.f_qmode);
       fputs(buf, fn);
       
       for(int i = 0; i < m_file_size; ++i)
@@ -292,20 +294,46 @@ void DelayFileWindowGui::save_delay_file(char *filename) {
           sprintf
           (
           buf, "%f\t%f\t%f\t%f\t%f\t%f\t%f\t%f\t%d\n",
-          m_delay_file.fPan[i],
-          m_delay_file.fTime[i],
-          m_delay_file.fLevel[i],
-          m_delay_file.fLP[i],
-          m_delay_file.fBP[i],
-          m_delay_file.fHP[i],
-          m_delay_file.fFreq[i],
-          m_delay_file.fQ[i],
-          (m_delay_file.iStages[i] + 1)
+          delay_file.fPan[i],
+          delay_file.fTime[i],
+          delay_file.fLevel[i],
+          delay_file.fLP[i],
+          delay_file.fBP[i],
+          delay_file.fHP[i],
+          delay_file.fFreq[i],
+          delay_file.fQ[i],
+          (delay_file.iStages[i] + 1)
           );
           fputs(buf, fn);
       }
       
       fclose(fn);
+}
+
+DlyFile DelayFileWindowGui::get_current_settings() {
+  DlyFile delay_file;
+    
+    delay_file.subdiv_fmod = dly_filter->value();
+    delay_file.subdiv_dmod = dly_delay->value();
+    delay_file.f_qmode = dly_Q_mode->value();
+    
+    for(int i = 0; i < m_file_size; ++i)
+    {
+      Fl_Widget *c = dly_scroll->child(i);
+      dlyFileGroup *c_choice = (dlyFileGroup *) c;
+        
+      delay_file.fPan[i] = c_choice->dly_pan->value();
+      delay_file.fTime[i] = c_choice->dly_time->value();
+      delay_file.fLevel[i] = c_choice->dly_level->value();
+      delay_file.fLP[i] = c_choice->dly_LP->value();
+      delay_file.fBP[i] = c_choice->dly_BP->value();
+      delay_file.fHP[i] = c_choice->dly_HP->value();
+      delay_file.fFreq[i] = c_choice->dly_freq->value();
+      delay_file.fQ[i] = c_choice->dly_Q->value();
+      delay_file.iStages[i] = (c_choice->dly_stages->value() - 1);
+    }
+    
+    return delay_file;
 }
 
 void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {

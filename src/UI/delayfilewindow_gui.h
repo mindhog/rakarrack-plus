@@ -52,6 +52,8 @@ private:
   void load_delay_file(DlyFile delay_file);
 public:
   void save_delay_file(char *filename);
+private:
+  DlyFile get_current_settings();
 };
 #include <FL/Fl_Group.H>
 
