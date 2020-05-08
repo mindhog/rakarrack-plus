@@ -11,6 +11,29 @@
 #include "RKR_Value_Input.h"
 #include "../Echotron.h"
 #include "rakarrack.h"
+struct DelayLine
+{
+    float pan;
+    float time;
+    float level;
+    float LP;
+    float BP;
+    float HP;
+    float freq;
+    float Q;
+    int stages;
+    
+    DelayLine() :
+    pan(),
+    time(1.0),
+    level(0.7),
+    LP(1.0),
+    BP(-1.0),
+    HP(1.0),
+    freq(800.0),
+    Q(2),
+    stages(1) {}
+}; 
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Round_Button.H>
 #include <FL/Fl_Scroll.H>
@@ -26,6 +49,7 @@ private:
   RKRGUI* m_rgui; 
   RKR* m_rkr; 
   DlyFile m_delay_file; 
+  std::vector<DelayLine> m_vct_delay_line; 
 public:
   RKR_Group *Delay_Group;
   RKR_Value_Input *dly_filter;

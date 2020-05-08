@@ -26,6 +26,31 @@ decl {\#include "../Echotron.h"} {public global
 decl {\#include "rakarrack.h"} {public global
 }
 
+decl {struct DelayLine
+{
+    float pan;
+    float time;
+    float level;
+    float LP;
+    float BP;
+    float HP;
+    float freq;
+    float Q;
+    int stages;
+    
+    DelayLine() :
+    pan(),
+    time(1.0),
+    level(0.7),
+    LP(1.0),
+    BP(-1.0),
+    HP(1.0),
+    freq(800.0),
+    Q(2),
+    stages(1) {}
+};} {public global
+}
+
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
   xywh {120 708 605 265} type Double resizable
@@ -40,6 +65,8 @@ this->m_rgui = NULL;}
   decl {RKR* m_rkr;} {private local
   }
   decl {DlyFile m_delay_file;} {private local
+  }
+  decl {std::vector<DelayLine> m_vct_delay_line;} {selected private local
   }
   Fl_Group Delay_Group {open
     xywh {0 0 605 265}
@@ -143,7 +170,7 @@ add_button->do_callback();} {}
 m_rkr = _rkr;
 m_rgui= _rgui;} {}
   }
-  Function {load_delay_file(DlyFile delay_file)} {open private
+  Function {load_delay_file(DlyFile delay_file)} {private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
@@ -178,8 +205,7 @@ m_rgui= _rgui;} {}
 
 this->redraw();} {}
   }
-  Function {save_delay_file(char *filename)} {open
-  } {
+  Function {save_delay_file(char *filename)} {} {
     code {DlyFile delay_file = get_current_settings();
 
     FILE *fn;
@@ -220,7 +246,7 @@ this->redraw();} {}
     
     fclose(fn);} {}
   }
-  Function {get_current_settings()} {open private return_type DlyFile
+  Function {get_current_settings()} {private return_type DlyFile
   } {
     code {DlyFile delay_file;
   
@@ -244,13 +270,12 @@ this->redraw();} {}
     delay_file.iStages[i] = (c_choice->dly_stages->value() - 1);
   }
   
-  return delay_file;} {selected
-    }
+  return delay_file;} {}
   }
 }
 
 widget_class dlyFileGroup {open
-  xywh {28 554 540 30} type Double visible position_relative
+  xywh {886 839 540 30} type Double visible position_relative
 } {
   Fl_Value_Input dly_pan {
     xywh {6 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
