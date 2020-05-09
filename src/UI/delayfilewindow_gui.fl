@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -65,8 +65,6 @@ this->m_rgui = NULL;}
   decl {RKR* m_rkr;} {private local
   }
   decl {DlyFile m_delay_file;} {private local
-  }
-  decl {std::vector<DelayLine> m_vct_delay_line;} {private local
   }
   Fl_Group Delay_Group {open
     xywh {0 0 605 265}
@@ -273,9 +271,9 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group)} {return_type void
+  Function {update_scroll(int group)} {open return_type void
   } {
-    code {m_vct_delay_line.clear();
+    code {std::vector<DelayLine> vector_delay_line;
 
   for(int i = 0; i < m_file_size; ++i)
   {
@@ -296,28 +294,28 @@ this->redraw();} {}
       d_choice.Q = c_choice->dly_Q->value();
       d_choice.stages = (c_choice->dly_stages->value() - 1);
       
-      m_vct_delay_line.push_back(d_choice);
+      vector_delay_line.push_back(d_choice);
   }
   
   dly_scroll->clear();
   m_file_size = 0;
   
-      for(unsigned i = 0; i < m_vct_delay_line.size(); ++i)
+      for(unsigned i = 0; i < vector_delay_line.size(); ++i)
       {
           m_file_size++;
   
           dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
           ADDG->initialize(this);
   
-          ADDG->dly_pan->value(m_vct_delay_line[i].pan);
-          ADDG->dly_time->value(m_vct_delay_line[i].time);
-          ADDG->dly_level->value(m_vct_delay_line[i].level);
-          ADDG->dly_LP->value(m_vct_delay_line[i].LP);
-          ADDG->dly_BP->value(m_vct_delay_line[i].BP);
-          ADDG->dly_HP->value(m_vct_delay_line[i].HP);
-          ADDG->dly_freq->value(m_vct_delay_line[i].freq);
-          ADDG->dly_Q->value(m_vct_delay_line[i].Q);
-          ADDG->dly_stages->value(m_vct_delay_line[i].stages + 1);	// offset by 1
+          ADDG->dly_pan->value(vector_delay_line[i].pan);
+          ADDG->dly_time->value(vector_delay_line[i].time);
+          ADDG->dly_level->value(vector_delay_line[i].level);
+          ADDG->dly_LP->value(vector_delay_line[i].LP);
+          ADDG->dly_BP->value(vector_delay_line[i].BP);
+          ADDG->dly_HP->value(vector_delay_line[i].HP);
+          ADDG->dly_freq->value(vector_delay_line[i].freq);
+          ADDG->dly_Q->value(vector_delay_line[i].Q);
+          ADDG->dly_stages->value(vector_delay_line[i].stages + 1);	// offset by 1
   
           std::stringstream strs;
           strs << m_file_size;
