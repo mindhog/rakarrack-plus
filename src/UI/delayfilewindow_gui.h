@@ -86,6 +86,8 @@ private:
   DlyFile get_current_settings();
 public:
   void update_scroll(int group, int type);
+  void reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line);
+  int get_file_size();
 };
 #include <FL/Fl_Group.H>
 

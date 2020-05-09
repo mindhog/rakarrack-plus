@@ -390,6 +390,15 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
         vector_delay_line.push_back(d_choice);
     }
     
+    if(type == MOVE_UP)
+    {
+        reorder_delay_lines(vector_delay_line, group);
+    }
+    else if(type == MOVE_DOWN)
+    {
+        reorder_delay_lines(vector_delay_line, group + 1);
+    }
+    
     dly_scroll->clear();
     m_file_size = 0;
     
@@ -428,15 +437,69 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
     this->redraw();
 }
 
-void dlyFileGroup::cb_dly_up_i(RKR_Button*, void*) {
-  printf("Got up\n");
+void DelayFileWindowGui::reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line) {
+  std::vector<DelayLine> vector_temp;
+    
+  for(unsigned i = 0; i < vector_delay_line.size(); ++i)
+  {
+      if(i == (line - 1))
+      {
+          vector_temp.push_back(vector_delay_line[i + 1]);
+      }
+      else if(i == line)
+      {
+          vector_temp.push_back(vector_delay_line[i - 1]);
+      }
+      else
+       {
+          vector_temp.push_back(vector_delay_line[i]);
+      }
+  }
+    
+  vector_delay_line = vector_temp;
+}
+
+int DelayFileWindowGui::get_file_size() {
+  return m_file_size;
+}
+
+void dlyFileGroup::cb_dly_up_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+/* Already at the top */
+if(intValue == 1)
+    return;
+
+m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1;
 }
 void dlyFileGroup::cb_dly_up(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_up_i(o,v);
 }
 
-void dlyFileGroup::cb_dly_down_i(RKR_Button*, void*) {
-  printf("Got Down\n");
+void dlyFileGroup::cb_dly_down_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+/* Already at the bottom */
+if(intValue == m_parent->get_file_size())
+    return;
+
+m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1;
 }
 void dlyFileGroup::cb_dly_down(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_down_i(o,v);
