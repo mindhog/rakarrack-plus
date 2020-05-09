@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0304
+version 1.0305
 header_name {.h}
 code_name {.cxx}
 decl {\#include "RKR_Light_Button.h"} {public global
@@ -233,7 +233,22 @@ if((int)o->value())B_ech->activate(); else B_ech->deactivate();}
   Fl_Button B_ech {
     label Browse
     user_data 2
-    callback {char *filename;
+    callback {if(Fl::event_button()==3)
+{
+    if(!rgui->DelayFile->visible())
+    {
+        rgui->DelayFile->apply_button->activate();
+        rgui->DelayFile->show();
+        rgui->put_icon(rgui->DelayFile);
+    }
+    else
+    {
+        rgui->DelayFile->hide();
+    }
+    return;
+}
+
+char *filename;
 filename=fl_file_chooser("Load dly File:","(*.dly)",NULL,0);
 if (filename==NULL) return;
 filename=fl_filename_setext(filename,".dly");
@@ -245,7 +260,7 @@ if(!rkr->efx_Echotron->setfile(USERFILE))
 }
 
 echotron_length->value(rkr->efx_Echotron->getpar(3));
-echotron_length->maximum(rkr->efx_Echotron->File.fLength);}
+echotron_length->maximum(rkr->efx_Echotron->File.fLength);} selected
     xywh {106 156 46 10} labelsize 10 deactivate
     class RKR_Button
   }
@@ -256,7 +271,7 @@ echotron_length->maximum(rkr->efx_Echotron->File.fLength);}
  rgui->getMIDIControl(357);
  return;
 }
-rkr->efx_Echotron->changepar(3,(int)o->value());} selected
+rkr->efx_Echotron->changepar(3,(int)o->value());}
     xywh {16 167 48 12} type Simple labelsize 10 labelcolor 7 align 4 when 4 minimum 1 maximum 127 step 1 value 1 textsize 9
     code0 {o->set_text_offset(-1);}
     class RKR_Counter

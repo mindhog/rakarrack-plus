@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0304
+version 1.0305
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -160,8 +160,8 @@ dly_scroll->redraw();
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       class RKR_Button
     }
-    Fl_Round_Button {} {
-      label Apply
+    Fl_Round_Button apply_button {
+      label Apply selected
       tooltip {Apply Changes to Echotron} xywh {513 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
     }
     Fl_Group dly_group {
@@ -400,8 +400,7 @@ for(unsigned i = 0; i < vector_delay_line.size(); ++i)
     }
 }
   
-vector_delay_line = vector_temp;} {selected
-    }
+vector_delay_line = vector_temp;} {}
   }
   Function {get_file_size()} {return_type int
   } {

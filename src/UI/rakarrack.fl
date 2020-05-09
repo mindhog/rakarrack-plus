@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0304
+version 1.0305
 header_name {.h}
 code_name {.cxx}
 decl {\#include "../process.h"} {public local
@@ -440,11 +440,14 @@ if(rkr->MergeIntPreset(filename))
             label {Delay File}
             callback {if(!DelayFile->visible())
 {
-DelayFile->show();
-put_icon(DelayFile);
+    DelayFile->apply_button->deactivate();
+    DelayFile->show();
+    put_icon(DelayFile);
 }
 else
-DelayFile->hide();}
+{
+    DelayFile->hide();
+}}
             xywh {0 0 36 21}
           }
         }
