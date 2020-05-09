@@ -104,6 +104,16 @@ public:
   RKR_Value_Input *dly_freq;
   RKR_Value_Input *dly_Q;
   RKR_Value_Input *dly_stages;
+  RKR_Button *dly_up;
+private:
+  inline void cb_dly_up_i(RKR_Button*, void*);
+  static void cb_dly_up(RKR_Button*, void*);
+public:
+  RKR_Button *dly_down;
+private:
+  inline void cb_dly_down_i(RKR_Button*, void*);
+  static void cb_dly_down(RKR_Button*, void*);
+public:
   RKR_Button *dly_delete;
 private:
   inline void cb_dly_delete_i(RKR_Button*, void*);

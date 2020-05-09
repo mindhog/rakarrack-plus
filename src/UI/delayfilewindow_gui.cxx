@@ -428,6 +428,20 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
     this->redraw();
 }
 
+void dlyFileGroup::cb_dly_up_i(RKR_Button*, void*) {
+  printf("Got up\n");
+}
+void dlyFileGroup::cb_dly_up(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_up_i(o,v);
+}
+
+void dlyFileGroup::cb_dly_down_i(RKR_Button*, void*) {
+  printf("Got Down\n");
+}
+void dlyFileGroup::cb_dly_down(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_down_i(o,v);
+}
+
 void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {
   Fl_Widget * P = o->parent();
   
@@ -597,6 +611,32 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
+{ dly_up = new RKR_Button(615, 4, 12, 12, "@8>");
+  dly_up->tooltip("Move This Row Up");
+  dly_up->box(FL_UP_BOX);
+  dly_up->color(FL_BACKGROUND_COLOR);
+  dly_up->selection_color(FL_BACKGROUND_COLOR);
+  dly_up->labeltype(FL_NORMAL_LABEL);
+  dly_up->labelfont(0);
+  dly_up->labelsize(10);
+  dly_up->labelcolor(FL_FOREGROUND_COLOR);
+  dly_up->callback((Fl_Callback*)cb_dly_up, (void*)(0));
+  dly_up->align(Fl_Align(FL_ALIGN_CENTER));
+  dly_up->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_up
+{ dly_down = new RKR_Button(615, 15, 12, 12, "@2>");
+  dly_down->tooltip("Move This Row Down");
+  dly_down->box(FL_UP_BOX);
+  dly_down->color(FL_BACKGROUND_COLOR);
+  dly_down->selection_color(FL_BACKGROUND_COLOR);
+  dly_down->labeltype(FL_NORMAL_LABEL);
+  dly_down->labelfont(0);
+  dly_down->labelsize(10);
+  dly_down->labelcolor(FL_FOREGROUND_COLOR);
+  dly_down->callback((Fl_Callback*)cb_dly_down, (void*)(0));
+  dly_down->align(Fl_Align(FL_ALIGN_CENTER));
+  dly_down->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_down
 { dly_delete = new RKR_Button(640, 6, 20, 20, "D");
   dly_delete->tooltip("Delete This Line");
   dly_delete->box(FL_UP_BOX);

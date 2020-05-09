@@ -416,6 +416,20 @@ widget_class dlyFileGroup {open
     xywh {576 6 20 20} labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1
     class RKR_Value_Input
   }
+  Fl_Button dly_up {
+    label {@8>}
+    user_data 0
+    callback {printf("Got up\\n");}
+    tooltip {Move This Row Up} xywh {615 4 12 12} labelsize 10
+    class RKR_Button
+  }
+  Fl_Button dly_down {
+    label {@2>}
+    user_data 0
+    callback {printf("Got Down\\n");}
+    tooltip {Move This Row Down} xywh {615 15 12 12} labelsize 10
+    class RKR_Button
+  }
   Fl_Button dly_delete {
     label D
     user_data 0
