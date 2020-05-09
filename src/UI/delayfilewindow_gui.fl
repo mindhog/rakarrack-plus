@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0304
+version 1.0305
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -273,7 +273,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group)} {open return_type void
+  Function {update_scroll(int group)} {return_type void
   } {
     code {m_vct_delay_line.clear();
 
@@ -302,7 +302,7 @@ this->redraw();} {}
   dly_scroll->clear();
   m_file_size = 0;
   
-      for(int i = 0; i < m_vct_delay_line.size(); ++i)
+      for(unsigned i = 0; i < m_vct_delay_line.size(); ++i)
       {
           m_file_size++;
   
@@ -328,7 +328,8 @@ this->redraw();} {}
           dly_scroll->add(ADDG);
       }
   
-  this->redraw();} {}
+  this->redraw();} {selected
+    }
   }
 }
 
@@ -375,6 +376,7 @@ widget_class dlyFileGroup {open
   }
   Fl_Button dly_delete {
     label D
+    user_data 0
     callback {Fl_Widget * P = o->parent();
   
 dlyFileGroup *Choice = (dlyFileGroup *) P;
@@ -386,7 +388,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1); // offset by 1} selected
+m_parent->update_scroll(intValue - 1); // offset by 1}
     tooltip {Delete This Line} xywh {453 6 20 20} align 16
     class RKR_Button
   }
@@ -397,6 +399,7 @@ m_parent->update_scroll(intValue - 1); // offset by 1} selected
   }
   Fl_Button dly_insert {
     label I
+    user_data 0
     callback {printf("Insert Pressed\\n");}
     tooltip {Insert New Delay Line Before Current} xywh {516 6 20 20} align 16
     class RKR_Button
