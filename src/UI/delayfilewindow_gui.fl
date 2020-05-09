@@ -46,8 +46,17 @@ decl {struct DelayLine
     BP(-1.0),
     HP(1.0),
     freq(800.0),
-    Q(2),
-    stages(1) {}
+    Q(2.0),
+    stages(0) {}
+};} {selected public global
+}
+
+decl {enum
+{
+    DELETE_LINE = 0,
+    INSERT_BEFORE,
+    MOVE_UP,
+    MOVE_DOWN
 };} {public global
 }
 
@@ -271,7 +280,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group)} {open return_type void
+  Function {update_scroll(int group, int type)} {open return_type void
   } {
     code {std::vector<DelayLine> vector_delay_line;
 
@@ -280,9 +289,25 @@ this->redraw();} {}
       Fl_Widget *c = dly_scroll->child(i);
       dlyFileGroup *c_choice = (dlyFileGroup *) c;
       
-      if(group == i)
-          continue;
-      
+      switch(type)
+      {
+          case DELETE_LINE:
+          {
+              if(group == i)
+                  continue;
+          }
+          break;
+          case INSERT_BEFORE:
+          {
+              if(group == i)
+              {
+                  DelayLine insert;
+                  vector_delay_line.push_back(insert);
+              }
+          }
+          break;
+      }
+
       DelayLine d_choice;
       d_choice.pan = c_choice->dly_pan->value();
       d_choice.time = c_choice->dly_time->value();
@@ -326,8 +351,7 @@ this->redraw();} {}
           dly_scroll->add(ADDG);
       }
   
-  this->redraw();} {selected
-    }
+  this->redraw();} {}
   }
 }
 
@@ -386,7 +410,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1); // offset by 1}
+m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1}
     tooltip {Delete This Line} xywh {453 6 20 20} align 16
     class RKR_Button
   }
@@ -398,7 +422,18 @@ m_parent->update_scroll(intValue - 1); // offset by 1}
   Fl_Button dly_insert {
     label I
     user_data 0
-    callback {printf("Insert Pressed\\n");}
+    callback {Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+
+m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1}
     tooltip {Insert New Delay Line Before Current} xywh {516 6 20 20} align 16
     class RKR_Button
   }

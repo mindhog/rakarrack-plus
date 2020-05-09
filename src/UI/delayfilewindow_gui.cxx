@@ -337,7 +337,7 @@ DlyFile DelayFileWindowGui::get_current_settings() {
     return delay_file;
 }
 
-void DelayFileWindowGui::update_scroll(int group) {
+void DelayFileWindowGui::update_scroll(int group, int type) {
   std::vector<DelayLine> vector_delay_line;
   
     for(int i = 0; i < m_file_size; ++i)
@@ -345,9 +345,25 @@ void DelayFileWindowGui::update_scroll(int group) {
         Fl_Widget *c = dly_scroll->child(i);
         dlyFileGroup *c_choice = (dlyFileGroup *) c;
         
-        if(group == i)
-            continue;
-        
+        switch(type)
+        {
+            case DELETE_LINE:
+            {
+                if(group == i)
+                    continue;
+            }
+            break;
+            case INSERT_BEFORE:
+            {
+                if(group == i)
+                {
+                    DelayLine insert;
+                    vector_delay_line.push_back(insert);
+                }
+            }
+            break;
+        }
+  
         DelayLine d_choice;
         d_choice.pan = c_choice->dly_pan->value();
         d_choice.time = c_choice->dly_time->value();
@@ -406,14 +422,25 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1); // offset by 1;
+m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1;
 }
 void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
 }
 
-void dlyFileGroup::cb_dly_insert_i(RKR_Button*, void*) {
-  printf("Insert Pressed\n");
+void dlyFileGroup::cb_dly_insert_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+
+m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1;
 }
 void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_insert_i(o,v);

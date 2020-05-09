@@ -31,8 +31,15 @@ struct DelayLine
     BP(-1.0),
     HP(1.0),
     freq(800.0),
-    Q(2),
-    stages(1) {}
+    Q(2.0),
+    stages(0) {}
+}; 
+enum
+{
+    DELETE_LINE = 0,
+    INSERT_BEFORE,
+    MOVE_UP,
+    MOVE_DOWN
 }; 
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Round_Button.H>
@@ -78,7 +85,7 @@ public:
 private:
   DlyFile get_current_settings();
 public:
-  void update_scroll(int group);
+  void update_scroll(int group, int type);
 };
 #include <FL/Fl_Group.H>
 
