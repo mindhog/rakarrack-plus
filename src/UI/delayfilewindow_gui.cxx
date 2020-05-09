@@ -45,7 +45,13 @@ void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   m_file_size++;
 
-dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+dlyFileGroup *ADDG = new dlyFileGroup
+(
+    30,
+    (m_file_size * 30) + (60 - dly_scroll->yposition()),
+    (dly_scroll->w() - 25),
+    30
+);
 ADDG->initialize(this);
 //printf("Before X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
 
@@ -77,7 +83,7 @@ DelayFileWindowGui::DelayFileWindowGui(int W, int H, const char *L)
 }
 
 DelayFileWindowGui::DelayFileWindowGui()
-  : Fl_Double_Window(0, 0, 605, 265, "Echotron Delay File") {
+  : Fl_Double_Window(0, 0, 800, 265, "Echotron Delay File") {
   clear_flag(16);
   _DelayFileWindowGui();
 }
@@ -92,7 +98,7 @@ this->labelsize(14);
 this->labelcolor(FL_FOREGROUND_COLOR);
 this->align(Fl_Align(FL_ALIGN_TOP));
 this->when(FL_WHEN_RELEASE);
-{ Delay_Group = new RKR_Group(0, 0, 605, 265);
+{ Delay_Group = new RKR_Group(0, 0, 800, 265);
   Delay_Group->box(FL_NO_BOX);
   Delay_Group->color(FL_BACKGROUND_COLOR);
   Delay_Group->selection_color(FL_BACKGROUND_COLOR);
@@ -210,7 +216,7 @@ eq          Q       Stages  ");
     dly_group->when(FL_WHEN_RELEASE);
     dly_group->end();
   } // RKR_Group* dly_group
-  { dly_scroll = new Fl_Scroll(25, 88, 560, 165);
+  { dly_scroll = new Fl_Scroll(25, 88, 750, 165);
     dly_scroll->end();
   } // Fl_Scroll* dly_scroll
   Delay_Group->end();
@@ -244,7 +250,13 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
       {
           m_file_size++;
   
-          dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+          dlyFileGroup *ADDG = new dlyFileGroup
+          (
+              30,
+              (m_file_size * 30) + (60 - dly_scroll->yposition()),
+              (dly_scroll->w() - 25),
+              30
+          );
           ADDG->initialize(this);
   
           ADDG->dly_pan->value(delay_file.fPan[i]);
@@ -385,7 +397,13 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
         {
             m_file_size++;
     
-            dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+            dlyFileGroup *ADDG = new dlyFileGroup
+            (
+                30,
+                (m_file_size * 30) + (60 - dly_scroll->yposition()),
+                (dly_scroll->w() - 25),
+                30
+            );
             ADDG->initialize(this);
     
             ADDG->dly_pan->value(vector_delay_line[i].pan);
@@ -447,7 +465,7 @@ void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
 }
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {
-{ dly_pan = new RKR_Value_Input(6, 6, 40, 20);
+{ dly_pan = new RKR_Value_Input(45, 6, 40, 20);
   dly_pan->box(FL_DOWN_BOX);
   dly_pan->color(FL_BACKGROUND2_COLOR);
   dly_pan->selection_color(FL_SELECTION_COLOR);
@@ -460,7 +478,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_pan->align(Fl_Align(FL_ALIGN_TOP));
   dly_pan->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_pan
-{ dly_time = new RKR_Value_Input(49, 6, 40, 20);
+{ dly_time = new RKR_Value_Input(129, 6, 40, 20);
   dly_time->box(FL_DOWN_BOX);
   dly_time->color(FL_BACKGROUND2_COLOR);
   dly_time->selection_color(FL_SELECTION_COLOR);
@@ -475,7 +493,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_time->align(Fl_Align(FL_ALIGN_TOP));
   dly_time->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_time
-{ dly_level = new RKR_Value_Input(101, 6, 45, 20);
+{ dly_level = new RKR_Value_Input(226, 6, 45, 20);
   dly_level->box(FL_DOWN_BOX);
   dly_level->color(FL_BACKGROUND2_COLOR);
   dly_level->selection_color(FL_SELECTION_COLOR);
@@ -490,7 +508,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_level->align(Fl_Align(FL_ALIGN_TOP));
   dly_level->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_level
-{ dly_LP = new RKR_Value_Input(160, 6, 42, 20);
+{ dly_LP = new RKR_Value_Input(286, 6, 42, 20);
   dly_LP->box(FL_DOWN_BOX);
   dly_LP->color(FL_BACKGROUND2_COLOR);
   dly_LP->selection_color(FL_SELECTION_COLOR);
@@ -505,7 +523,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_LP->align(Fl_Align(FL_ALIGN_TOP));
   dly_LP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_LP
-{ dly_BP = new RKR_Value_Input(210, 6, 42, 20);
+{ dly_BP = new RKR_Value_Input(338, 6, 42, 20);
   dly_BP->box(FL_DOWN_BOX);
   dly_BP->color(FL_BACKGROUND2_COLOR);
   dly_BP->selection_color(FL_SELECTION_COLOR);
@@ -520,7 +538,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_BP->align(Fl_Align(FL_ALIGN_TOP));
   dly_BP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_BP
-{ dly_HP = new RKR_Value_Input(260, 6, 42, 20);
+{ dly_HP = new RKR_Value_Input(388, 6, 42, 20);
   dly_HP->box(FL_DOWN_BOX);
   dly_HP->color(FL_BACKGROUND2_COLOR);
   dly_HP->selection_color(FL_SELECTION_COLOR);
@@ -535,7 +553,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_HP->align(Fl_Align(FL_ALIGN_TOP));
   dly_HP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_HP
-{ dly_freq = new RKR_Value_Input(310, 6, 46, 20);
+{ dly_freq = new RKR_Value_Input(440, 6, 46, 20);
   dly_freq->box(FL_DOWN_BOX);
   dly_freq->color(FL_BACKGROUND2_COLOR);
   dly_freq->selection_color(FL_SELECTION_COLOR);
@@ -550,7 +568,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_freq->align(Fl_Align(FL_ALIGN_TOP));
   dly_freq->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_freq
-{ dly_Q = new RKR_Value_Input(366, 6, 44, 20);
+{ dly_Q = new RKR_Value_Input(514, 6, 44, 20);
   dly_Q->box(FL_DOWN_BOX);
   dly_Q->color(FL_BACKGROUND2_COLOR);
   dly_Q->selection_color(FL_SELECTION_COLOR);
@@ -564,7 +582,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_Q->align(Fl_Align(FL_ALIGN_TOP));
   dly_Q->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_Q
-{ dly_stages = new RKR_Value_Input(425, 6, 20, 20);
+{ dly_stages = new RKR_Value_Input(576, 6, 20, 20);
   dly_stages->box(FL_DOWN_BOX);
   dly_stages->color(FL_BACKGROUND2_COLOR);
   dly_stages->selection_color(FL_SELECTION_COLOR);
@@ -579,7 +597,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
-{ dly_delete = new RKR_Button(453, 6, 20, 20, "D");
+{ dly_delete = new RKR_Button(640, 6, 20, 20, "D");
   dly_delete->tooltip("Delete This Line");
   dly_delete->box(FL_UP_BOX);
   dly_delete->color(FL_BACKGROUND_COLOR);
@@ -592,7 +610,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_delete->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
   dly_delete->when(FL_WHEN_RELEASE);
 } // RKR_Button* dly_delete
-{ dly_occur = new RKR_Box(481, 6, 35, 20, "1");
+{ dly_occur = new RKR_Box(6, 6, 35, 20, "1");
   dly_occur->box(FL_NO_BOX);
   dly_occur->color(FL_BACKGROUND_COLOR);
   dly_occur->selection_color(FL_BACKGROUND_COLOR);
@@ -603,7 +621,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_occur->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
   dly_occur->when(FL_WHEN_RELEASE);
 } // RKR_Box* dly_occur
-{ dly_insert = new RKR_Button(516, 6, 20, 20, "I");
+{ dly_insert = new RKR_Button(671, 6, 20, 20, "I");
   dly_insert->tooltip("Insert New Delay Line Before Current");
   dly_insert->box(FL_UP_BOX);
   dly_insert->color(FL_BACKGROUND_COLOR);

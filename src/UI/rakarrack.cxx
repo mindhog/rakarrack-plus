@@ -2777,7 +2777,7 @@ void RKRGUI::make_window() {
     o->hide();
     Trigger->end();
   } // TrigWindowGui* Trigger
-  { DelayFileWindowGui* o = DelayFile = new DelayFileWindowGui(605, 265, "Delay File");
+  { DelayFileWindowGui* o = DelayFile = new DelayFileWindowGui(800, 265, "Delay File");
     DelayFile->box(FL_FLAT_BOX);
     DelayFile->color(FL_BACKGROUND_COLOR);
     DelayFile->selection_color(FL_BACKGROUND_COLOR);

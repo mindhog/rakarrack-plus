@@ -48,7 +48,7 @@ decl {struct DelayLine
     freq(800.0),
     Q(2.0),
     stages(0) {}
-};} {selected public global
+};} {public global
 }
 
 decl {enum
@@ -62,7 +62,7 @@ decl {enum
 
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
-  xywh {2 415 605 265} type Double resizable
+  xywh {118 215 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -76,7 +76,7 @@ this->m_rgui = NULL;}
   decl {DlyFile m_delay_file;} {private local
   }
   Fl_Group Delay_Group {open
-    xywh {0 0 605 265}
+    xywh {0 0 800 265}
     class RKR_Group
   } {
     Fl_Value_Input dly_filter {
@@ -135,7 +135,13 @@ add_button->do_callback();}
       label {+}
       callback {m_file_size++;
 
-dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+dlyFileGroup *ADDG = new dlyFileGroup
+(
+    30,
+    (m_file_size * 30) + (60 - dly_scroll->yposition()),
+    (dly_scroll->w() - 25),
+    30
+);
 ADDG->initialize(this);
 //printf("Before X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());
 
@@ -150,7 +156,7 @@ dly_scroll->redraw();
 
 //dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
 
-//printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());}
+//printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());} selected
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       class RKR_Button
     }
@@ -164,20 +170,22 @@ dly_scroll->redraw();
       class RKR_Group
     } {}
     Fl_Scroll dly_scroll {open
-      xywh {25 88 560 165}
+      xywh {25 88 750 165}
     } {}
   }
-  Function {make_delay_window()} {} {
+  Function {make_delay_window()} {open
+  } {
     code {// The First Item is always added
 
 add_button->do_callback();} {}
   }
-  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {} {
+  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {open
+  } {
     code {m_file_size = 0;
 m_rkr = _rkr;
 m_rgui= _rgui;} {}
   }
-  Function {load_delay_file(DlyFile delay_file)} {private
+  Function {load_delay_file(DlyFile delay_file)} {open private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
@@ -189,7 +197,13 @@ m_rgui= _rgui;} {}
     {
         m_file_size++;
 
-        dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+        dlyFileGroup *ADDG = new dlyFileGroup
+        (
+            30,
+            (m_file_size * 30) + (60 - dly_scroll->yposition()),
+            (dly_scroll->w() - 25),
+            30
+        );
         ADDG->initialize(this);
 
         ADDG->dly_pan->value(delay_file.fPan[i]);
@@ -329,7 +343,13 @@ this->redraw();} {}
       {
           m_file_size++;
   
-          dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+          dlyFileGroup *ADDG = new dlyFileGroup
+          (
+              30,
+              (m_file_size * 30) + (60 - dly_scroll->yposition()),
+              (dly_scroll->w() - 25),
+              30
+          );
           ADDG->initialize(this);
   
           ADDG->dly_pan->value(vector_delay_line[i].pan);
@@ -356,44 +376,44 @@ this->redraw();} {}
 }
 
 widget_class dlyFileGroup {open
-  xywh {886 839 540 30} type Double visible position_relative
+  xywh {153 584 725 30} type Double visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
   }
   Fl_Value_Input dly_pan {
-    xywh {6 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    xywh {45 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
     class RKR_Value_Input
   }
   Fl_Value_Input dly_time {
-    xywh {49 6 40 20} labeltype NO_LABEL align 1 minimum -6 maximum 6 step 0.001 value 1
+    xywh {129 6 40 20} labeltype NO_LABEL align 1 minimum -6 maximum 6 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_level {
-    xywh {101 6 45 20} labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.001 value 0.7
+    xywh {226 6 45 20} labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.001 value 0.7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_LP {
-    xywh {160 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
+    xywh {286 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_BP {
-    xywh {210 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value -1
+    xywh {338 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value -1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_HP {
-    xywh {260 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
+    xywh {388 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1
     class RKR_Value_Input
   }
   Fl_Value_Input dly_freq {
-    xywh {310 6 46 20} labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 0.001 value 800
+    xywh {440 6 46 20} labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 0.001 value 800
     class RKR_Value_Input
   }
   Fl_Value_Input dly_Q {
-    xywh {366 6 44 20} labeltype NO_LABEL align 1 maximum 300 step 0.01 value 2
+    xywh {514 6 44 20} labeltype NO_LABEL align 1 maximum 300 step 0.01 value 2
     class RKR_Value_Input
   }
   Fl_Value_Input dly_stages {
-    xywh {425 6 20 20} labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1
+    xywh {576 6 20 20} labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1
     class RKR_Value_Input
   }
   Fl_Button dly_delete {
@@ -411,12 +431,12 @@ strValue >> intValue;
 
 
 m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1}
-    tooltip {Delete This Line} xywh {453 6 20 20} align 16
+    tooltip {Delete This Line} xywh {640 6 20 20} align 16
     class RKR_Button
   }
   Fl_Box dly_occur {
     label 1
-    xywh {481 6 35 20} align 20
+    xywh {6 6 35 20} align 20
     class RKR_Box
   }
   Fl_Button dly_insert {
@@ -434,7 +454,7 @@ strValue >> intValue;
 
 
 m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1}
-    tooltip {Insert New Delay Line Before Current} xywh {516 6 20 20} align 16
+    tooltip {Insert New Delay Line Before Current} xywh {671 6 20 20} align 16
     class RKR_Button
   }
   Function {initialize(DelayFileWindowGui *parent)} {return_type void
