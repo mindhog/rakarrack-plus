@@ -78,12 +78,17 @@ public:
   void save_delay_file(char *filename);
 private:
   DlyFile get_current_settings();
+public:
+  void update_scroll(int group);
 };
 #include <FL/Fl_Group.H>
 
 class dlyFileGroup : public Fl_Group {
 public:
   dlyFileGroup(int X, int Y, int W, int H, const char *L = 0);
+private:
+  DelayFileWindowGui *m_parent; 
+public:
   RKR_Value_Input *dly_pan;
   RKR_Value_Input *dly_time;
   RKR_Value_Input *dly_level;
@@ -103,5 +108,7 @@ public:
 private:
   inline void cb_dly_insert_i(RKR_Button*, void*);
   static void cb_dly_insert(RKR_Button*, void*);
+public:
+  void initialize(DelayFileWindowGui *parent);
 };
 #endif

@@ -46,7 +46,7 @@ void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   m_file_size++;
 
 dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
-
+ADDG->initialize(this);
 //printf("Before X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
 
 std::stringstream strs;
@@ -245,6 +245,7 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
           m_file_size++;
   
           dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+          ADDG->initialize(this);
   
           ADDG->dly_pan->value(delay_file.fPan[i]);
           ADDG->dly_time->value(delay_file.fTime[i]);
@@ -336,6 +337,63 @@ DlyFile DelayFileWindowGui::get_current_settings() {
     return delay_file;
 }
 
+void DelayFileWindowGui::update_scroll(int group) {
+  m_vct_delay_line.clear();
+  
+    for(int i = 0; i < m_file_size; ++i)
+    {
+        Fl_Widget *c = dly_scroll->child(i);
+        dlyFileGroup *c_choice = (dlyFileGroup *) c;
+        
+        if(group == i)
+            continue;
+        
+        DelayLine d_choice;
+        d_choice.pan = c_choice->dly_pan->value();
+        d_choice.time = c_choice->dly_time->value();
+        d_choice.level = c_choice->dly_level->value();
+        d_choice.LP = c_choice->dly_LP->value();
+        d_choice.BP = c_choice->dly_BP->value();
+        d_choice.HP = c_choice->dly_HP->value();
+        d_choice.freq = c_choice->dly_freq->value();
+        d_choice.Q = c_choice->dly_Q->value();
+        d_choice.stages = (c_choice->dly_stages->value() - 1);
+        
+        m_vct_delay_line.push_back(d_choice);
+    }
+    
+    dly_scroll->clear();
+    m_file_size = 0;
+    
+        for(int i = 0; i < m_vct_delay_line.size(); ++i)
+        {
+            m_file_size++;
+    
+            dlyFileGroup *ADDG = new dlyFileGroup(30, (m_file_size * 30) + (60 - dly_scroll->yposition()), 540, 30);
+            ADDG->initialize(this);
+    
+            ADDG->dly_pan->value(m_vct_delay_line[i].pan);
+            ADDG->dly_time->value(m_vct_delay_line[i].time);
+            ADDG->dly_level->value(m_vct_delay_line[i].level);
+            ADDG->dly_LP->value(m_vct_delay_line[i].LP);
+            ADDG->dly_BP->value(m_vct_delay_line[i].BP);
+            ADDG->dly_HP->value(m_vct_delay_line[i].HP);
+            ADDG->dly_freq->value(m_vct_delay_line[i].freq);
+            ADDG->dly_Q->value(m_vct_delay_line[i].Q);
+            ADDG->dly_stages->value(m_vct_delay_line[i].stages + 1);	// offset by 1
+    
+            std::stringstream strs;
+            strs << m_file_size;
+            std::string temp_str = strs.str();
+            char* char_type = (char*) temp_str.c_str();
+            ADDG->dly_occur->copy_label(char_type);
+    
+            dly_scroll->add(ADDG);
+        }
+    
+    this->redraw();
+}
+
 void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {
   Fl_Widget * P = o->parent();
   
@@ -348,7 +406,7 @@ int intValue;
 strValue >> intValue;
 
 
-printf("Delete Pressed = %d\n", intValue);
+m_parent->update_scroll(intValue - 1); // offset by 1;
 }
 void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
@@ -533,4 +591,8 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
 } // RKR_Button* dly_insert
 position(X, Y);
 end();
+}
+
+void dlyFileGroup::initialize(DelayFileWindowGui *parent) {
+  m_parent = parent;
 }
