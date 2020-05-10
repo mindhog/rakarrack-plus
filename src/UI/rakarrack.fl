@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include "../process.h"} {public local
@@ -1782,8 +1782,8 @@ o->hide();} open
       class TrigWindowGui
     } {}
     Fl_Window DelayFile {
-      label {Delay File} open
-      xywh {1072 713 800 265} type Double hide
+      label {Delay File - Untitled} open
+      xywh {1007 755 800 265} type Double hide
       code0 {\#include "delayfilewindow_gui.h"}
       code1 {o->hide();}
       code2 {o->initialize(rkr, this);}

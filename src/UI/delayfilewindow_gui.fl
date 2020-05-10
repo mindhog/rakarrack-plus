@@ -61,8 +61,8 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {
-  label {Echotron Delay File} open selected
-  xywh {2 145 800 265} type Double resizable
+  label {Delay File - Untitled} open
+  xywh {129 541 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -104,7 +104,9 @@ filename=fl_filename_setext(filename,".dly");
 
 DlyFile delay_file = rkr->efx_Echotron->loadfile(filename);
 
-load_delay_file(delay_file);}
+load_delay_file(delay_file);
+
+this->copy_label(filename);}
       xywh {210 25 70 20}
       class RKR_Button
     }
@@ -127,7 +129,8 @@ dly_filter->value(1);
 dly_delay->value(1);
 dly_Q_mode->value(0);
 dly_scroll->clear();
-add_button->do_callback();}
+add_button->do_callback();
+this->copy_label("Delay File - Untitled");}
       xywh {375 25 70 20}
       class RKR_Button
     }
@@ -138,7 +141,7 @@ add_button->do_callback();}
 dlyFileGroup *ADDG = new dlyFileGroup
 (
     30,
-    (m_file_size * 30) + (60 - dly_scroll->yposition()),
+    (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),  // -2 for drift
     (dly_scroll->w() - 25),
     30
 );
@@ -423,7 +426,7 @@ vector_delay_line = vector_temp;} {}
 }
 
 widget_class dlyFileGroup {open
-  xywh {459 818 725 30} type Double visible position_relative
+  xywh {419 914 725 30} type Double visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
   }
@@ -480,8 +483,8 @@ strValue >> intValue;
 if(intValue == 1)
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1}
-    tooltip {Move This Row Up} xywh {615 4 12 12} labelsize 10
+m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1} selected
+    tooltip {Move this row up} xywh {615 4 12 12} labelsize 10
     class RKR_Button
   }
   Fl_Button dly_down {
@@ -502,7 +505,7 @@ if(intValue == m_parent->get_file_size())
     return;
 
 m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1}
-    tooltip {Move This Row Down} xywh {615 15 12 12} labelsize 10
+    tooltip {Move this row down} xywh {615 15 12 12} labelsize 10
     class RKR_Button
   }
   Fl_Button dly_delete {
@@ -520,7 +523,7 @@ strValue >> intValue;
 
 
 m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1}
-    tooltip {Delete This Line} xywh {640 6 20 20} align 16
+    tooltip {Delete this row} xywh {640 6 20 20} align 16
     class RKR_Button
   }
   Fl_Box dly_occur {
@@ -543,7 +546,7 @@ strValue >> intValue;
 
 
 m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1}
-    tooltip {Insert New Delay Line Before Current} xywh {671 6 20 20} align 16
+    tooltip {Insert new row before this one} xywh {671 6 20 20} align 16
     class RKR_Button
   }
   Function {initialize(DelayFileWindowGui *parent)} {return_type void

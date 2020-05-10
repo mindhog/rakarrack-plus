@@ -12,6 +12,8 @@ filename=fl_filename_setext(filename,".dly");
 DlyFile delay_file = rkr->efx_Echotron->loadfile(filename);
 
 load_delay_file(delay_file);
+
+this->copy_label(filename);
 }
 void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
@@ -37,6 +39,7 @@ dly_delay->value(1);
 dly_Q_mode->value(0);
 dly_scroll->clear();
 add_button->do_callback();
+this->copy_label("Delay File - Untitled");
 }
 void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_New_i(o,v);
@@ -48,7 +51,7 @@ void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
 dlyFileGroup *ADDG = new dlyFileGroup
 (
     30,
-    (m_file_size * 30) + (60 - dly_scroll->yposition()),
+    (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),  // -2 for drift
     (dly_scroll->w() - 25),
     30
 );
@@ -100,7 +103,7 @@ DelayFileWindowGui::DelayFileWindowGui(int W, int H, const char *L)
 }
 
 DelayFileWindowGui::DelayFileWindowGui()
-  : Fl_Double_Window(0, 0, 800, 265, "Echotron Delay File") {
+  : Fl_Double_Window(0, 0, 800, 265, "Delay File - Untitled") {
   clear_flag(16);
   _DelayFileWindowGui();
 }
@@ -696,7 +699,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
 { dly_up = new RKR_Button(615, 4, 12, 12, "@8>");
-  dly_up->tooltip("Move This Row Up");
+  dly_up->tooltip("Move this row up");
   dly_up->box(FL_UP_BOX);
   dly_up->color(FL_BACKGROUND_COLOR);
   dly_up->selection_color(FL_BACKGROUND_COLOR);
@@ -709,7 +712,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_up->when(FL_WHEN_RELEASE);
 } // RKR_Button* dly_up
 { dly_down = new RKR_Button(615, 15, 12, 12, "@2>");
-  dly_down->tooltip("Move This Row Down");
+  dly_down->tooltip("Move this row down");
   dly_down->box(FL_UP_BOX);
   dly_down->color(FL_BACKGROUND_COLOR);
   dly_down->selection_color(FL_BACKGROUND_COLOR);
@@ -722,7 +725,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_down->when(FL_WHEN_RELEASE);
 } // RKR_Button* dly_down
 { dly_delete = new RKR_Button(640, 6, 20, 20, "D");
-  dly_delete->tooltip("Delete This Line");
+  dly_delete->tooltip("Delete this row");
   dly_delete->box(FL_UP_BOX);
   dly_delete->color(FL_BACKGROUND_COLOR);
   dly_delete->selection_color(FL_BACKGROUND_COLOR);
@@ -746,7 +749,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_occur->when(FL_WHEN_RELEASE);
 } // RKR_Box* dly_occur
 { dly_insert = new RKR_Button(671, 6, 20, 20, "I");
-  dly_insert->tooltip("Insert New Delay Line Before Current");
+  dly_insert->tooltip("Insert new row before this one");
   dly_insert->box(FL_UP_BOX);
   dly_insert->color(FL_BACKGROUND_COLOR);
   dly_insert->selection_color(FL_BACKGROUND_COLOR);
