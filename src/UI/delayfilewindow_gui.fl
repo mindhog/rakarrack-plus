@@ -62,7 +62,7 @@ decl {enum
 
 widget_class DelayFileWindowGui {
   label {Delay File - Untitled} open
-  xywh {129 541 800 265} type Double resizable
+  xywh {386 119 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -118,7 +118,9 @@ filename=fl_file_chooser("Save delay file:","(*" EXT")", NULL/*rkr->Preset_Name*
 if (filename==NULL) return;
 filename=fl_filename_setext(filename,EXT);
 \#undef EXT
-save_delay_file(filename);}
+save_delay_file(filename);
+
+this->copy_label(filename);}
       xywh {290 25 70 20}
       class RKR_Button
     }
@@ -166,7 +168,14 @@ dly_scroll->redraw();
     Fl_Round_Button apply_button {
       label Apply
       callback {DlyFile file = get_current_settings();
+/* Send the file to Echotron */
 m_rkr->efx_Echotron->applyfile(file);
+
+/* Update the file name if we have one */
+if(strcmp(file.Filename, "Delay File - Untitled") != 0 )
+{
+    strcpy(m_rkr->efx_Echotron->Filename, file.Filename);
+}
 
 /* Set efx gui max file length to the applied file size */
 m_rgui->ECHOTRON->echotron_length->maximum(rkr->efx_Echotron->File.fLength);
@@ -280,11 +289,11 @@ this->redraw();} {}
     
     fclose(fn);} {}
   }
-  Function {get_current_settings()} {private return_type DlyFile
+  Function {get_current_settings()} {open private return_type DlyFile
   } {
     code {DlyFile delay_file;
 
-  strcpy(delay_file.Filename, "Untitled");
+  strcpy(delay_file.Filename, this->label());
   delay_file.fLength = (float)m_file_size;
   
   delay_file.subdiv_fmod = dly_filter->value();
@@ -307,7 +316,8 @@ this->redraw();} {}
     delay_file.iStages[i] = (c_choice->dly_stages->value() - 1);
   }
   
-  return delay_file;} {}
+  return delay_file;} {selected
+    }
   }
   Function {update_scroll(int group, int type)} {return_type void
   } {
@@ -426,12 +436,12 @@ vector_delay_line = vector_temp;} {}
 }
 
 widget_class dlyFileGroup {open
-  xywh {419 914 725 30} type Double visible position_relative
+  xywh {417 720 725 30} type Double visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
   }
   Fl_Value_Input dly_pan {
-    xywh {45 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.01
+    xywh {45 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.001 textsize 10
     class RKR_Value_Input
   }
   Fl_Value_Input dly_time {
@@ -483,7 +493,7 @@ strValue >> intValue;
 if(intValue == 1)
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1} selected
+m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1}
     tooltip {Move this row up} xywh {615 4 12 12} labelsize 10
     class RKR_Button
   }

@@ -27,6 +27,8 @@ if (filename==NULL) return;
 filename=fl_filename_setext(filename,EXT);
 #undef EXT
 save_delay_file(filename);
+
+this->copy_label(filename);
 }
 void DelayFileWindowGui::cb_Save(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Save_i(o,v);
@@ -77,7 +79,14 @@ void DelayFileWindowGui::cb_add_button(RKR_Button* o, void* v) {
 
 void DelayFileWindowGui::cb_apply_button_i(Fl_Round_Button*, void*) {
   DlyFile file = get_current_settings();
+/* Send the file to Echotron */
 m_rkr->efx_Echotron->applyfile(file);
+
+/* Update the file name if we have one */
+if(strcmp(file.Filename, "Delay File - Untitled") != 0 )
+{
+    strcpy(m_rkr->efx_Echotron->Filename, file.Filename);
+}
 
 /* Set efx gui max file length to the applied file size */
 m_rgui->ECHOTRON->echotron_length->maximum(rkr->efx_Echotron->File.fLength);
@@ -347,7 +356,7 @@ void DelayFileWindowGui::save_delay_file(char *filename) {
 DlyFile DelayFileWindowGui::get_current_settings() {
   DlyFile delay_file;
   
-    strcpy(delay_file.Filename, "Untitled");
+    strcpy(delay_file.Filename, this->label());
     delay_file.fLength = (float)m_file_size;
     
     delay_file.subdiv_fmod = dly_filter->value();
@@ -575,7 +584,8 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_pan->labelsize(14);
   dly_pan->labelcolor(FL_FOREGROUND_COLOR);
   dly_pan->minimum(-1);
-  dly_pan->step(0.01);
+  dly_pan->step(0.001);
+  dly_pan->textsize(10);
   dly_pan->align(Fl_Align(FL_ALIGN_TOP));
   dly_pan->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_pan
