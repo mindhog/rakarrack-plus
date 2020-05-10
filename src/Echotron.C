@@ -580,7 +580,6 @@ Echotron::loaddefault()
     f.fBP[0] = -1.0f;
     f.fHP[0] = 1.0f;
     f.fFreq[0] = 800.0f;
-    ;
     f.fQ[0] = 2.0f;
     f.iStages[0] = 1;
     f.subdiv_dmod = 1.0f;

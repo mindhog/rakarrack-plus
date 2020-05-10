@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -61,8 +61,8 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {
-  label {Echotron Delay File} open
-  xywh {1 145 800 265} type Double resizable
+  label {Echotron Delay File} open selected
+  xywh {2 145 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -162,6 +162,17 @@ dly_scroll->redraw();
     }
     Fl_Round_Button apply_button {
       label Apply
+      callback {DlyFile file = get_current_settings();
+m_rkr->efx_Echotron->applyfile(file);
+
+/* Set efx gui max file length to the applied file size */
+m_rgui->ECHOTRON->echotron_length->maximum(rkr->efx_Echotron->File.fLength);
+
+/* Change the file length to the max */
+m_rkr->efx_Echotron->changepar(3, rkr->efx_Echotron->File.fLength);
+
+/* Update the gui for the change */
+m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
       tooltip {Apply Changes to Echotron} xywh {513 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
     }
     Fl_Group dly_group {
@@ -269,6 +280,9 @@ this->redraw();} {}
   Function {get_current_settings()} {private return_type DlyFile
   } {
     code {DlyFile delay_file;
+
+  strcpy(delay_file.Filename, "Untitled");
+  delay_file.fLength = (float)m_file_size;
   
   delay_file.subdiv_fmod = dly_filter->value();
   delay_file.subdiv_dmod = dly_delay->value();
@@ -292,7 +306,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group, int type)} {open return_type void
+  Function {update_scroll(int group, int type)} {return_type void
   } {
     code {std::vector<DelayLine> vector_delay_line;
 
@@ -378,8 +392,7 @@ this->redraw();} {}
           dly_scroll->add(ADDG);
       }
   
-  this->redraw();} {selected
-    }
+  this->redraw();} {}
   }
   Function {reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line)} {return_type void
   } {
