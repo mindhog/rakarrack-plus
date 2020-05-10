@@ -62,7 +62,7 @@ decl {enum
 
 widget_class DelayFileWindowGui {
   label {Echotron Delay File} open
-  xywh {118 215 800 265} type Double resizable
+  xywh {1 145 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -161,7 +161,7 @@ dly_scroll->redraw();
       class RKR_Button
     }
     Fl_Round_Button apply_button {
-      label Apply selected
+      label Apply
       tooltip {Apply Changes to Echotron} xywh {513 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
     }
     Fl_Group dly_group {
@@ -292,7 +292,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group, int type)} {return_type void
+  Function {update_scroll(int group, int type)} {open return_type void
   } {
     code {std::vector<DelayLine> vector_delay_line;
 
@@ -353,7 +353,7 @@ this->redraw();} {}
           dlyFileGroup *ADDG = new dlyFileGroup
           (
               30,
-              (m_file_size * 30) + (60 - dly_scroll->yposition()),
+              (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),   // -2 for scroll drift
               (dly_scroll->w() - 25),
               30
           );
@@ -378,19 +378,20 @@ this->redraw();} {}
           dly_scroll->add(ADDG);
       }
   
-  this->redraw();} {}
+  this->redraw();} {selected
+    }
   }
-  Function {reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line)} {open return_type void
+  Function {reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line)} {return_type void
   } {
     code {std::vector<DelayLine> vector_temp;
   
 for(unsigned i = 0; i < vector_delay_line.size(); ++i)
 {
-    if(i == (line - 1))
+    if(i == (unsigned) (line - 1))
     {
         vector_temp.push_back(vector_delay_line[i + 1]);
     }
-    else if(i == line)
+    else if(i == (unsigned) line)
     {
         vector_temp.push_back(vector_delay_line[i - 1]);
     }

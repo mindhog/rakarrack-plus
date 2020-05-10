@@ -409,7 +409,7 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
             dlyFileGroup *ADDG = new dlyFileGroup
             (
                 30,
-                (m_file_size * 30) + (60 - dly_scroll->yposition()),
+                (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),   // -2 for scroll drift
                 (dly_scroll->w() - 25),
                 30
             );
@@ -442,11 +442,11 @@ void DelayFileWindowGui::reorder_delay_lines(std::vector<DelayLine> &vector_dela
     
   for(unsigned i = 0; i < vector_delay_line.size(); ++i)
   {
-      if(i == (line - 1))
+      if(i == (unsigned) (line - 1))
       {
           vector_temp.push_back(vector_delay_line[i + 1]);
       }
-      else if(i == line)
+      else if(i == (unsigned) line)
       {
           vector_temp.push_back(vector_delay_line[i - 1]);
       }
