@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -64,7 +64,7 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {
-  label {Delay File - Untitled} open
+  label {Delay File - Untitled} open selected
   xywh {107 444 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -141,7 +141,10 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);}
     }
     Fl_Button add_button {
       label {+}
-      callback {m_file_size++;
+      callback {if(m_file_size >= 127)
+    return;
+
+m_file_size++;
 
 dlyFileGroup *ADDG = new dlyFileGroup
 (
@@ -200,13 +203,11 @@ m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
 
 add_button->do_callback();} {}
   }
-  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {open
-  } {
+  Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {} {
     code {m_file_size = 0;
 m_rkr = _rkr;
 m_rgui= _rgui;
-this->copy_label(DEFAULT_DLY_FILE_NAME);} {selected
-    }
+this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
   }
   Function {load_delay_file(DlyFile delay_file)} {private
   } {
@@ -218,6 +219,9 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);} {selected
     
     for(int i = 0; i < delay_file.fLength; ++i)
     {
+        if(m_file_size >= 127)
+            break;
+
         m_file_size++;
 
         dlyFileGroup *ADDG = new dlyFileGroup
@@ -291,7 +295,7 @@ this->redraw();} {}
     
     fclose(fn);} {}
   }
-  Function {get_current_settings()} {open private return_type DlyFile
+  Function {get_current_settings()} {private return_type DlyFile
   } {
     code {DlyFile delay_file;
 
@@ -377,7 +381,7 @@ this->redraw();} {}
       for(unsigned i = 0; i < vector_delay_line.size(); ++i)
       {
           m_file_size++;
-  
+          
           dlyFileGroup *ADDG = new dlyFileGroup
           (
               30,
@@ -503,8 +507,11 @@ m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1}
   Fl_Button dly_insert {
     label I
     user_data 0
-    callback {Fl_Widget * P = o->parent();
-  
+    callback {if(m_parent->get_file_size() >= 127)
+    return;
+
+Fl_Widget * P = o->parent();
+
 dlyFileGroup *Choice = (dlyFileGroup *) P;
 
 std::stringstream strValue;
@@ -560,7 +567,7 @@ m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1}
     tooltip {Move this row down} xywh {700 15 12 12} labelsize 10
     class RKR_Button
   }
-  Function {initialize(DelayFileWindowGui *parent)} {return_type void
+  Function {initialize(DelayFileWindowGui *parent)} {open return_type void
   } {
     code {m_parent = parent;} {}
   }
