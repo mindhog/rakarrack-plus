@@ -767,7 +767,7 @@ Echotron::changepar(int npar, int value)
         break;
     case 3:
         Plength = value;
-        if (Plength > 127) Plength = 127;
+        if (Plength > (ECHOTRON_F_SIZE - 1)) Plength = (ECHOTRON_F_SIZE - 1);
         initparams = 1;
         break;
     case 4:

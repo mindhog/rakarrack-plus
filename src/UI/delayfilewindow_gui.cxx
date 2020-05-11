@@ -48,7 +48,7 @@ void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
 }
 
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
-  if(m_file_size >= 127)
+  if(m_file_size >= (ECHOTRON_F_SIZE - 1))
     return;
 
 m_file_size++;
@@ -270,7 +270,7 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
       
       for(int i = 0; i < delay_file.fLength; ++i)
       {
-          if(m_file_size >= 127)
+          if(m_file_size >= (ECHOTRON_F_SIZE - 1))
               break;
   
           m_file_size++;
@@ -510,7 +510,7 @@ void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
 }
 
 void dlyFileGroup::cb_dly_insert_i(RKR_Button* o, void*) {
-  if(m_parent->get_file_size() >= 127)
+  if(m_parent->get_file_size() >= (ECHOTRON_F_SIZE - 1))
     return;
 
 Fl_Widget * P = o->parent();
