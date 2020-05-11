@@ -233,20 +233,8 @@ this->when(FL_WHEN_RELEASE);
     apply_button->down_box(FL_ROUND_DOWN_BOX);
     apply_button->callback((Fl_Callback*)cb_apply_button);
   } // Fl_Round_Button* apply_button
-  { dly_group = new RKR_Group(34, 81, 543, 20, "  Pan           Time        Level          LP          BP          HP      Fr\
-eq          Q       Stages  ");
-    dly_group->box(FL_NO_BOX);
-    dly_group->color(FL_BACKGROUND_COLOR);
-    dly_group->selection_color(FL_BACKGROUND_COLOR);
-    dly_group->labeltype(FL_NORMAL_LABEL);
-    dly_group->labelfont(0);
-    dly_group->labelsize(14);
-    dly_group->labelcolor(FL_FOREGROUND_COLOR);
-    dly_group->align(Fl_Align(FL_ALIGN_TOP));
-    dly_group->when(FL_WHEN_RELEASE);
-    dly_group->end();
-  } // RKR_Group* dly_group
-  { dly_scroll = new Fl_Scroll(25, 88, 750, 165);
+  { dly_scroll = new Fl_Scroll(25, 88, 750, 165, "Pan       Time        Level      LP         BP        HP          Frequency  \
+             Q           Stages              ");
     dly_scroll->end();
   } // Fl_Scroll* dly_scroll
   Delay_Group->end();
@@ -496,6 +484,42 @@ int DelayFileWindowGui::get_file_size() {
   return m_file_size;
 }
 
+void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+
+m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1;
+}
+void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
+}
+
+void dlyFileGroup::cb_dly_insert_i(RKR_Button* o, void*) {
+  Fl_Widget * P = o->parent();
+  
+dlyFileGroup *Choice = (dlyFileGroup *) P;
+
+std::stringstream strValue;
+strValue << Choice->dly_occur->label();
+
+int intValue;
+strValue >> intValue;
+
+
+m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1;
+}
+void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
+  ((dlyFileGroup*)(o->parent()))->cb_dly_insert_i(o,v);
+}
+
 void dlyFileGroup::cb_dly_up_i(RKR_Button* o, void*) {
   Fl_Widget * P = o->parent();
   
@@ -537,44 +561,19 @@ m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1;
 void dlyFileGroup::cb_dly_down(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_down_i(o,v);
 }
-
-void dlyFileGroup::cb_dly_delete_i(RKR_Button* o, void*) {
-  Fl_Widget * P = o->parent();
-  
-dlyFileGroup *Choice = (dlyFileGroup *) P;
-
-std::stringstream strValue;
-strValue << Choice->dly_occur->label();
-
-int intValue;
-strValue >> intValue;
-
-
-m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1;
-}
-void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
-  ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
-}
-
-void dlyFileGroup::cb_dly_insert_i(RKR_Button* o, void*) {
-  Fl_Widget * P = o->parent();
-  
-dlyFileGroup *Choice = (dlyFileGroup *) P;
-
-std::stringstream strValue;
-strValue << Choice->dly_occur->label();
-
-int intValue;
-strValue >> intValue;
-
-
-m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1;
-}
-void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
-  ((dlyFileGroup*)(o->parent()))->cb_dly_insert_i(o,v);
-}
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   : Fl_Group(0, 0, W, H, L) {
+{ dly_occur = new RKR_Box(6, 6, 35, 20, "1");
+  dly_occur->box(FL_NO_BOX);
+  dly_occur->color(FL_BACKGROUND_COLOR);
+  dly_occur->selection_color(FL_BACKGROUND_COLOR);
+  dly_occur->labeltype(FL_NORMAL_LABEL);
+  dly_occur->labelfont(0);
+  dly_occur->labelsize(14);
+  dly_occur->labelcolor(FL_FOREGROUND_COLOR);
+  dly_occur->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
+  dly_occur->when(FL_WHEN_RELEASE);
+} // RKR_Box* dly_occur
 { dly_pan = new RKR_Value_Input(45, 6, 40, 20);
   dly_pan->box(FL_DOWN_BOX);
   dly_pan->color(FL_BACKGROUND2_COLOR);
@@ -589,7 +588,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_pan->align(Fl_Align(FL_ALIGN_TOP));
   dly_pan->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_pan
-{ dly_time = new RKR_Value_Input(129, 6, 40, 20);
+{ dly_time = new RKR_Value_Input(94, 6, 70, 20);
   dly_time->box(FL_DOWN_BOX);
   dly_time->color(FL_BACKGROUND2_COLOR);
   dly_time->selection_color(FL_SELECTION_COLOR);
@@ -597,14 +596,14 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_time->labelfont(0);
   dly_time->labelsize(14);
   dly_time->labelcolor(FL_FOREGROUND_COLOR);
-  dly_time->minimum(-6);
   dly_time->maximum(6);
-  dly_time->step(0.001);
+  dly_time->step(1e-09);
   dly_time->value(1);
+  dly_time->textsize(10);
   dly_time->align(Fl_Align(FL_ALIGN_TOP));
   dly_time->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_time
-{ dly_level = new RKR_Value_Input(226, 6, 45, 20);
+{ dly_level = new RKR_Value_Input(171, 6, 45, 20);
   dly_level->box(FL_DOWN_BOX);
   dly_level->color(FL_BACKGROUND2_COLOR);
   dly_level->selection_color(FL_SELECTION_COLOR);
@@ -616,10 +615,11 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_level->maximum(10);
   dly_level->step(0.001);
   dly_level->value(0.7);
+  dly_level->textsize(10);
   dly_level->align(Fl_Align(FL_ALIGN_TOP));
   dly_level->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_level
-{ dly_LP = new RKR_Value_Input(286, 6, 42, 20);
+{ dly_LP = new RKR_Value_Input(226, 6, 42, 20);
   dly_LP->box(FL_DOWN_BOX);
   dly_LP->color(FL_BACKGROUND2_COLOR);
   dly_LP->selection_color(FL_SELECTION_COLOR);
@@ -631,10 +631,11 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_LP->maximum(2);
   dly_LP->step(0.001);
   dly_LP->value(1);
+  dly_LP->textsize(10);
   dly_LP->align(Fl_Align(FL_ALIGN_TOP));
   dly_LP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_LP
-{ dly_BP = new RKR_Value_Input(338, 6, 42, 20);
+{ dly_BP = new RKR_Value_Input(279, 6, 42, 20);
   dly_BP->box(FL_DOWN_BOX);
   dly_BP->color(FL_BACKGROUND2_COLOR);
   dly_BP->selection_color(FL_SELECTION_COLOR);
@@ -646,10 +647,11 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_BP->maximum(2);
   dly_BP->step(0.001);
   dly_BP->value(-1);
+  dly_BP->textsize(10);
   dly_BP->align(Fl_Align(FL_ALIGN_TOP));
   dly_BP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_BP
-{ dly_HP = new RKR_Value_Input(388, 6, 42, 20);
+{ dly_HP = new RKR_Value_Input(331, 6, 42, 20);
   dly_HP->box(FL_DOWN_BOX);
   dly_HP->color(FL_BACKGROUND2_COLOR);
   dly_HP->selection_color(FL_SELECTION_COLOR);
@@ -661,10 +663,11 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_HP->maximum(2);
   dly_HP->step(0.001);
   dly_HP->value(1);
+  dly_HP->textsize(10);
   dly_HP->align(Fl_Align(FL_ALIGN_TOP));
   dly_HP->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_HP
-{ dly_freq = new RKR_Value_Input(440, 6, 46, 20);
+{ dly_freq = new RKR_Value_Input(380, 6, 120, 20);
   dly_freq->box(FL_DOWN_BOX);
   dly_freq->color(FL_BACKGROUND2_COLOR);
   dly_freq->selection_color(FL_SELECTION_COLOR);
@@ -674,12 +677,13 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_freq->labelcolor(FL_FOREGROUND_COLOR);
   dly_freq->minimum(20);
   dly_freq->maximum(26000);
-  dly_freq->step(0.001);
+  dly_freq->step(1e-09);
   dly_freq->value(800);
+  dly_freq->textsize(10);
   dly_freq->align(Fl_Align(FL_ALIGN_TOP));
   dly_freq->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_freq
-{ dly_Q = new RKR_Value_Input(514, 6, 44, 20);
+{ dly_Q = new RKR_Value_Input(510, 6, 70, 20);
   dly_Q->box(FL_DOWN_BOX);
   dly_Q->color(FL_BACKGROUND2_COLOR);
   dly_Q->selection_color(FL_SELECTION_COLOR);
@@ -688,12 +692,13 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_Q->labelsize(14);
   dly_Q->labelcolor(FL_FOREGROUND_COLOR);
   dly_Q->maximum(300);
-  dly_Q->step(0.01);
+  dly_Q->step(1e-09);
   dly_Q->value(2);
+  dly_Q->textsize(10);
   dly_Q->align(Fl_Align(FL_ALIGN_TOP));
   dly_Q->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_Q
-{ dly_stages = new RKR_Value_Input(576, 6, 20, 20);
+{ dly_stages = new RKR_Value_Input(600, 6, 20, 20);
   dly_stages->box(FL_DOWN_BOX);
   dly_stages->color(FL_BACKGROUND2_COLOR);
   dly_stages->selection_color(FL_SELECTION_COLOR);
@@ -705,36 +710,11 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_stages->maximum(5);
   dly_stages->step(1);
   dly_stages->value(1);
+  dly_stages->textsize(10);
   dly_stages->align(Fl_Align(FL_ALIGN_TOP));
   dly_stages->when(FL_WHEN_CHANGED);
 } // RKR_Value_Input* dly_stages
-{ dly_up = new RKR_Button(615, 4, 12, 12, "@8>");
-  dly_up->tooltip("Move this row up");
-  dly_up->box(FL_UP_BOX);
-  dly_up->color(FL_BACKGROUND_COLOR);
-  dly_up->selection_color(FL_BACKGROUND_COLOR);
-  dly_up->labeltype(FL_NORMAL_LABEL);
-  dly_up->labelfont(0);
-  dly_up->labelsize(10);
-  dly_up->labelcolor(FL_FOREGROUND_COLOR);
-  dly_up->callback((Fl_Callback*)cb_dly_up, (void*)(0));
-  dly_up->align(Fl_Align(FL_ALIGN_CENTER));
-  dly_up->when(FL_WHEN_RELEASE);
-} // RKR_Button* dly_up
-{ dly_down = new RKR_Button(615, 15, 12, 12, "@2>");
-  dly_down->tooltip("Move this row down");
-  dly_down->box(FL_UP_BOX);
-  dly_down->color(FL_BACKGROUND_COLOR);
-  dly_down->selection_color(FL_BACKGROUND_COLOR);
-  dly_down->labeltype(FL_NORMAL_LABEL);
-  dly_down->labelfont(0);
-  dly_down->labelsize(10);
-  dly_down->labelcolor(FL_FOREGROUND_COLOR);
-  dly_down->callback((Fl_Callback*)cb_dly_down, (void*)(0));
-  dly_down->align(Fl_Align(FL_ALIGN_CENTER));
-  dly_down->when(FL_WHEN_RELEASE);
-} // RKR_Button* dly_down
-{ dly_delete = new RKR_Button(640, 6, 20, 20, "D");
+{ dly_delete = new RKR_Button(651, 6, 20, 20, "D");
   dly_delete->tooltip("Delete this row");
   dly_delete->box(FL_UP_BOX);
   dly_delete->color(FL_BACKGROUND_COLOR);
@@ -747,18 +727,7 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_delete->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
   dly_delete->when(FL_WHEN_RELEASE);
 } // RKR_Button* dly_delete
-{ dly_occur = new RKR_Box(6, 6, 35, 20, "1");
-  dly_occur->box(FL_NO_BOX);
-  dly_occur->color(FL_BACKGROUND_COLOR);
-  dly_occur->selection_color(FL_BACKGROUND_COLOR);
-  dly_occur->labeltype(FL_NORMAL_LABEL);
-  dly_occur->labelfont(0);
-  dly_occur->labelsize(14);
-  dly_occur->labelcolor(FL_FOREGROUND_COLOR);
-  dly_occur->align(Fl_Align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE));
-  dly_occur->when(FL_WHEN_RELEASE);
-} // RKR_Box* dly_occur
-{ dly_insert = new RKR_Button(671, 6, 20, 20, "I");
+{ dly_insert = new RKR_Button(675, 6, 20, 20, "I");
   dly_insert->tooltip("Insert new row before this one");
   dly_insert->box(FL_UP_BOX);
   dly_insert->color(FL_BACKGROUND_COLOR);
@@ -771,6 +740,32 @@ dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
   dly_insert->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
   dly_insert->when(FL_WHEN_RELEASE);
 } // RKR_Button* dly_insert
+{ dly_up = new RKR_Button(700, 4, 12, 12, "@8>");
+  dly_up->tooltip("Move this row up");
+  dly_up->box(FL_UP_BOX);
+  dly_up->color(FL_BACKGROUND_COLOR);
+  dly_up->selection_color(FL_BACKGROUND_COLOR);
+  dly_up->labeltype(FL_NORMAL_LABEL);
+  dly_up->labelfont(0);
+  dly_up->labelsize(10);
+  dly_up->labelcolor(FL_FOREGROUND_COLOR);
+  dly_up->callback((Fl_Callback*)cb_dly_up, (void*)(0));
+  dly_up->align(Fl_Align(FL_ALIGN_CENTER));
+  dly_up->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_up
+{ dly_down = new RKR_Button(700, 15, 12, 12, "@2>");
+  dly_down->tooltip("Move this row down");
+  dly_down->box(FL_UP_BOX);
+  dly_down->color(FL_BACKGROUND_COLOR);
+  dly_down->selection_color(FL_BACKGROUND_COLOR);
+  dly_down->labeltype(FL_NORMAL_LABEL);
+  dly_down->labelfont(0);
+  dly_down->labelsize(10);
+  dly_down->labelcolor(FL_FOREGROUND_COLOR);
+  dly_down->callback((Fl_Callback*)cb_dly_down, (void*)(0));
+  dly_down->align(Fl_Align(FL_ALIGN_CENTER));
+  dly_down->when(FL_WHEN_RELEASE);
+} // RKR_Button* dly_down
 position(X, Y);
 end();
 }

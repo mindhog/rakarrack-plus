@@ -79,7 +79,6 @@ private:
   inline void cb_apply_button_i(Fl_Round_Button*, void*);
   static void cb_apply_button(Fl_Round_Button*, void*);
 public:
-  RKR_Group *dly_group;
   Fl_Scroll *dly_scroll;
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);
@@ -102,6 +101,7 @@ public:
 private:
   DelayFileWindowGui *m_parent; 
 public:
+  RKR_Box *dly_occur;
   RKR_Value_Input *dly_pan;
   RKR_Value_Input *dly_time;
   RKR_Value_Input *dly_level;
@@ -111,6 +111,16 @@ public:
   RKR_Value_Input *dly_freq;
   RKR_Value_Input *dly_Q;
   RKR_Value_Input *dly_stages;
+  RKR_Button *dly_delete;
+private:
+  inline void cb_dly_delete_i(RKR_Button*, void*);
+  static void cb_dly_delete(RKR_Button*, void*);
+public:
+  RKR_Button *dly_insert;
+private:
+  inline void cb_dly_insert_i(RKR_Button*, void*);
+  static void cb_dly_insert(RKR_Button*, void*);
+public:
   RKR_Button *dly_up;
 private:
   inline void cb_dly_up_i(RKR_Button*, void*);
@@ -120,17 +130,6 @@ public:
 private:
   inline void cb_dly_down_i(RKR_Button*, void*);
   static void cb_dly_down(RKR_Button*, void*);
-public:
-  RKR_Button *dly_delete;
-private:
-  inline void cb_dly_delete_i(RKR_Button*, void*);
-  static void cb_dly_delete(RKR_Button*, void*);
-public:
-  RKR_Box *dly_occur;
-  RKR_Button *dly_insert;
-private:
-  inline void cb_dly_insert_i(RKR_Button*, void*);
-  static void cb_dly_insert(RKR_Button*, void*);
 public:
   void initialize(DelayFileWindowGui *parent);
 };
