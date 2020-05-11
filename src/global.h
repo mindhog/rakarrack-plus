@@ -210,6 +210,9 @@ const int c_bank_used = 1000;
 const int c_preset_used = 2000;
 const int c_bank_number = 8000;
 
+/* These are used by delay file window scroll */
+const int c_delay_group = 900;
+
 /* For file .rkrb extension size usually for removing the extension from bank names */
 const unsigned c_rkrb_ext_size = 5;
 /* For file .rkr extension size usually for removing the extension from preset names */

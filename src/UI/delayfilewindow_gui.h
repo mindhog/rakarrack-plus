@@ -44,7 +44,6 @@ enum
 }; 
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Round_Button.H>
-#include <FL/Fl_Scroll.H>
 
 class DelayFileWindowGui : public Fl_Double_Window {
   void _DelayFileWindowGui();
@@ -80,7 +79,7 @@ private:
   inline void cb_apply_button_i(Fl_Round_Button*, void*);
   static void cb_apply_button(Fl_Round_Button*, void*);
 public:
-  Fl_Scroll *dly_scroll;
+  RKR_Scroll *dly_scroll;
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);
 private:
@@ -94,9 +93,8 @@ public:
   void reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line);
   int get_file_size();
 };
-#include <FL/Fl_Group.H>
 
-class dlyFileGroup : public Fl_Group {
+class dlyFileGroup : public RKR_Group {
 public:
   dlyFileGroup(int X, int Y, int W, int H, const char *L = 0);
 private:

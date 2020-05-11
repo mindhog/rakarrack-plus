@@ -27,13 +27,15 @@
 #include "../global.h"  /* c_bank_used, c_bank_number */
 #include "RKR_Choice.h"
 #include "RKR_Box.h"
+#include "RKR_Group.h"
 
 RKR_Scroll::RKR_Scroll(int X, int Y, int W, int H, const char *label) :
     Fl_Scroll(X, Y, W, H, label),
     m_start_x(X),
     m_start_y(Y),
     m_start_width(W),
-    m_start_height(H)
+    m_start_height(H),
+    m_delay_scroll(false)
 {
 }
 
@@ -44,37 +46,61 @@ void RKR_Scroll::resize(int X, int Y, int W, int H)
     float W_ratio = (float) W / m_start_width;
     float H_ratio = (float) H / m_start_height;
     
-    for (int i = 0; i < children(); ++i)
+    if(m_delay_scroll)
     {
-        Fl_Widget *c = child(i);
-        
-        long long ud = (long long) c->user_data();
-        
-        if(ud >= c_bank_used && ud < c_bank_number)
+        for (int i = 0; i < children(); ++i)
         {
-            RKR_Choice *c_choice = (RKR_Choice *) c;
+            Fl_Widget *c = child(i);
 
-            c_choice->resize
-            (
-                (c_choice->get_start_x()* W_ratio),
-                (c_choice->get_start_y() + m_start_y - 20) * H_ratio,   // 20 is height of RKR_Choice
-                (c_choice->get_start_width()) * W_ratio ,
-                c_choice->get_start_height() * H_ratio
-            );
-        }
-        else if(ud >= c_bank_number)
-        {
-            RKR_Box *c_box = (RKR_Box *) c;
-            c_box->resize
-            (
-                (c_box->get_start_x() + m_start_x )* W_ratio,
-                (c_box->get_start_y() + m_start_y - 20) * H_ratio,      // 20 is height of RKR_Choice
-                (c_box->get_start_width() * W_ratio),
-                c_box->get_start_height() * H_ratio
-            );
+            long long ud = (long long) c->user_data();
+            
+            if(ud == c_delay_group)
+            {
+                RKR_Group *g_choice = (RKR_Group *) c;
+                
+                g_choice->resize
+                (
+                    (g_choice->get_start_x() + m_start_x) * W_ratio,
+                    (30 * i) * H_ratio,
+                    (g_choice->get_start_width()) * W_ratio ,
+                    g_choice->get_start_height() * H_ratio
+                );
+            }
         }
     }
+    else    // settings/MIDI
+    {
+        for (int i = 0; i < children(); ++i)
+        {
+            Fl_Widget *c = child(i);
 
+            long long ud = (long long) c->user_data();
+
+            if(ud >= c_bank_used && ud < c_bank_number)
+            {
+                RKR_Choice *c_choice = (RKR_Choice *) c;
+
+                c_choice->resize
+                (
+                    (c_choice->get_start_x()* W_ratio),
+                    (c_choice->get_start_y() + m_start_y - 20) * H_ratio,   // 20 is height of RKR_Choice
+                    (c_choice->get_start_width()) * W_ratio ,
+                    c_choice->get_start_height() * H_ratio
+                );
+            }
+            else if(ud >= c_bank_number)
+            {
+                RKR_Box *c_box = (RKR_Box *) c;
+                c_box->resize
+                (
+                    (c_box->get_start_x() + m_start_x )* W_ratio,
+                    (c_box->get_start_y() + m_start_y - 20) * H_ratio,      // 20 is height of RKR_Choice
+                    (c_box->get_start_width() * W_ratio),
+                    c_box->get_start_height() * H_ratio
+                );
+            }
+        }
+    }
     Fl_Scroll::resize(X, Y, W, H);
 }
 

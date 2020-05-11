@@ -36,6 +36,8 @@ public:
     void resize(int,int,int,int);
     void set_start_height(int H){m_start_height = H;};
     void set_start_width(int W){m_start_width = W;};
+    void set_delay_scroll(){m_delay_scroll = true;};
+
     int get_start_x(){return m_start_x;};
     int get_start_y(){return m_start_y;};
     int get_start_width(){return m_start_width;};
@@ -47,6 +49,7 @@ private:
     int m_start_y;
     int m_start_width;
     int m_start_height;
+    bool m_delay_scroll;
 };
 
 #endif /* RKR_SCROLL_H */

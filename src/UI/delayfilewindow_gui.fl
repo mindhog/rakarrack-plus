@@ -65,7 +65,7 @@ decl {enum
 
 widget_class DelayFileWindowGui {
   label {Delay File - Untitled} open selected
-  xywh {107 444 800 265} type Double resizable
+  xywh {145 94 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -196,6 +196,8 @@ m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
     Fl_Scroll dly_scroll {
       label {Pan       Time        Level      LP         BP        HP          Frequency               Q           Stages              } open
       xywh {25 88 750 165}
+      code0 {o->set_delay_scroll();}
+      class RKR_Scroll
     } {}
   }
   Function {make_delay_window()} {} {
@@ -440,8 +442,10 @@ vector_delay_line = vector_temp;} {}
   }
 }
 
-widget_class dlyFileGroup {open
-  xywh {194 780 725 30} type Double visible position_relative
+widget_class dlyFileGroup {
+  user_data c_delay_group open
+  xywh {194 780 725 30} type Double
+  class RKR_Group visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
   }

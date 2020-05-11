@@ -236,10 +236,20 @@ this->when(FL_WHEN_RELEASE);
     apply_button->down_box(FL_ROUND_DOWN_BOX);
     apply_button->callback((Fl_Callback*)cb_apply_button);
   } // Fl_Round_Button* apply_button
-  { dly_scroll = new Fl_Scroll(25, 88, 750, 165, "Pan       Time        Level      LP         BP        HP          Frequency  \
+  { RKR_Scroll* o = dly_scroll = new RKR_Scroll(25, 88, 750, 165, "Pan       Time        Level      LP         BP        HP          Frequency  \
              Q           Stages              ");
+    dly_scroll->box(FL_NO_BOX);
+    dly_scroll->color(FL_BACKGROUND_COLOR);
+    dly_scroll->selection_color(FL_BACKGROUND_COLOR);
+    dly_scroll->labeltype(FL_NORMAL_LABEL);
+    dly_scroll->labelfont(0);
+    dly_scroll->labelsize(14);
+    dly_scroll->labelcolor(FL_FOREGROUND_COLOR);
+    dly_scroll->align(Fl_Align(FL_ALIGN_TOP));
+    dly_scroll->when(FL_WHEN_RELEASE);
+    o->set_delay_scroll();
     dly_scroll->end();
-  } // Fl_Scroll* dly_scroll
+  } // RKR_Scroll* dly_scroll
   Delay_Group->end();
 } // RKR_Group* Delay_Group
 this->m_rkr = NULL;
@@ -572,7 +582,17 @@ void dlyFileGroup::cb_dly_down(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_down_i(o,v);
 }
 dlyFileGroup::dlyFileGroup(int X, int Y, int W, int H, const char *L)
-  : Fl_Group(0, 0, W, H, L) {
+  : RKR_Group(0, 0, W, H, L) {
+this->box(FL_FLAT_BOX);
+this->color(FL_BACKGROUND_COLOR);
+this->selection_color(FL_BACKGROUND_COLOR);
+this->labeltype(FL_NO_LABEL);
+this->labelfont(0);
+this->labelsize(14);
+this->labelcolor(FL_FOREGROUND_COLOR);
+this->user_data((void*)(c_delay_group));
+this->align(Fl_Align(FL_ALIGN_TOP));
+this->when(FL_WHEN_RELEASE);
 { dly_occur = new RKR_Box(6, 6, 35, 20, "1");
   dly_occur->box(FL_NO_BOX);
   dly_occur->color(FL_BACKGROUND_COLOR);
