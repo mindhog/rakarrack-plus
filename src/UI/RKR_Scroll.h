@@ -33,7 +33,9 @@ class RKR_Scroll : public Fl_Scroll
 {
 public:
     RKR_Scroll(int X, int Y, int W, int H, const char *label=0);
+    void draw();
     void resize(int,int,int,int);
+    void set_label_offset(int offset){m_label_offset = offset;};
     void set_start_height(int H){m_start_height = H;};
     void set_start_width(int W){m_start_width = W;};
     void set_delay_scroll(){m_delay_scroll = true;};
@@ -45,11 +47,14 @@ public:
     
 private:
 
+    int m_label_offset;
     int m_start_x;
     int m_start_y;
     int m_start_width;
     int m_start_height;
     bool m_delay_scroll;
+    int m_previous_font_size;
+    void font_resize(int,int);
 };
 
 #endif /* RKR_SCROLL_H */

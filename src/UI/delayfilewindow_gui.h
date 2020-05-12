@@ -79,6 +79,9 @@ private:
   inline void cb_apply_button_i(Fl_Round_Button*, void*);
   static void cb_apply_button(Fl_Round_Button*, void*);
 public:
+  RKR_Group *scroll_label_1;
+  RKR_Group *srcoll_label_2;
+  RKR_Group *scroll_label_3;
   RKR_Scroll *dly_scroll;
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);

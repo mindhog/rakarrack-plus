@@ -31,17 +31,32 @@
 
 RKR_Scroll::RKR_Scroll(int X, int Y, int W, int H, const char *label) :
     Fl_Scroll(X, Y, W, H, label),
+    m_label_offset(0),      // C_DEFAULT_FONT_SIZE
     m_start_x(X),
     m_start_y(Y),
     m_start_width(W),
     m_start_height(H),
-    m_delay_scroll(false)
+    m_delay_scroll(false),
+    m_previous_font_size(global_font_size)
 {
+}
+
+void RKR_Scroll::draw()
+{
+    /* To update the font size if user changes the value in settings */
+    if(global_font_size != m_previous_font_size)
+    {
+        m_previous_font_size = global_font_size;
+        font_resize(w(), h());
+    }
+
+    Fl_Scroll::draw();
 }
 
 void RKR_Scroll::resize(int X, int Y, int W, int H)
 {
-    /* Resize the text and labels */
+    /* Resize the labels */
+    font_resize(W, H);
     
     float W_ratio = (float) W / m_start_width;
     float H_ratio = (float) H / m_start_height;
@@ -104,4 +119,14 @@ void RKR_Scroll::resize(int X, int Y, int W, int H)
     Fl_Scroll::resize(X, Y, W, H);
 }
 
-
+void RKR_Scroll::font_resize(int W, int H)
+{
+    float W_ratio = (float) W / m_start_width;
+    float H_ratio = (float) H / m_start_height;
+    float resize_ratio = (W_ratio < H_ratio) ? W_ratio : H_ratio;
+    
+    int font_size = global_font_size + m_label_offset;
+    int adjusted_label_size = (float) (font_size * resize_ratio);
+    
+    labelsize(adjusted_label_size);
+}

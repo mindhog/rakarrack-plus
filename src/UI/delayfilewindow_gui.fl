@@ -64,7 +64,7 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {
-  label {Delay File - Untitled} open selected
+  label {Delay File - Untitled} open
   xywh {145 94 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -84,17 +84,23 @@ this->m_rgui = NULL;}
   } {
     Fl_Value_Input dly_filter {
       label Filter
-      xywh {25 25 40 25} align 1 maximum 100 step 0.1 value 1
+      xywh {25 25 45 25} align 1 maximum 100 step 0.1 value 1
+      code0 {o->set_label_offset(4);}
+      code1 {o->set_text_offset(4);}
       class RKR_Value_Input
     }
     Fl_Value_Input dly_delay {
       label Delay
-      xywh {90 25 40 25} align 1 maximum 100 step 0.1 value 1
+      xywh {90 25 45 25} align 1 maximum 100 step 0.1 value 1
+      code0 {o->set_label_offset(4);}
+      code1 {o->set_text_offset(4);}
       class RKR_Value_Input
     }
     Fl_Value_Input dly_Q_mode {
       label {Q Mode}
       xywh {164 25 20 25} align 1 step 1
+      code0 {o->set_label_offset(4);}
+      code1 {o->set_text_offset(4);}
       class RKR_Value_Input
     }
     Fl_Button {} {
@@ -111,6 +117,7 @@ load_delay_file(delay_file);
 
 this->copy_label(filename);}
       xywh {210 25 70 20}
+      code0 {o->set_label_offset(4);}
       class RKR_Button
     }
     Fl_Button {} {
@@ -125,6 +132,7 @@ save_delay_file(filename);
 
 this->copy_label(filename);}
       xywh {290 25 70 20}
+      code0 {o->set_label_offset(4);}
       class RKR_Button
     }
     Fl_Button {} {
@@ -137,6 +145,7 @@ dly_scroll->clear();
 add_button->do_callback();
 this->copy_label(DEFAULT_DLY_FILE_NAME);}
       xywh {375 25 70 20}
+      code0 {o->set_label_offset(4);}
       class RKR_Button
     }
     Fl_Button add_button {
@@ -169,6 +178,7 @@ dly_scroll->redraw();
 
 //printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());}
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
+      code0 {o->set_label_offset(11);}
       class RKR_Button
     }
     Fl_Round_Button apply_button {
@@ -193,9 +203,26 @@ m_rkr->efx_Echotron->changepar(3, rkr->efx_Echotron->File.fLength);
 m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
       tooltip {Apply Changes to Echotron} xywh {513 22 72 25} type Normal box ROUND_UP_BOX down_box ROUND_DOWN_BOX
     }
-    Fl_Scroll dly_scroll {
-      label {Pan       Time        Level      LP         BP        HP          Frequency               Q           Stages              } open
-      xywh {25 88 750 165}
+    Fl_Group scroll_label_1 {
+      label {Pan        Time       Level} open
+      xywh {73 69 168 20} align 16
+      code0 {o->set_label_offset(4);}
+      class RKR_Group
+    } {}
+    Fl_Group srcoll_label_2 {
+      label {LP         BP        HP} open
+      xywh {262 69 126 20} align 16
+      code0 {o->set_label_offset(4);}
+      class RKR_Group
+    } {}
+    Fl_Group scroll_label_3 {
+      label {Frequency               Q           Stages} open
+      xywh {423 69 242 20} align 16
+      code0 {o->set_label_offset(4);}
+      class RKR_Group
+    } {}
+    Fl_Scroll dly_scroll {open selected
+      xywh {25 88 750 165} type VERTICAL
       code0 {o->set_delay_scroll();}
       class RKR_Scroll
     } {}
