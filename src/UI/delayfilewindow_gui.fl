@@ -174,6 +174,8 @@ ADDG->dly_occur->copy_label(char_type);
 dly_scroll->add(ADDG);
 dly_scroll->redraw();
 
+dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
+
 //dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
 
 //printf("After X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());}
@@ -221,7 +223,7 @@ m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
       code0 {o->set_label_offset(4);}
       class RKR_Group
     } {}
-    Fl_Scroll dly_scroll {open selected
+    Fl_Scroll dly_scroll {open
       xywh {25 88 750 165} type VERTICAL
       code0 {o->set_delay_scroll();}
       class RKR_Scroll
@@ -238,7 +240,7 @@ m_rkr = _rkr;
 m_rgui= _rgui;
 this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
   }
-  Function {load_delay_file(DlyFile delay_file)} {private
+  Function {load_delay_file(DlyFile delay_file)} {open private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
@@ -280,6 +282,8 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
 
         dly_scroll->add(ADDG);
     }
+
+dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
 
 this->redraw();} {}
   }
@@ -439,7 +443,10 @@ this->redraw();} {}
           dly_scroll->add(ADDG);
       }
   
-  this->redraw();} {}
+  dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
+  
+  this->redraw();} {selected
+    }
   }
   Function {reorder_delay_lines(std::vector<DelayLine> &vector_delay_line, int line)} {return_type void
   } {

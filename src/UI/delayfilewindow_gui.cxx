@@ -72,6 +72,8 @@ ADDG->dly_occur->copy_label(char_type);
 dly_scroll->add(ADDG);
 dly_scroll->redraw();
 
+dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
+
 //dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
 
 //printf("After X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
@@ -362,6 +364,8 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
           dly_scroll->add(ADDG);
       }
   
+  dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
+  
   this->redraw();
 }
 
@@ -520,6 +524,8 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
     
             dly_scroll->add(ADDG);
         }
+    
+    dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
     
     this->redraw();
 }
