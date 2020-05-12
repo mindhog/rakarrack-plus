@@ -313,9 +313,9 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
   
           dlyFileGroup *ADDG = new dlyFileGroup
           (
-              30,
-              (m_file_size * 30) + (60 - dly_scroll->yposition()),
-              (dly_scroll->w() - 25),
+              0,
+              0,
+              725,
               30
           );
           ADDG->initialize(this);
@@ -479,9 +479,9 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
             
             dlyFileGroup *ADDG = new dlyFileGroup
             (
-                30,
-                (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),   // -2 for scroll drift
-                (dly_scroll->w() - 25),
+                0,
+                0,
+                725,
                 30
             );
             ADDG->initialize(this);

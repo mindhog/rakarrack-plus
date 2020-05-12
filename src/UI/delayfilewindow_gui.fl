@@ -65,7 +65,7 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {
-  label {Delay File - Untitled} open
+  label {Delay File - Untitled} open selected
   xywh {145 94 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -154,7 +154,7 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);}
       callback {if(m_file_size >= (ECHOTRON_F_SIZE - 1))
     return;
 
-update_scroll(-1, ADD_ROW);} selected
+update_scroll(-1, ADD_ROW);}
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       code0 {o->set_label_offset(11);}
       class RKR_Button
@@ -233,9 +233,9 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
 
         dlyFileGroup *ADDG = new dlyFileGroup
         (
-            30,
-            (m_file_size * 30) + (60 - dly_scroll->yposition()),
-            (dly_scroll->w() - 25),
+            0,
+            0,
+            725,
             30
         );
         ADDG->initialize(this);
@@ -333,7 +333,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group, int type)} {open return_type void
+  Function {update_scroll(int group, int type)} {return_type void
   } {
     code {std::vector<DelayLine> vector_delay_line;
 
@@ -398,9 +398,9 @@ this->redraw();} {}
           
           dlyFileGroup *ADDG = new dlyFileGroup
           (
-              30,
-              (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),   // -2 for scroll drift
-              (dly_scroll->w() - 25),
+              0,
+              0,
+              725,
               30
           );
           ADDG->initialize(this);
@@ -458,7 +458,7 @@ vector_delay_line = vector_temp;} {}
 
 widget_class dlyFileGroup {
   user_data c_delay_group open
-  xywh {194 780 725 30} type Double
+  xywh {214 751 725 30} type Double
   class RKR_Group visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
