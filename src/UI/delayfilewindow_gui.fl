@@ -56,10 +56,11 @@ decl {struct DelayLine
 
 decl {enum
 {
-    DELETE_LINE = 0,
-    INSERT_BEFORE,
-    MOVE_UP,
-    MOVE_DOWN
+    DELETE_ROW = 0,
+    ADD_ROW,
+    INSERT_ROW,
+    MOVE_ROW_UP,
+    MOVE_ROW_DOWN
 };} {public global
 }
 
@@ -153,32 +154,7 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);}
       callback {if(m_file_size >= (ECHOTRON_F_SIZE - 1))
     return;
 
-m_file_size++;
-
-dlyFileGroup *ADDG = new dlyFileGroup
-(
-    30,
-    (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),  // -2 for drift
-    (dly_scroll->w() - 25),
-    30
-);
-ADDG->initialize(this);
-//printf("Before X = %d: Y = %d\\n", dly_scroll->xposition(), dly_scroll->yposition());
-
-std::stringstream strs;
-strs << m_file_size;
-std::string temp_str = strs.str();
-char* char_type = (char*) temp_str.c_str();
-ADDG->dly_occur->copy_label(char_type);
-
-dly_scroll->add(ADDG);
-dly_scroll->redraw();
-
-dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
-
-/* The resize() updates the children before the scroll so we gotta do
-   this twice to update children after the above resize() */
-dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());} selected
+update_scroll(-1, ADD_ROW);} selected
       tooltip {Add Delay Line} xywh {464 22 25 25} labelsize 21
       code0 {o->set_label_offset(11);}
       class RKR_Button
@@ -240,7 +216,7 @@ m_rkr = _rkr;
 m_rgui= _rgui;
 this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
   }
-  Function {load_delay_file(DlyFile delay_file)} {open private
+  Function {load_delay_file(DlyFile delay_file)} {private
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
@@ -368,13 +344,13 @@ this->redraw();} {}
       
       switch(type)
       {
-          case DELETE_LINE:
+          case DELETE_ROW:
           {
               if(group == i)
                   continue;
           }
           break;
-          case INSERT_BEFORE:
+          case INSERT_ROW:
           {
               if(group == i)
               {
@@ -399,13 +375,18 @@ this->redraw();} {}
       vector_delay_line.push_back(d_choice);
   }
   
-  if(type == MOVE_UP)
+  if(type == MOVE_ROW_UP)
   {
       reorder_delay_lines(vector_delay_line, group);
   }
-  else if(type == MOVE_DOWN)
+  else if(type == MOVE_ROW_DOWN)
   {
       reorder_delay_lines(vector_delay_line, group + 1);
+  }
+  else if(type == ADD_ROW)
+  {
+       DelayLine add;
+       vector_delay_line.push_back(add);
   }
   
   dly_scroll->clear();
@@ -537,7 +518,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1}
+m_parent->update_scroll(intValue - 1, DELETE_ROW); // offset by 1}
     tooltip {Delete this row} xywh {651 6 20 20} align 16
     class RKR_Button
   }
@@ -558,7 +539,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1}
+m_parent->update_scroll(intValue - 1, INSERT_ROW); // offset by 1}
     tooltip {Insert new row before this one} xywh {675 6 20 20} align 16
     class RKR_Button
   }
@@ -579,7 +560,7 @@ strValue >> intValue;
 if(intValue == 1)
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1}
+m_parent->update_scroll(intValue - 1, MOVE_ROW_UP); // offset by 1}
     tooltip {Move this row up} xywh {700 4 12 12} labelsize 10
     class RKR_Button
   }
@@ -600,7 +581,7 @@ strValue >> intValue;
 if(intValue == m_parent->get_file_size())
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1}
+m_parent->update_scroll(intValue - 1, MOVE_ROW_DOWN); // offset by 1}
     tooltip {Move this row down} xywh {700 15 12 12} labelsize 10
     class RKR_Button
   }

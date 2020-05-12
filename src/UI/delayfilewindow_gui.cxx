@@ -51,32 +51,7 @@ void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
   if(m_file_size >= (ECHOTRON_F_SIZE - 1))
     return;
 
-m_file_size++;
-
-dlyFileGroup *ADDG = new dlyFileGroup
-(
-    30,
-    (m_file_size * 30) + (60 - dly_scroll->yposition() - 2),  // -2 for drift
-    (dly_scroll->w() - 25),
-    30
-);
-ADDG->initialize(this);
-//printf("Before X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
-
-std::stringstream strs;
-strs << m_file_size;
-std::string temp_str = strs.str();
-char* char_type = (char*) temp_str.c_str();
-ADDG->dly_occur->copy_label(char_type);
-
-dly_scroll->add(ADDG);
-dly_scroll->redraw();
-
-dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
-
-/* The resize() updates the children before the scroll so we gotta do
-   this twice to update children after the above resize() */
-dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
+update_scroll(-1, ADD_ROW);
 }
 void DelayFileWindowGui::cb_add_button(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_add_button_i(o,v);
@@ -450,13 +425,13 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
         
         switch(type)
         {
-            case DELETE_LINE:
+            case DELETE_ROW:
             {
                 if(group == i)
                     continue;
             }
             break;
-            case INSERT_BEFORE:
+            case INSERT_ROW:
             {
                 if(group == i)
                 {
@@ -481,13 +456,18 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
         vector_delay_line.push_back(d_choice);
     }
     
-    if(type == MOVE_UP)
+    if(type == MOVE_ROW_UP)
     {
         reorder_delay_lines(vector_delay_line, group);
     }
-    else if(type == MOVE_DOWN)
+    else if(type == MOVE_ROW_DOWN)
     {
         reorder_delay_lines(vector_delay_line, group + 1);
+    }
+    else if(type == ADD_ROW)
+    {
+         DelayLine add;
+         vector_delay_line.push_back(add);
     }
     
     dly_scroll->clear();
@@ -568,7 +548,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1, DELETE_LINE); // offset by 1;
+m_parent->update_scroll(intValue - 1, DELETE_ROW); // offset by 1;
 }
 void dlyFileGroup::cb_dly_delete(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_delete_i(o,v);
@@ -589,7 +569,7 @@ int intValue;
 strValue >> intValue;
 
 
-m_parent->update_scroll(intValue - 1, INSERT_BEFORE); // offset by 1;
+m_parent->update_scroll(intValue - 1, INSERT_ROW); // offset by 1;
 }
 void dlyFileGroup::cb_dly_insert(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_insert_i(o,v);
@@ -610,7 +590,7 @@ strValue >> intValue;
 if(intValue == 1)
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_UP); // offset by 1;
+m_parent->update_scroll(intValue - 1, MOVE_ROW_UP); // offset by 1;
 }
 void dlyFileGroup::cb_dly_up(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_up_i(o,v);
@@ -631,7 +611,7 @@ strValue >> intValue;
 if(intValue == m_parent->get_file_size())
     return;
 
-m_parent->update_scroll(intValue - 1, MOVE_DOWN); // offset by 1;
+m_parent->update_scroll(intValue - 1, MOVE_ROW_DOWN); // offset by 1;
 }
 void dlyFileGroup::cb_dly_down(RKR_Button* o, void* v) {
   ((dlyFileGroup*)(o->parent()))->cb_dly_down_i(o,v);

@@ -37,10 +37,11 @@ struct DelayLine
 }; 
 enum
 {
-    DELETE_LINE = 0,
-    INSERT_BEFORE,
-    MOVE_UP,
-    MOVE_DOWN
+    DELETE_ROW = 0,
+    ADD_ROW,
+    INSERT_ROW,
+    MOVE_ROW_UP,
+    MOVE_ROW_DOWN
 }; 
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Round_Button.H>
