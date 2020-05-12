@@ -74,9 +74,9 @@ dly_scroll->redraw();
 
 dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
 
-//dly_scroll->scroll_to(dly_scroll->xposition(), m_file_size * 30);
-
-//printf("After X = %d: Y = %d\n", dly_scroll->xposition(), dly_scroll->yposition());
+/* The resize() updates the children before the scroll so we gotta do
+   this twice to update children after the above resize() */
+dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll->h());
 }
 void DelayFileWindowGui::cb_add_button(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()->parent()))->cb_add_button_i(o,v);

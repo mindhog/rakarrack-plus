@@ -71,14 +71,14 @@ void RKR_Scroll::resize(int X, int Y, int W, int H)
             
             if(ud == c_delay_group)
             {
-                RKR_Group *g_choice = (RKR_Group *) c;
+                RKR_Group *g_group = (RKR_Group *) c;
                 
-                g_choice->resize
+                g_group->resize
                 (
-                    (g_choice->get_start_x() + m_start_x) * W_ratio,
+                    (g_group->get_start_x() + m_start_x) * W_ratio,
                     (30 * i) * H_ratio,
-                    (g_choice->get_start_width()) * W_ratio ,
-                    g_choice->get_start_height() * H_ratio
+                    (g_group->get_start_width()) * W_ratio ,
+                    g_group->get_start_height() * H_ratio
                 );
             }
         }
