@@ -337,7 +337,7 @@ void DelayFileWindowGui::load_delay_file(DlyFile delay_file) {
   int set_start_height = 265;    //  set in fluid
   float H_set_ratio = (float) this->h() / set_start_height;
         
-  dly_scroll->scroll_to(dly_scroll->xposition(), (-30 * H_set_ratio) + dly_scroll->yposition());
+  dly_scroll->scroll_to(dly_scroll->xposition(), (60 * H_set_ratio) + dly_scroll->yposition());
   
   this->redraw();
 }
@@ -508,7 +508,7 @@ void DelayFileWindowGui::update_scroll(int group, int type) {
     int set_start_height = 265;    //  set in fluid
     float H_set_ratio = (float) this->h() / set_start_height;
       
-    dly_scroll->scroll_to(dly_scroll->xposition(), (-30 * H_set_ratio) + dly_scroll->yposition());
+    dly_scroll->scroll_to(dly_scroll->xposition(), (60 * H_set_ratio) + dly_scroll->yposition());;
     
     this->redraw();
 }

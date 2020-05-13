@@ -64,7 +64,7 @@ decl {enum
 };} {public global
 }
 
-widget_class DelayFileWindowGui {open
+widget_class DelayFileWindowGui {open selected
   xywh {145 94 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -261,7 +261,7 @@ dly_scroll->resize(dly_scroll->x(), dly_scroll->y(), dly_scroll->w(), dly_scroll
 int set_start_height = 265;    //  set in fluid
 float H_set_ratio = (float) this->h() / set_start_height;
       
-dly_scroll->scroll_to(dly_scroll->xposition(), (-30 * H_set_ratio) + dly_scroll->yposition());
+dly_scroll->scroll_to(dly_scroll->xposition(), (60 * H_set_ratio) + dly_scroll->yposition());
 
 this->redraw();} {}
   }
@@ -335,7 +335,7 @@ this->redraw();} {}
   
   return delay_file;} {}
   }
-  Function {update_scroll(int group, int type)} {open return_type void
+  Function {update_scroll(int group, int type)} {return_type void
   } {
     code {std::vector<DelayLine> vector_delay_line;
 
@@ -431,7 +431,7 @@ this->redraw();} {}
   int set_start_height = 265;    //  set in fluid
   float H_set_ratio = (float) this->h() / set_start_height;
     
-  dly_scroll->scroll_to(dly_scroll->xposition(), (-30 * H_set_ratio) + dly_scroll->yposition());
+  dly_scroll->scroll_to(dly_scroll->xposition(), (60 * H_set_ratio) + dly_scroll->yposition());;
   
   this->redraw();} {}
   }
@@ -503,7 +503,7 @@ widget_class dlyFileGroup {
     xywh {380 6 120 20} color 0 labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 1e-09 value 800 textsize 10 textcolor 7
     class RKR_Value_Input
   }
-  Fl_Value_Input dly_Q {selected
+  Fl_Value_Input dly_Q {
     xywh {510 6 76 20} color 0 labeltype NO_LABEL align 1 maximum 300 step 1e-09 value 2 textsize 10 textcolor 7
     class RKR_Value_Input
   }

@@ -76,7 +76,7 @@ void RKR_Scroll::resize(int X, int Y, int W, int H)
                 g_group->resize
                 (
                     (g_group->get_start_x() + m_start_x) * W_ratio,
-                    (30 * i) * H_ratio,
+                    ((g_group->get_start_y() + m_start_y) + (30 * i)) * H_ratio,   // 30 is height of RKR_Group
                     (g_group->get_start_width()) * W_ratio ,
                     g_group->get_start_height() * H_ratio
                 );
