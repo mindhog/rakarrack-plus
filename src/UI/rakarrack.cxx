@@ -2781,7 +2781,7 @@ void RKRGUI::make_window() {
     Trigger->end();
   } // TrigWindowGui* Trigger
   { DelayFileWindowGui* o = DelayFile = new DelayFileWindowGui(800, 265, "Delay File - Untitled");
-    DelayFile->box(FL_FLAT_BOX);
+    DelayFile->box(FL_NO_BOX);
     DelayFile->color(FL_BACKGROUND_COLOR);
     DelayFile->selection_color(FL_BACKGROUND_COLOR);
     DelayFile->labeltype(FL_NO_LABEL);
@@ -2791,9 +2791,10 @@ void RKRGUI::make_window() {
     DelayFile->user_data((void*)(this));
     DelayFile->align(Fl_Align(FL_ALIGN_TOP));
     DelayFile->when(FL_WHEN_RELEASE);
-    o->hide();
     o->initialize(rkr, this);
+    o->hide();
     DelayFile->end();
+    DelayFile->resizable(DelayFile);
   } // DelayFileWindowGui* DelayFile
   char tmp[64];
   sprintf(tmp,"Version %s",VERSION);

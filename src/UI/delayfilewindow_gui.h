@@ -44,6 +44,7 @@ enum
     MOVE_ROW_DOWN
 }; 
 #include <FL/Fl_Double_Window.H>
+#include <FL/Fl_Box.H>
 #include <FL/Fl_Round_Button.H>
 
 class DelayFileWindowGui : public Fl_Double_Window {
@@ -52,13 +53,7 @@ public:
   DelayFileWindowGui(int X, int Y, int W, int H, const char *L = 0);
   DelayFileWindowGui(int W, int H, const char *L = 0);
   DelayFileWindowGui();
-private:
-  int m_file_size; 
-  RKRGUI* m_rgui; 
-  RKR* m_rkr; 
-  DlyFile m_delay_file; 
-public:
-  RKR_Group *Delay_Group;
+  Fl_Box *Fondo13;
   RKR_Value_Input *dly_filter;
   RKR_Value_Input *dly_delay;
   RKR_Value_Input *dly_Q_mode;
@@ -84,6 +79,12 @@ public:
   RKR_Group *srcoll_label_2;
   RKR_Group *scroll_label_3;
   RKR_Scroll *dly_scroll;
+private:
+  int m_file_size; 
+  RKRGUI* m_rgui; 
+  RKR* m_rkr; 
+  DlyFile m_delay_file; 
+public:
   void make_delay_window();
   void initialize(RKR *_rkr,RKRGUI *_rgui);
 private:

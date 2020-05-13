@@ -64,6 +64,7 @@ RKRGUI::RKRGUI(int argc, char**argv, RKR *rkr_) :
     AboutWin->icon((char *) p);
     MIDILearn->icon((char *) p);
     Trigger->icon((char *) p);
+    DelayFile->icon((char *) p);
 
     last_tecla = 0;
     made = 0;
@@ -652,6 +653,15 @@ void RKRGUI::Label_Color_Change(Fl_Color bcolor)
     for (int t = 0; t < MIDILearn->children(); t++)
     {
         Fl_Widget *w = MIDILearn->child(t);
+
+        w->labelcolor(label_color);
+        w->selection_color(back_color);
+        w->color(fore_color);
+    }
+    
+    for (int t = 0; t < DelayFile->children(); t++)
+    {
+        Fl_Widget *w = DelayFile->child(t);
 
         w->labelcolor(label_color);
         w->selection_color(back_color);
@@ -5306,7 +5316,8 @@ void RKRGUI::PutBackground()
 
     MenuP->image(InOut->image());
     BankWindow->MenuB->image(InOut->image());
-
+    
+    DelayFile->Fondo13->image(InOut->image());
 
     Fl::redraw();
 }

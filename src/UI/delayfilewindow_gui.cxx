@@ -16,7 +16,7 @@ load_delay_file(delay_file);
 this->copy_label(filename);
 }
 void DelayFileWindowGui::cb_Load(RKR_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Load_i(o,v);
+  ((DelayFileWindowGui*)(o->parent()))->cb_Load_i(o,v);
 }
 
 void DelayFileWindowGui::cb_Save_i(RKR_Button*, void*) {
@@ -31,7 +31,7 @@ save_delay_file(filename);
 this->copy_label(filename);
 }
 void DelayFileWindowGui::cb_Save(RKR_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_Save_i(o,v);
+  ((DelayFileWindowGui*)(o->parent()))->cb_Save_i(o,v);
 }
 
 void DelayFileWindowGui::cb_New_i(RKR_Button*, void*) {
@@ -44,7 +44,7 @@ add_button->do_callback();
 this->copy_label(DEFAULT_DLY_FILE_NAME);
 }
 void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_New_i(o,v);
+  ((DelayFileWindowGui*)(o->parent()))->cb_New_i(o,v);
 }
 
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
@@ -54,7 +54,7 @@ void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
 update_scroll(-1, ADD_ROW);
 }
 void DelayFileWindowGui::cb_add_button(RKR_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_add_button_i(o,v);
+  ((DelayFileWindowGui*)(o->parent()))->cb_add_button_i(o,v);
 }
 
 void DelayFileWindowGui::cb_apply_button_i(Fl_Round_Button*, void*) {
@@ -78,7 +78,7 @@ m_rkr->efx_Echotron->changepar(3, rkr->efx_Echotron->File.fLength);
 m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));
 }
 void DelayFileWindowGui::cb_apply_button(Fl_Round_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()->parent()))->cb_apply_button_i(o,v);
+  ((DelayFileWindowGui*)(o->parent()))->cb_apply_button_i(o,v);
 }
 DelayFileWindowGui::DelayFileWindowGui(int X, int Y, int W, int H, const char *L)
   : Fl_Double_Window(X, Y, W, H, L) {
@@ -92,7 +92,7 @@ DelayFileWindowGui::DelayFileWindowGui(int W, int H, const char *L)
 }
 
 DelayFileWindowGui::DelayFileWindowGui()
-  : Fl_Double_Window(0, 0, 800, 265, "Delay File - Untitled") {
+  : Fl_Double_Window(0, 0, 800, 265, 0) {
   clear_flag(16);
   _DelayFileWindowGui();
 }
@@ -107,181 +107,170 @@ this->labelsize(14);
 this->labelcolor(FL_FOREGROUND_COLOR);
 this->align(Fl_Align(FL_ALIGN_TOP));
 this->when(FL_WHEN_RELEASE);
-{ Delay_Group = new RKR_Group(0, 0, 800, 265);
-  Delay_Group->box(FL_NO_BOX);
-  Delay_Group->color(FL_BACKGROUND_COLOR);
-  Delay_Group->selection_color(FL_BACKGROUND_COLOR);
-  Delay_Group->labeltype(FL_NORMAL_LABEL);
-  Delay_Group->labelfont(0);
-  Delay_Group->labelsize(14);
-  Delay_Group->labelcolor(FL_FOREGROUND_COLOR);
-  Delay_Group->align(Fl_Align(FL_ALIGN_TOP));
-  Delay_Group->when(FL_WHEN_RELEASE);
-  { RKR_Value_Input* o = dly_filter = new RKR_Value_Input(25, 25, 45, 25, "Filter");
-    dly_filter->box(FL_DOWN_BOX);
-    dly_filter->color(FL_BACKGROUND2_COLOR);
-    dly_filter->selection_color(FL_SELECTION_COLOR);
-    dly_filter->labeltype(FL_NORMAL_LABEL);
-    dly_filter->labelfont(0);
-    dly_filter->labelsize(14);
-    dly_filter->labelcolor(FL_FOREGROUND_COLOR);
-    dly_filter->maximum(100);
-    dly_filter->step(0.1);
-    dly_filter->value(1);
-    dly_filter->align(Fl_Align(FL_ALIGN_TOP));
-    dly_filter->when(FL_WHEN_CHANGED);
-    o->set_label_offset(4);
-    o->set_text_offset(4);
-  } // RKR_Value_Input* dly_filter
-  { RKR_Value_Input* o = dly_delay = new RKR_Value_Input(90, 25, 45, 25, "Delay");
-    dly_delay->box(FL_DOWN_BOX);
-    dly_delay->color(FL_BACKGROUND2_COLOR);
-    dly_delay->selection_color(FL_SELECTION_COLOR);
-    dly_delay->labeltype(FL_NORMAL_LABEL);
-    dly_delay->labelfont(0);
-    dly_delay->labelsize(14);
-    dly_delay->labelcolor(FL_FOREGROUND_COLOR);
-    dly_delay->maximum(100);
-    dly_delay->step(0.1);
-    dly_delay->value(1);
-    dly_delay->align(Fl_Align(FL_ALIGN_TOP));
-    dly_delay->when(FL_WHEN_CHANGED);
-    o->set_label_offset(4);
-    o->set_text_offset(4);
-  } // RKR_Value_Input* dly_delay
-  { RKR_Value_Input* o = dly_Q_mode = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
-    dly_Q_mode->box(FL_DOWN_BOX);
-    dly_Q_mode->color(FL_BACKGROUND2_COLOR);
-    dly_Q_mode->selection_color(FL_SELECTION_COLOR);
-    dly_Q_mode->labeltype(FL_NORMAL_LABEL);
-    dly_Q_mode->labelfont(0);
-    dly_Q_mode->labelsize(14);
-    dly_Q_mode->labelcolor(FL_FOREGROUND_COLOR);
-    dly_Q_mode->step(1);
-    dly_Q_mode->align(Fl_Align(FL_ALIGN_TOP));
-    dly_Q_mode->when(FL_WHEN_CHANGED);
-    o->set_label_offset(4);
-    o->set_text_offset(4);
-  } // RKR_Value_Input* dly_Q_mode
-  { RKR_Button* o = new RKR_Button(210, 25, 70, 20, "Load");
-    o->box(FL_UP_BOX);
-    o->color(FL_BACKGROUND_COLOR);
-    o->selection_color(FL_BACKGROUND_COLOR);
-    o->labeltype(FL_NORMAL_LABEL);
-    o->labelfont(0);
-    o->labelsize(14);
-    o->labelcolor(FL_FOREGROUND_COLOR);
-    o->callback((Fl_Callback*)cb_Load);
-    o->align(Fl_Align(FL_ALIGN_CENTER));
-    o->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-  } // RKR_Button* o
-  { RKR_Button* o = new RKR_Button(290, 25, 70, 20, "Save");
-    o->box(FL_UP_BOX);
-    o->color(FL_BACKGROUND_COLOR);
-    o->selection_color(FL_BACKGROUND_COLOR);
-    o->labeltype(FL_NORMAL_LABEL);
-    o->labelfont(0);
-    o->labelsize(14);
-    o->labelcolor(FL_FOREGROUND_COLOR);
-    o->callback((Fl_Callback*)cb_Save);
-    o->align(Fl_Align(FL_ALIGN_CENTER));
-    o->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-  } // RKR_Button* o
-  { RKR_Button* o = new RKR_Button(375, 25, 70, 20, "New");
-    o->box(FL_UP_BOX);
-    o->color(FL_BACKGROUND_COLOR);
-    o->selection_color(FL_BACKGROUND_COLOR);
-    o->labeltype(FL_NORMAL_LABEL);
-    o->labelfont(0);
-    o->labelsize(14);
-    o->labelcolor(FL_FOREGROUND_COLOR);
-    o->callback((Fl_Callback*)cb_New);
-    o->align(Fl_Align(FL_ALIGN_CENTER));
-    o->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-  } // RKR_Button* o
-  { RKR_Button* o = add_button = new RKR_Button(464, 22, 25, 25, "+");
-    add_button->tooltip("Add Delay Line");
-    add_button->box(FL_UP_BOX);
-    add_button->color(FL_BACKGROUND_COLOR);
-    add_button->selection_color(FL_BACKGROUND_COLOR);
-    add_button->labeltype(FL_NORMAL_LABEL);
-    add_button->labelfont(0);
-    add_button->labelsize(21);
-    add_button->labelcolor(FL_FOREGROUND_COLOR);
-    add_button->callback((Fl_Callback*)cb_add_button);
-    add_button->align(Fl_Align(FL_ALIGN_CENTER));
-    add_button->when(FL_WHEN_RELEASE);
-    o->set_label_offset(11);
-  } // RKR_Button* add_button
-  { apply_button = new Fl_Round_Button(513, 22, 72, 25, "Apply");
-    apply_button->tooltip("Apply Changes to Echotron");
-    apply_button->type(0);
-    apply_button->box(FL_ROUND_UP_BOX);
-    apply_button->down_box(FL_ROUND_DOWN_BOX);
-    apply_button->callback((Fl_Callback*)cb_apply_button);
-  } // Fl_Round_Button* apply_button
-  { RKR_Group* o = scroll_label_1 = new RKR_Group(73, 69, 168, 20, "Pan        Time       Level");
-    scroll_label_1->box(FL_NO_BOX);
-    scroll_label_1->color(FL_BACKGROUND_COLOR);
-    scroll_label_1->selection_color(FL_BACKGROUND_COLOR);
-    scroll_label_1->labeltype(FL_NORMAL_LABEL);
-    scroll_label_1->labelfont(0);
-    scroll_label_1->labelsize(14);
-    scroll_label_1->labelcolor(FL_FOREGROUND_COLOR);
-    scroll_label_1->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-    scroll_label_1->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-    scroll_label_1->end();
-  } // RKR_Group* scroll_label_1
-  { RKR_Group* o = srcoll_label_2 = new RKR_Group(262, 69, 126, 20, "LP         BP        HP");
-    srcoll_label_2->box(FL_NO_BOX);
-    srcoll_label_2->color(FL_BACKGROUND_COLOR);
-    srcoll_label_2->selection_color(FL_BACKGROUND_COLOR);
-    srcoll_label_2->labeltype(FL_NORMAL_LABEL);
-    srcoll_label_2->labelfont(0);
-    srcoll_label_2->labelsize(14);
-    srcoll_label_2->labelcolor(FL_FOREGROUND_COLOR);
-    srcoll_label_2->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-    srcoll_label_2->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-    srcoll_label_2->end();
-  } // RKR_Group* srcoll_label_2
-  { RKR_Group* o = scroll_label_3 = new RKR_Group(423, 69, 242, 20, "Frequency               Q           Stages");
-    scroll_label_3->box(FL_NO_BOX);
-    scroll_label_3->color(FL_BACKGROUND_COLOR);
-    scroll_label_3->selection_color(FL_BACKGROUND_COLOR);
-    scroll_label_3->labeltype(FL_NORMAL_LABEL);
-    scroll_label_3->labelfont(0);
-    scroll_label_3->labelsize(14);
-    scroll_label_3->labelcolor(FL_FOREGROUND_COLOR);
-    scroll_label_3->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
-    scroll_label_3->when(FL_WHEN_RELEASE);
-    o->set_label_offset(4);
-    scroll_label_3->end();
-  } // RKR_Group* scroll_label_3
-  { RKR_Scroll* o = dly_scroll = new RKR_Scroll(25, 88, 750, 165);
-    dly_scroll->type(2);
-    dly_scroll->box(FL_NO_BOX);
-    dly_scroll->color(FL_BACKGROUND_COLOR);
-    dly_scroll->selection_color(FL_BACKGROUND_COLOR);
-    dly_scroll->labeltype(FL_NORMAL_LABEL);
-    dly_scroll->labelfont(0);
-    dly_scroll->labelsize(14);
-    dly_scroll->labelcolor(FL_FOREGROUND_COLOR);
-    dly_scroll->align(Fl_Align(FL_ALIGN_TOP));
-    dly_scroll->when(FL_WHEN_RELEASE);
-    o->set_delay_scroll();
-    dly_scroll->end();
-  } // RKR_Scroll* dly_scroll
-  Delay_Group->end();
-} // RKR_Group* Delay_Group
+{ Fondo13 = new Fl_Box(2, 2, 796, 261);
+} // Fl_Box* Fondo13
+{ RKR_Value_Input* o = dly_filter = new RKR_Value_Input(25, 25, 45, 25, "Filter");
+  dly_filter->box(FL_DOWN_BOX);
+  dly_filter->color(FL_BACKGROUND2_COLOR);
+  dly_filter->selection_color(FL_SELECTION_COLOR);
+  dly_filter->labeltype(FL_NORMAL_LABEL);
+  dly_filter->labelfont(0);
+  dly_filter->labelsize(14);
+  dly_filter->labelcolor(FL_FOREGROUND_COLOR);
+  dly_filter->maximum(100);
+  dly_filter->step(0.1);
+  dly_filter->value(1);
+  dly_filter->align(Fl_Align(FL_ALIGN_TOP));
+  dly_filter->when(FL_WHEN_CHANGED);
+  o->set_label_offset(4);
+  o->set_text_offset(4);
+} // RKR_Value_Input* dly_filter
+{ RKR_Value_Input* o = dly_delay = new RKR_Value_Input(90, 25, 45, 25, "Delay");
+  dly_delay->box(FL_DOWN_BOX);
+  dly_delay->color(FL_BACKGROUND2_COLOR);
+  dly_delay->selection_color(FL_SELECTION_COLOR);
+  dly_delay->labeltype(FL_NORMAL_LABEL);
+  dly_delay->labelfont(0);
+  dly_delay->labelsize(14);
+  dly_delay->labelcolor(FL_FOREGROUND_COLOR);
+  dly_delay->maximum(100);
+  dly_delay->step(0.1);
+  dly_delay->value(1);
+  dly_delay->align(Fl_Align(FL_ALIGN_TOP));
+  dly_delay->when(FL_WHEN_CHANGED);
+  o->set_label_offset(4);
+  o->set_text_offset(4);
+} // RKR_Value_Input* dly_delay
+{ RKR_Value_Input* o = dly_Q_mode = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
+  dly_Q_mode->box(FL_DOWN_BOX);
+  dly_Q_mode->color(FL_BACKGROUND2_COLOR);
+  dly_Q_mode->selection_color(FL_SELECTION_COLOR);
+  dly_Q_mode->labeltype(FL_NORMAL_LABEL);
+  dly_Q_mode->labelfont(0);
+  dly_Q_mode->labelsize(14);
+  dly_Q_mode->labelcolor(FL_FOREGROUND_COLOR);
+  dly_Q_mode->step(1);
+  dly_Q_mode->align(Fl_Align(FL_ALIGN_TOP));
+  dly_Q_mode->when(FL_WHEN_CHANGED);
+  o->set_label_offset(4);
+  o->set_text_offset(4);
+} // RKR_Value_Input* dly_Q_mode
+{ RKR_Button* o = new RKR_Button(210, 25, 70, 20, "Load");
+  o->box(FL_UP_BOX);
+  o->color(FL_BACKGROUND_COLOR);
+  o->selection_color(FL_BACKGROUND_COLOR);
+  o->labeltype(FL_NORMAL_LABEL);
+  o->labelfont(0);
+  o->labelsize(14);
+  o->labelcolor(FL_FOREGROUND_COLOR);
+  o->callback((Fl_Callback*)cb_Load);
+  o->align(Fl_Align(FL_ALIGN_CENTER));
+  o->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+} // RKR_Button* o
+{ RKR_Button* o = new RKR_Button(290, 25, 70, 20, "Save");
+  o->box(FL_UP_BOX);
+  o->color(FL_BACKGROUND_COLOR);
+  o->selection_color(FL_BACKGROUND_COLOR);
+  o->labeltype(FL_NORMAL_LABEL);
+  o->labelfont(0);
+  o->labelsize(14);
+  o->labelcolor(FL_FOREGROUND_COLOR);
+  o->callback((Fl_Callback*)cb_Save);
+  o->align(Fl_Align(FL_ALIGN_CENTER));
+  o->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+} // RKR_Button* o
+{ RKR_Button* o = new RKR_Button(375, 25, 70, 20, "New");
+  o->box(FL_UP_BOX);
+  o->color(FL_BACKGROUND_COLOR);
+  o->selection_color(FL_BACKGROUND_COLOR);
+  o->labeltype(FL_NORMAL_LABEL);
+  o->labelfont(0);
+  o->labelsize(14);
+  o->labelcolor(FL_FOREGROUND_COLOR);
+  o->callback((Fl_Callback*)cb_New);
+  o->align(Fl_Align(FL_ALIGN_CENTER));
+  o->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+} // RKR_Button* o
+{ RKR_Button* o = add_button = new RKR_Button(464, 22, 25, 25, "+");
+  add_button->tooltip("Add Delay Line");
+  add_button->box(FL_UP_BOX);
+  add_button->color(FL_BACKGROUND_COLOR);
+  add_button->selection_color(FL_BACKGROUND_COLOR);
+  add_button->labeltype(FL_NORMAL_LABEL);
+  add_button->labelfont(0);
+  add_button->labelsize(21);
+  add_button->labelcolor(FL_FOREGROUND_COLOR);
+  add_button->callback((Fl_Callback*)cb_add_button);
+  add_button->align(Fl_Align(FL_ALIGN_CENTER));
+  add_button->when(FL_WHEN_RELEASE);
+  o->set_label_offset(11);
+} // RKR_Button* add_button
+{ apply_button = new Fl_Round_Button(513, 22, 72, 25, "Apply");
+  apply_button->tooltip("Apply Changes to Echotron");
+  apply_button->type(0);
+  apply_button->box(FL_ROUND_UP_BOX);
+  apply_button->down_box(FL_ROUND_DOWN_BOX);
+  apply_button->callback((Fl_Callback*)cb_apply_button);
+} // Fl_Round_Button* apply_button
+{ RKR_Group* o = scroll_label_1 = new RKR_Group(73, 69, 168, 20, "Pan        Time       Level");
+  scroll_label_1->box(FL_NO_BOX);
+  scroll_label_1->color(FL_BACKGROUND_COLOR);
+  scroll_label_1->selection_color(FL_BACKGROUND_COLOR);
+  scroll_label_1->labeltype(FL_NORMAL_LABEL);
+  scroll_label_1->labelfont(0);
+  scroll_label_1->labelsize(14);
+  scroll_label_1->labelcolor(FL_FOREGROUND_COLOR);
+  scroll_label_1->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+  scroll_label_1->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+  scroll_label_1->end();
+} // RKR_Group* scroll_label_1
+{ RKR_Group* o = srcoll_label_2 = new RKR_Group(262, 69, 126, 20, "LP         BP        HP");
+  srcoll_label_2->box(FL_NO_BOX);
+  srcoll_label_2->color(FL_BACKGROUND_COLOR);
+  srcoll_label_2->selection_color(FL_BACKGROUND_COLOR);
+  srcoll_label_2->labeltype(FL_NORMAL_LABEL);
+  srcoll_label_2->labelfont(0);
+  srcoll_label_2->labelsize(14);
+  srcoll_label_2->labelcolor(FL_FOREGROUND_COLOR);
+  srcoll_label_2->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+  srcoll_label_2->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+  srcoll_label_2->end();
+} // RKR_Group* srcoll_label_2
+{ RKR_Group* o = scroll_label_3 = new RKR_Group(423, 69, 242, 20, "Frequency               Q           Stages");
+  scroll_label_3->box(FL_NO_BOX);
+  scroll_label_3->color(FL_BACKGROUND_COLOR);
+  scroll_label_3->selection_color(FL_BACKGROUND_COLOR);
+  scroll_label_3->labeltype(FL_NORMAL_LABEL);
+  scroll_label_3->labelfont(0);
+  scroll_label_3->labelsize(14);
+  scroll_label_3->labelcolor(FL_FOREGROUND_COLOR);
+  scroll_label_3->align(Fl_Align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE));
+  scroll_label_3->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+  scroll_label_3->end();
+} // RKR_Group* scroll_label_3
+{ RKR_Scroll* o = dly_scroll = new RKR_Scroll(25, 88, 750, 165);
+  dly_scroll->type(2);
+  dly_scroll->box(FL_NO_BOX);
+  dly_scroll->color(FL_BACKGROUND_COLOR);
+  dly_scroll->selection_color(FL_BACKGROUND_COLOR);
+  dly_scroll->labeltype(FL_NORMAL_LABEL);
+  dly_scroll->labelfont(0);
+  dly_scroll->labelsize(14);
+  dly_scroll->labelcolor(FL_FOREGROUND_COLOR);
+  dly_scroll->align(Fl_Align(FL_ALIGN_TOP));
+  dly_scroll->when(FL_WHEN_RELEASE);
+  o->set_delay_scroll();
+  dly_scroll->end();
+} // RKR_Scroll* dly_scroll
 this->m_rkr = NULL;
 this->m_rgui = NULL;
 end();
-resizable(this);
 }
 
 void DelayFileWindowGui::make_delay_window() {
