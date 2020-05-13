@@ -64,7 +64,7 @@ decl {enum
 };} {public global
 }
 
-widget_class DelayFileWindowGui {open selected
+widget_class DelayFileWindowGui {open
   xywh {145 94 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -75,21 +75,21 @@ this->m_rgui = NULL;}
   }
   Fl_Value_Input dly_filter {
     label Filter
-    xywh {25 25 45 25} align 1 maximum 100 step 0.1 value 1
+    xywh {25 25 45 25} labelcolor 7 align 1 maximum 100 step 0.1 value 1 textcolor 7
     code0 {o->set_label_offset(4);}
     code1 {o->set_text_offset(4);}
     class RKR_Value_Input
   }
   Fl_Value_Input dly_delay {
     label Delay
-    xywh {90 25 45 25} align 1 maximum 100 step 0.1 value 1
+    xywh {90 25 45 25} labelcolor 7 align 1 maximum 100 step 0.1 value 1 textcolor 7
     code0 {o->set_label_offset(4);}
     code1 {o->set_text_offset(4);}
     class RKR_Value_Input
   }
   Fl_Value_Input dly_Q_mode {
     label {Q Mode}
-    xywh {164 25 20 25} align 1 step 1
+    xywh {164 25 20 25} labelcolor 7 align 1 step 1 textcolor 7
     code0 {o->set_label_offset(4);}
     code1 {o->set_text_offset(4);}
     class RKR_Value_Input
@@ -476,39 +476,39 @@ widget_class dlyFileGroup {
     class RKR_Box
   }
   Fl_Value_Input dly_pan {
-    xywh {45 6 40 20} labeltype NO_LABEL align 1 minimum -1 step 0.001 textsize 10
+    xywh {45 6 40 20} color 0 labeltype NO_LABEL align 1 minimum -1 step 0.001 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_time {
-    xywh {94 6 70 20} labeltype NO_LABEL align 1 maximum 6 step 1e-09 value 1 textsize 10
+    xywh {94 6 76 20} color 0 labeltype NO_LABEL align 1 maximum 6 step 1e-09 value 1 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_level {
-    xywh {171 6 45 20} labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.001 value 0.7 textsize 10
+    xywh {175 6 45 20} color 0 labeltype NO_LABEL align 1 minimum -10 maximum 10 step 0.001 value 0.7 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_LP {
-    xywh {226 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1 textsize 10
+    xywh {228 6 42 20} color 0 labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_BP {
-    xywh {279 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value -1 textsize 10
+    xywh {279 6 42 20} color 0 labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value -1 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_HP {
-    xywh {331 6 42 20} labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1 textsize 10
+    xywh {331 6 42 20} color 0 labeltype NO_LABEL align 1 minimum -2 maximum 2 step 0.001 value 1 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_freq {
-    xywh {380 6 120 20} labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 1e-09 value 800 textsize 10
+    xywh {380 6 120 20} color 0 labeltype NO_LABEL align 1 minimum 20 maximum 26000 step 1e-09 value 800 textsize 10 textcolor 7
     class RKR_Value_Input
   }
-  Fl_Value_Input dly_Q {
-    xywh {510 6 70 20} labeltype NO_LABEL align 1 maximum 300 step 1e-09 value 2 textsize 10
+  Fl_Value_Input dly_Q {selected
+    xywh {510 6 76 20} color 0 labeltype NO_LABEL align 1 maximum 300 step 1e-09 value 2 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Value_Input dly_stages {
-    xywh {600 6 20 20} labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1 textsize 10
+    xywh {600 6 20 20} color 0 labeltype NO_LABEL align 1 minimum 1 maximum 5 step 1 value 1 textsize 10 textcolor 7
     class RKR_Value_Input
   }
   Fl_Button dly_delete {
