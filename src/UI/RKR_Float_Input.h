@@ -34,6 +34,7 @@ public:
     RKR_Float_Input(int X, int Y, int W, int H, const char *label=0);
     void draw();
     void resize(int,int,int,int);
+    int handle(int);
     void set_label_offset(int offset){m_label_offset = offset;};
     void set_text_offset(int offset){m_text_offset = offset;};
 

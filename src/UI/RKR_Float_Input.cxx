@@ -73,6 +73,19 @@ void RKR_Float_Input::resize(int X, int Y, int W, int H)
     Fl_Float_Input::resize(X, Y, W, H);
 }
 
-
-
+int RKR_Float_Input::handle(int event)
+{
+    int ret = Fl_Input::handle(event);
+    
+    if(strcmp(value(), ""))
+    {
+        return ret; // Not blank - we have a value
+    }
+    else
+    {
+        value("0"); // User cleared the field - this is minimum
+    }
+    
+    return ret;
+}
 

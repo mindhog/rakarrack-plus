@@ -1,5 +1,5 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0305
+version 1.0304
 header_name {.h}
 code_name {.cxx}
 decl {\#include <FL/Fl_File_Chooser.H>} {public global
@@ -9,6 +9,9 @@ decl {\#include <unistd.h>} {public global
 }
 
 decl {\#include "RKR_Button.h"} {public global
+}
+
+decl {\#include "RKR_Float_Input.h"} {public global
 }
 
 decl {\#include "RKR_Group.h"} {public global
@@ -65,7 +68,7 @@ decl {enum
 }
 
 widget_class DelayFileWindowGui {open selected
-  xywh {145 94 800 265} type Double resizable
+  xywh {43 707 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
   class Fl_Double_Window visible
@@ -73,12 +76,12 @@ this->m_rgui = NULL;}
   Fl_Box Fondo13 {
     xywh {2 2 796 261}
   }
-  Fl_Value_Input dly_filter {
+  Fl_Input dly_filter {
     label Filter
-    xywh {25 25 45 25} labelcolor 7 align 1 maximum 100 step 0.1 value 1 textcolor 7
+    xywh {25 25 45 25} labelcolor 7 align 1 when 1 textcolor 7
     code0 {o->set_label_offset(4);}
     code1 {o->set_text_offset(4);}
-    class RKR_Value_Input
+    class RKR_Float_Input
   }
   Fl_Value_Input dly_delay {
     label Delay
@@ -129,7 +132,7 @@ this->copy_label(filename);}
   Fl_Button {} {
     label New
     callback {m_file_size = 0;
-dly_filter->value(1);
+dly_filter->value("1.0");
 dly_delay->value(1);
 dly_Q_mode->value(0);
 dly_scroll->clear();
@@ -219,7 +222,13 @@ this->copy_label(DEFAULT_DLY_FILE_NAME);} {}
   } {
     code {dly_scroll->clear();
   m_file_size = 0;
-    dly_filter->value(delay_file.subdiv_fmod);
+  
+    std::ostringstream ss;
+    ss << delay_file.subdiv_fmod;
+    std::string f_string(ss.str());
+
+    dly_filter->value(f_string.c_str());
+  
     dly_delay->value(delay_file.subdiv_dmod);
     dly_Q_mode->value(delay_file.f_qmode);
     
@@ -308,14 +317,17 @@ this->redraw();} {}
     
     fclose(fn);} {}
   }
-  Function {get_current_settings()} {private return_type DlyFile
+  Function {get_current_settings()} {open private return_type DlyFile
   } {
     code {DlyFile delay_file;
 
   strcpy(delay_file.Filename, this->label());
   delay_file.fLength = (float)m_file_size;
   
-  delay_file.subdiv_fmod = dly_filter->value();
+  std::string flt_to_str(dly_filter->value());
+    
+  delay_file.subdiv_fmod = std::stof(flt_to_str);
+  
   delay_file.subdiv_dmod = dly_delay->value();
   delay_file.f_qmode = dly_Q_mode->value();
   
@@ -467,7 +479,7 @@ vector_delay_line = vector_temp;} {}
 
 widget_class dlyFileGroup {
   user_data c_delay_group open
-  xywh {214 751 725 30} type Double
+  xywh {264 598 725 30} type Double
   class RKR_Group visible position_relative
 } {
   decl {DelayFileWindowGui *m_parent;} {private local
