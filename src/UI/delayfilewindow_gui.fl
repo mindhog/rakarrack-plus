@@ -129,7 +129,7 @@ this->copy_label(filename);}
     code0 {o->set_label_offset(4);}
     class RKR_Button
   }
-  Fl_Button {} {
+  Fl_Button new_button {
     label New
     callback {m_file_size = 0;
 dly_filter->value("1.0");
@@ -208,9 +208,7 @@ m_rgui->ECHOTRON->echotron_length->value(rkr->efx_Echotron->getpar(3));}
   decl {DlyFile m_delay_file;} {private local
   }
   Function {make_delay_window()} {} {
-    code {// The First Item is always added
-
-add_button->do_callback();} {}
+    code {new_button->do_callback();} {}
   }
   Function {initialize(RKR *_rkr,RKRGUI *_rgui)} {} {
     code {m_file_size = 0;
@@ -317,7 +315,7 @@ this->redraw();} {}
     
     fclose(fn);} {}
   }
-  Function {get_current_settings()} {open private return_type DlyFile
+  Function {get_current_settings()} {private return_type DlyFile
   } {
     code {DlyFile delay_file;
 

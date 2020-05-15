@@ -34,7 +34,7 @@ void DelayFileWindowGui::cb_Save(RKR_Button* o, void* v) {
   ((DelayFileWindowGui*)(o->parent()))->cb_Save_i(o,v);
 }
 
-void DelayFileWindowGui::cb_New_i(RKR_Button*, void*) {
+void DelayFileWindowGui::cb_new_button_i(RKR_Button*, void*) {
   m_file_size = 0;
 dly_filter->value("1.0");
 dly_delay->value(1);
@@ -43,8 +43,8 @@ dly_scroll->clear();
 add_button->do_callback();
 this->copy_label(DEFAULT_DLY_FILE_NAME);
 }
-void DelayFileWindowGui::cb_New(RKR_Button* o, void* v) {
-  ((DelayFileWindowGui*)(o->parent()))->cb_New_i(o,v);
+void DelayFileWindowGui::cb_new_button(RKR_Button* o, void* v) {
+  ((DelayFileWindowGui*)(o->parent()))->cb_new_button_i(o,v);
 }
 
 void DelayFileWindowGui::cb_add_button_i(RKR_Button*, void*) {
@@ -181,19 +181,19 @@ this->when(FL_WHEN_RELEASE);
   o->when(FL_WHEN_RELEASE);
   o->set_label_offset(4);
 } // RKR_Button* o
-{ RKR_Button* o = new RKR_Button(375, 25, 70, 20, "New");
-  o->box(FL_UP_BOX);
-  o->color(FL_BACKGROUND_COLOR);
-  o->selection_color(FL_BACKGROUND_COLOR);
-  o->labeltype(FL_NORMAL_LABEL);
-  o->labelfont(0);
-  o->labelsize(14);
-  o->labelcolor(FL_FOREGROUND_COLOR);
-  o->callback((Fl_Callback*)cb_New);
-  o->align(Fl_Align(FL_ALIGN_CENTER));
-  o->when(FL_WHEN_RELEASE);
+{ RKR_Button* o = new_button = new RKR_Button(375, 25, 70, 20, "New");
+  new_button->box(FL_UP_BOX);
+  new_button->color(FL_BACKGROUND_COLOR);
+  new_button->selection_color(FL_BACKGROUND_COLOR);
+  new_button->labeltype(FL_NORMAL_LABEL);
+  new_button->labelfont(0);
+  new_button->labelsize(14);
+  new_button->labelcolor(FL_FOREGROUND_COLOR);
+  new_button->callback((Fl_Callback*)cb_new_button);
+  new_button->align(Fl_Align(FL_ALIGN_CENTER));
+  new_button->when(FL_WHEN_RELEASE);
   o->set_label_offset(4);
-} // RKR_Button* o
+} // RKR_Button* new_button
 { RKR_Button* o = add_button = new RKR_Button(464, 22, 25, 25, "+");
   add_button->tooltip("Add Delay Row");
   add_button->box(FL_UP_BOX);
@@ -284,9 +284,7 @@ resizable(this);
 }
 
 void DelayFileWindowGui::make_delay_window() {
-  // The First Item is always added
-  
-  add_button->do_callback();
+  new_button->do_callback();
 }
 
 void DelayFileWindowGui::initialize(RKR *_rkr,RKRGUI *_rgui) {
