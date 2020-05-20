@@ -56,7 +56,7 @@ public:
   Fl_Box *Fondo13;
   RKR_Float_Input *dly_filter;
   RKR_Value_Input *dly_delay;
-  RKR_Value_Input *dly_Q_mode;
+  RKR_Button *dly_Q_mode;
 private:
   inline void cb_Load_i(RKR_Button*, void*);
   static void cb_Load(RKR_Button*, void*);

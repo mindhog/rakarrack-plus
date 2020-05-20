@@ -140,21 +140,32 @@ this->when(FL_WHEN_RELEASE);
   o->set_label_offset(4);
   o->set_text_offset(4);
 } // RKR_Value_Input* dly_delay
-{ RKR_Value_Input* o = dly_Q_mode = new RKR_Value_Input(164, 25, 20, 25, "Q Mode");
-  dly_Q_mode->box(FL_DOWN_BOX);
-  dly_Q_mode->color(FL_BACKGROUND2_COLOR);
-  dly_Q_mode->selection_color(FL_SELECTION_COLOR);
+{ RKR_Box* o = new RKR_Box(156, 8, 35, 17, "Mode");
+  o->box(FL_NO_BOX);
+  o->color(FL_BACKGROUND_COLOR);
+  o->selection_color(FL_BACKGROUND_COLOR);
+  o->labeltype(FL_NORMAL_LABEL);
+  o->labelfont(0);
+  o->labelsize(14);
+  o->labelcolor(FL_FOREGROUND_COLOR);
+  o->align(Fl_Align(FL_ALIGN_CENTER));
+  o->when(FL_WHEN_RELEASE);
+  o->set_label_offset(4);
+} // RKR_Box* o
+{ RKR_Button* o = dly_Q_mode = new RKR_Button(159, 25, 25, 25, "Q");
+  dly_Q_mode->tooltip("High Quality - potentially unstable at some settings, but better sound");
+  dly_Q_mode->type(1);
+  dly_Q_mode->box(FL_UP_BOX);
+  dly_Q_mode->color(FL_BACKGROUND_COLOR);
+  dly_Q_mode->selection_color(FL_BACKGROUND_COLOR);
   dly_Q_mode->labeltype(FL_NORMAL_LABEL);
   dly_Q_mode->labelfont(0);
   dly_Q_mode->labelsize(14);
-  dly_Q_mode->labelcolor(FL_BACKGROUND2_COLOR);
-  dly_Q_mode->step(1);
-  dly_Q_mode->textcolor(FL_BACKGROUND2_COLOR);
-  dly_Q_mode->align(Fl_Align(FL_ALIGN_TOP));
-  dly_Q_mode->when(FL_WHEN_CHANGED);
+  dly_Q_mode->labelcolor(FL_FOREGROUND_COLOR);
+  dly_Q_mode->align(Fl_Align(FL_ALIGN_CENTER));
+  dly_Q_mode->when(FL_WHEN_RELEASE);
   o->set_label_offset(4);
-  o->set_text_offset(4);
-} // RKR_Value_Input* dly_Q_mode
+} // RKR_Button* dly_Q_mode
 { RKR_Button* o = new RKR_Button(210, 25, 70, 20, "Load");
   o->box(FL_UP_BOX);
   o->color(FL_BACKGROUND_COLOR);

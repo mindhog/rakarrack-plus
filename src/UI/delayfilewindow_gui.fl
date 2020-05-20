@@ -67,7 +67,7 @@ decl {enum
 };} {public global
 }
 
-widget_class DelayFileWindowGui {open selected
+widget_class DelayFileWindowGui {open
   xywh {43 707 800 265} type Double resizable
   code0 {this->m_rkr = NULL;
 this->m_rgui = NULL;}
@@ -90,12 +90,17 @@ this->m_rgui = NULL;}
     code1 {o->set_text_offset(4);}
     class RKR_Value_Input
   }
-  Fl_Value_Input dly_Q_mode {
-    label {Q Mode}
-    xywh {164 25 20 25} labelcolor 7 align 1 step 1 textcolor 7
+  Fl_Box {} {
+    label Mode selected
+    xywh {156 8 35 17}
     code0 {o->set_label_offset(4);}
-    code1 {o->set_text_offset(4);}
-    class RKR_Value_Input
+    class RKR_Box
+  }
+  Fl_Button dly_Q_mode {
+    label Q
+    tooltip {High Quality - potentially unstable at some settings, but better sound} xywh {159 25 25 25} type Toggle
+    code0 {o->set_label_offset(4);}
+    class RKR_Button
   }
   Fl_Button {} {
     label Load
