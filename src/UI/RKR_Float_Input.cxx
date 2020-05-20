@@ -32,7 +32,9 @@ RKR_Float_Input::RKR_Float_Input(int X, int Y, int W, int H, const char *label) 
     m_text_offset(0),       // C_DEFAULT_FONT_SIZE
     m_start_width(W),
     m_start_height(H),
-    m_previous_font_size(global_font_size)
+    m_previous_font_size(global_font_size),
+    m_max_value(0.0),
+    m_min_value(0.0)
 {
 }
 

@@ -37,6 +37,8 @@ public:
     int handle(int);
     void set_label_offset(int offset){m_label_offset = offset;};
     void set_text_offset(int offset){m_text_offset = offset;};
+    void set_maximum_value(double val){m_max_value = val;};
+    void set_minimum_value(double val){m_min_value = val;};
 
 private:
 
@@ -45,6 +47,8 @@ private:
     int m_start_width;
     int m_start_height;
     int m_previous_font_size;
+    double m_max_value;
+    double m_min_value;
     void font_resize(int,int);
 };
 
