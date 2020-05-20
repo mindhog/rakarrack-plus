@@ -46,7 +46,8 @@ RKR_Value_Input::RKR_Value_Input(int X, int Y, int W, int H, const char* l) :
     m_text_offset(0),       // C_DEFAULT_FONT_SIZE
     m_start_width(W),
     m_start_height(H),
-    m_previous_font_size(global_font_size)
+    m_previous_font_size(global_font_size),
+    m_delay_file(false)
 {
     if (input.parent()) // defeat automatic-add
         input.parent()->remove(input);
@@ -109,6 +110,12 @@ void RKR_Value_Input::font_resize(int W, int H)
     textsize(adjusted_text_size);
 }
 
+void RKR_Value_Input::set_delay_file()
+{
+    m_delay_file = true;
+    input.set_delay_file ();
+}
+
 void RKR_Value_Input::resize(int X, int Y, int W, int H)
 {
     /* Resize the text and labels rakarrack+ */
@@ -143,80 +150,84 @@ void RKR_Value_Input::value_damage()
 int RKR_Value_Input::handle(int event)
 {
     /* Rakarrack special case events */
-
-    /* Right mouse button - pop up MIDI learn */
-    if(Fl::event_button()== FL_RIGHT_MOUSE)
+    
+    if(!m_delay_file)
     {
-        if (Fl::event_inside(x(), y(), w(), h()))
+
+        /* Right mouse button - pop up MIDI learn */
+        if(Fl::event_button()== FL_RIGHT_MOUSE)
         {
-            if (event == FL_RELEASE /* || event == FL_PUSH || event == FL_DRAG*/)
+            if (Fl::event_inside(x(), y(), w(), h()))
             {
-                /* The callback will trigger MIDI learn based on FL_RIGHT_MOUSE */
-                do_callback();
+                if (event == FL_RELEASE /* || event == FL_PUSH || event == FL_DRAG*/)
+                {
+                    /* The callback will trigger MIDI learn based on FL_RIGHT_MOUSE */
+                    do_callback();
+                }
             }
-        }
-        
-        /* Ignore all other right mouse events */
-        return 1;
-    }
 
-    /* Need to handle focus to get keyboard events */
-    if (event == FL_FOCUS)
-    {
-        textcolor(leds_color);
-        redraw();
-        return 1;   // says we handed it
-    }
-    
-    /* Revert color */
-    if(event == FL_UNFOCUS)
-    {
-        textcolor(label_color);
-        redraw();
-        return 1;
-    }
-    
-    /* Change text color on focus */
-    if ((Fl::focus() == &input || Fl::focus() == this))
-    {
-        textcolor(leds_color);
-        redraw();
-    }
-    
-    if(event == FL_KEYBOARD)
-    {
-        int mul = 1;
-        if (Fl::event_state(FL_SHIFT))
-        {
-            mul = 10;
+            /* Ignore all other right mouse events */
+            return 1;
         }
-        else if (Fl::event_state(FL_CTRL))
+
+        /* Need to handle focus to get keyboard events */
+        if (event == FL_FOCUS)
         {
-            mul = 100;
+            textcolor(leds_color);
+            redraw();
+            return 1;   // says we handed it
         }
-        
-        switch (Fl::event_key())
+
+        /* Revert color */
+        if(event == FL_UNFOCUS)
         {
-            case FL_Right:
-                handle_drag(clamp(increment(value(), 1 * mul)));
-                return 1;
-            case FL_Left:
-                handle_drag(clamp(increment(value(), -1 * mul)));
-                return 1;
-            default:
-            return 0;
-        }   
-    }
-    
-    if(event == FL_MOUSEWHEEL)
-    {
-        if (Fl::e_dy == 0) return 0;
-        handle_push();
-        handle_drag(clamp(increment(value(), Fl::e_dy)));
-        handle_release();
-        return 1;
-    }
-    
+            textcolor(label_color);
+            redraw();
+            return 1;
+        }
+
+        /* Change text color on focus */
+        if ((Fl::focus() == &input || Fl::focus() == this))
+        {
+            textcolor(leds_color);
+            redraw();
+        }
+
+        if(event == FL_KEYBOARD)
+        {
+            int mul = 1;
+            if (Fl::event_state(FL_SHIFT))
+            {
+                mul = 10;
+            }
+            else if (Fl::event_state(FL_CTRL))
+            {
+                mul = 100;
+            }
+
+            switch (Fl::event_key())
+            {
+                case FL_Right:
+                    handle_drag(clamp(increment(value(), 1 * mul)));
+                    return 1;
+                case FL_Left:
+                    handle_drag(clamp(increment(value(), -1 * mul)));
+                    return 1;
+                default:
+                return 0;
+            }   
+        }
+
+        if(event == FL_MOUSEWHEEL)
+        {
+            if (Fl::e_dy == 0) return 0;
+            handle_push();
+            handle_drag(clamp(increment(value(), Fl::e_dy)));
+            handle_release();
+            return 1;
+        }
+    }   // !m_delay_file
+
     /* Normal FL_Value_Input handling */
 
     double v;

@@ -28,6 +28,11 @@ protected:
 public:
     int handle(int);
     RKR_Key_Input(int,int,int,int,const char * = 0);
+    
+    void set_delay_file(){m_delay_file = true;};
+
+private:
+    bool m_delay_file;
 };
 
 #endif 

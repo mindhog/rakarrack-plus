@@ -85,11 +85,13 @@ private:
     int m_start_width;
     int m_start_height;
     int m_previous_font_size;
+    bool m_delay_file;
     void font_resize(int, int);
     
 public:
     void set_label_offset(int offset){m_label_offset = offset;};
     void set_text_offset(int offset){m_text_offset = offset;};
+    void set_delay_file();
     /* End of RKR rakarrack+ modifications */
 
     void resize(int, int, int, int);

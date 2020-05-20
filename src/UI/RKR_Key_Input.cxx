@@ -23,24 +23,29 @@
 
 int RKR_Key_Input::handle(int event)
 {
-    switch (event)
+    /* Efx processing uses keyboard events by parent */
+    if(!m_delay_file)
     {
-    case FL_KEYBOARD:
-        /* 
-         * https://stackoverflow.com/questions/40284104/fltk-fl-value-input-subclass-does-not-receive-fl-keydown-events-only-fl-keyup
-         * According to above, the RKR_Value_Input in our case will not get FL_KEYDOWN events.
-         * This is because the Fl_Input class captures all of the keys and indicates they were used. 
-         * So the entire reason for this class is to hijack all key events here and send to the parent
-         * (RKR_Value_Input) class via return 0; This is necessary because we want the RKR_Value_Input
-         * to use the same keys as the RKR_Slider class for keyboard input.
-         */
-        if(Fl::event_key())
+        switch (event)
         {
-            /* Send all keyboard events to the parent */
-            return 0;
+        case FL_KEYBOARD:
+            /* 
+             * https://stackoverflow.com/questions/40284104/fltk-fl-value-input-subclass-does-not-receive-fl-keydown-events-only-fl-keyup
+             * According to above, the RKR_Value_Input in our case will not get FL_KEYDOWN events.
+             * This is because the Fl_Input class captures all of the keys and indicates they were used. 
+             * So the entire reason for this class is to hijack all key events here and send to the parent
+             * (RKR_Value_Input) class via return 0; This is necessary because we want the RKR_Value_Input
+             * to use the same keys as the RKR_Slider class for keyboard input.
+             */
+            if(Fl::event_key())
+            {
+                /* Send all keyboard events to the parent */
+                return 0;
+            }
         }
     }
     
+    /* Delay file input and normal processing */
     return Fl_Input::handle(event);
 }
 
@@ -48,8 +53,9 @@ int RKR_Key_Input::handle(int event)
  Creates a new Fl_Input widget using the given position, size,
  and label string. The default boxtype is FL_DOWN_BOX.
  */
-RKR_Key_Input::RKR_Key_Input(int X, int Y, int W, int H, const char *l)
-: Fl_Input(X, Y, W, H, l)
+RKR_Key_Input::RKR_Key_Input(int X, int Y, int W, int H, const char *l) :
+    Fl_Input(X, Y, W, H, l),
+    m_delay_file(false)
 {
 }
 
