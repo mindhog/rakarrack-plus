@@ -377,9 +377,11 @@ void DelayFileWindowGui::save_delay_file(char *filename) {
           return;
       }
       
-          //General
+      //General
       memset(buf, 0, sizeof (buf));
-      sprintf(buf, "%f\t%f\t%d\n",delay_file.subdiv_fmod, delay_file.subdiv_dmod, delay_file.f_qmode);
+
+      // FIXME
+      sprintf(buf, "%s\t%f\t%d\n",dly_filter->value(), delay_file.subdiv_dmod, delay_file.f_qmode);
       fputs(buf, fn);
       
       for(int i = 0; i < m_file_size; ++i)
@@ -411,9 +413,8 @@ DlyFile DelayFileWindowGui::get_current_settings() {
     strcpy(delay_file.Filename, this->label());
     delay_file.fLength = (float)m_file_size;
     
-    std::string flt_to_str(dly_filter->value());
-      
-    delay_file.subdiv_fmod = std::stof(flt_to_str);
+    // FIXME
+    delay_file.subdiv_fmod = (double) strtod(dly_filter->value(), NULL);
     
     delay_file.subdiv_dmod = dly_delay->value();
     delay_file.f_qmode = dly_Q_mode->value();
