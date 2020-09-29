@@ -150,8 +150,12 @@ RKR::Get_Bogomips()
         if (maxx_len < 5)
         {
             if (maxx_len < 2) maxx_len = 2;
-            
-            Message(0, "!! Rakarrack CPU Usage Warning !!", "It appears your CPU will not easily handle convolution with the current settings.  Be careful with the Convolotron effect settings.\nPlease read Help (F1) for more information.");
+
+            const char message[] = "It appears your CPU will not easily handle convolution with the current settings.  Be careful with the Convolotron effect settings.\nPlease read Help (F1) for more information.";
+            if (gui)
+                Message(0, "!! Rakarrack CPU Usage Warning !!", message);
+            else
+                fprintf(stderr, message);
         }
 
         fclose(fp);
