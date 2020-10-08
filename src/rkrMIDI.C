@@ -996,6 +996,31 @@ RKR::process_midi_controller_events(int parameter, int value)
 
     switch (parameter)
     {
+    case 32:
+        // Bank select, LSB.  Rak currently has 4 banks, so there's really not
+        // much point in making use of the MSB (CC 0).
+        char temp[128];
+        switch (value) {
+            case 0:
+                sprintf (temp, "%s/Default.rkrb", DATADIR);
+                break;
+            case 1:
+                sprintf (temp, "%s/Extra.rkrb", DATADIR);
+                break;
+            case 2:
+                sprintf (temp, "%s/Extra1.rkrb", DATADIR);
+                break;
+            case 3:
+                strcpy(temp, BankFilename);
+                break;
+            default:
+                printf("Unknown bank %d", a_bank);
+                return;
+        }
+        if (loadbank(temp))
+            printf("Switched to bank [%s]\n", temp);
+        break;
+
     case 7:
         Master_Volume =
                 (float) value / 128.0f;
